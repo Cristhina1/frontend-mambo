@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-list-usuarios',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './list-usuarios.html',
+  templateUrl: './list-usuarios.component.html',
   styleUrls: ['./list-usuarios.scss']
 })
 export class ListUsuariosComponent {

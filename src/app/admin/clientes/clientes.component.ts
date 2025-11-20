@@ -19,7 +19,7 @@ interface Cliente {
   selector: 'app-clientes',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './clientes.html',
+  templateUrl: './clientes.component.html',
   styleUrls: ['./clientes.scss']
 })
 

@@ -1,0 +1,37 @@
+name: Validación Angular Completa
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Obtener código
+      - name: Obtener código
+        uses: actions/checkout@v4
+
+      # 2️⃣ Configurar Node (recomendado LTS)
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # 3️⃣ Instalar dependencias
+      - name: Instalar dependencias del frontend
+        working-directory: ./frontend-mambo
+        run: npm install --legacy-peer-deps
+
+      # 4️⃣ Lint HTML
+      - name: Lint HTML
+        working-directory: ./frontend-mambo
+        run: npx htmlhint --config .htmlhintrc "src/app/**/*.html" "src/**/*.html"
+
+      # 5️⃣ Lint SCSS
+      - name: Lint SCSS
+        working-directory: ./frontend-mambo
+        run: npm run lint:scss

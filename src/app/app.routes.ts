@@ -11,14 +11,14 @@ import { MetodoPagoComponent } from './checkout/metodo-pago/metodo-pago.componen
 
 
 import { HomeComponent } from './admin/home/home.component';
-import { BoletaComponent } from './admin/boleta/boleta';
-import { ClientesComponent } from './admin/clientes/clientes';
-import { FacturaComponent } from './admin/factura/factura';
-import { ListUsuariosComponent } from './admin/list-usuarios/list-usuarios';
-import { ProductosComponent } from './admin/productos/productos';
-import { ReporteComponent } from './admin/reporte/reporte';
-import { VendedoresComponent } from './admin/vendedores/vendedores';
-import { ClienteLayout } from './layout/layout-cliente/layout-cliente';
+import { BoletaComponent } from './admin/boleta/boleta.component';
+import { ClientesComponent } from './admin/clientes/clientes.component';
+import { FacturaComponent } from './admin/factura/factura.component';
+import { ListUsuariosComponent } from './admin/list-usuarios/list-usuarios.component';
+import { ProductosComponent } from './admin/productos/productos.component';
+import { ReporteComponent } from './admin/reporte/reporte.component';
+import { VendedoresComponent } from './admin/vendedores/vendedores.component';
+import { ClienteLayout } from './layout/layout-cliente/layout-cliente.component';
 import { AdminLayoutComponent } from './admin/layout/layout-admin/layout-admin.component';
 
 export const routes: Routes = [

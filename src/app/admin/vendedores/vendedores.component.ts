@@ -7,7 +7,7 @@ import { FilterVendedorPipe } from '../filter-vendedor.pipe';
   selector: 'app-vendedores',
   standalone: true,
   imports: [CommonModule, FormsModule, FilterVendedorPipe],
-  templateUrl: './vendedores.html',
+  templateUrl: './vendedores.component.html',
   styleUrls: ['./vendedores.scss']
 })
 export class VendedoresComponent {

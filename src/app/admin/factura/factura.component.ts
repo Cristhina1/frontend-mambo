@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-factura',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './factura.html',
+  templateUrl: './factura.component.html',
   styleUrls: ['./factura.scss']
 })
 export class FacturaComponent {

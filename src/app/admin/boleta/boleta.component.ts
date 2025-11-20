@@ -14,7 +14,7 @@ interface Item {
   selector: 'app-boleta',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './boleta.html',
+  templateUrl: './boleta.component.html',
   styleUrls: ['./boleta.scss']
 })
 export class BoletaComponent {

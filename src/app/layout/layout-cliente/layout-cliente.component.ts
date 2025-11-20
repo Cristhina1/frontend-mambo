@@ -7,7 +7,7 @@ import { CarritoComponent } from "../../cliente/carrito/carrito";
 @Component({
   selector: 'app-cliente-layout',
   imports: [ClienteNavbarComponent, RouterModule, CarritoComponent],
-  templateUrl: './layout-cliente.html',
+  templateUrl: './layout-cliente.component.html',
   styleUrl: './layout-cliente.scss',
 })
 export class ClienteLayout {
