@@ -29,6 +29,24 @@ h2 {
   margin: 0 0 1rem;
   font-size: 1.4rem;
 }
+.btn-back {
+  margin-top: 1rem;
+  display: inline-block;
+  background: rgb(230 230 230);
+  color: rgb(34 34 34);
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease;
+  text-align: center;
+
+  &:hover {
+    background: rgb(200 200 200);
+  }
+}
+
 
 .field {
   margin-bottom: 1rem;

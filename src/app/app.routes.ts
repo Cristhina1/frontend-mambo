@@ -21,6 +21,8 @@ import { VendedoresComponent } from './admin/vendedores/vendedores.component';
 import { ClienteLayout } from './layout/layout-cliente/layout-cliente.component';
 import { AdminLayoutComponent } from './admin/layout/layout-admin/layout-admin.component';
 import { LoginComponent } from './login/login.component';
+import { Component } from '@angular/core';
+import { RegisterComponent } from './login/register/register.component';
 
 export const routes: Routes = [
   // RUTAS DE ADMIN
@@ -38,7 +40,14 @@ export const routes: Routes = [
       { path: 'vendedores', component: VendedoresComponent },
     ]
   },
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'login', component: LoginComponent,
+
+  },
+  {
+    path: 'register', component: RegisterComponent,
+
+  },
    // RUTAS DE CLIENTE
   {
     path: '',
