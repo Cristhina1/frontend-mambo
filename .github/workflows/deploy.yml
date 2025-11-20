@@ -59,33 +59,37 @@ jobs:
             --assert.assertions['best-practices']=warn
 
   cd:
-    name: Despliegue a GitHub Pages
-    needs: ci
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  name: Despliegue a GitHub Pages
+  needs: ci
+  if: github.ref == 'refs/heads/main'
+  runs-on: ubuntu-latest
+  environment:
+    name: github-pages   # <-- debe coincidir EXACTAMENTE con el entorno creado
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
 
-      - name: Instalar dependencias
-        run: npm install --legacy-peer-deps
+    - name: Instalar dependencias
+      run: npm install --legacy-peer-deps
 
-      - name: Build Angular App para GitHub Pages
-        run: npm run build -- --configuration production --base-href "/frontend-mambo/"
+    - name: Build Angular App
+      run: npm run build -- --configuration production --base-href "/frontend-mambo/"
 
-      - name: Setup GitHub Pages
-        uses: actions/configure-pages@v5
+    - name: Setup GitHub Pages
+      uses: actions/configure-pages@v5
 
-      - name: Subir artefacto
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist/frontend/browser
+    - name: Subir artefacto
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./dist/frontend/browser
 
-      - name: Deploy a GitHub Pages
-        id: deployment
+    - name: Deploy a GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+
         uses: actions/deploy-pages@v4
