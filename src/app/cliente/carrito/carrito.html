@@ -1,0 +1,48 @@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas" aria-labelledby="cartLabel">
+  <div class="offcanvas-header">
+    <h5 id="cartLabel" class="offcanvas-title" style="color: var(--accent)">Tu Carrito</h5>
+    <button
+      type="button"
+      class="btn-close btn-close-white"
+      data-bs-dismiss="offcanvas"
+      aria-label="Cerrar"
+    ></button>
+  </div>
+
+  <div class="offcanvas-body">
+    <!-- SI EL CARRITO ESTÁ VACÍO -->
+    <p class="muted" *ngIf="carrito.length === 0">No hay productos en el carrito.</p>
+
+    <!-- LISTA DE PRODUCTOS -->
+    <div *ngFor="let item of carrito; let i = index" class="cart-item">
+      <img [src]="item.imagen" [alt]="item.nombre" />
+
+      <div class="cart-info">
+        <h6>{{ item.nombre }}</h6>
+        <p>S/ {{ item.precio }}</p>
+
+        <div class="qty-control">
+          <button (click)="carritoService.disminuirCantidad(item.id)">-</button>
+          <span>{{ item.cantidad }}</span>
+          <button (click)="carritoService.aumentarCantidad(item.id)">+</button>
+        </div>
+
+        <div class="subtotal">Subtotal: S/ {{ item.precio * item.cantidad }}</div>
+      </div>
+
+      <button class="remove-btn" (click)="eliminar(i)">X</button>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="mt-3 text-end">
+      <div class="muted">Total</div>
+      <div id="cartTotal" style="font-weight: 900; font-size: 1.15rem; margin-top: 0.25rem">
+        S/ {{ getTotal() }}
+      </div>
+
+      <button type="button" class="add-btn w-100 mt-3" (click)="onFinalizePurchase()">
+        Realizar pedido
+      </button>
+    </div>
+  </div>
+</div>

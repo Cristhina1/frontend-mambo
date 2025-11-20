@@ -1,0 +1,339 @@
+/* ---------- HEADER BANNER ---------- */
+.hero {
+  height: 220px;
+  border-radius: 10px;
+  background-image: url("https://images.unsplash.com/photo-1512436991641-6745cdb1723f");
+  background-size: cover;
+  background-position: center;
+  margin: 1.25rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(5 5 6 / 55%),
+    rgb(5 5 6 / 85%)
+  );
+}
+
+.hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-size: 2rem;
+  color: var(--white);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+/* ---------- LAYOUT ---------- */
+.site-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (width < 992px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- SIDEBAR / FILTER ---------- */
+.sidebar {
+  background: linear-gradient(
+    180deg,
+    var(--panel),
+    rgb(255 255 255 / 1%)
+  );
+  border: 1px solid rgb(255 255 255 / 3%);
+  padding: 1.25rem;
+  border-radius: 12px;
+  top: 86px;
+  height: fit-content;
+}
+
+@media (width >= 990px) {
+  .sidebar {
+    position: sticky;
+  }
+}
+
+.sidebar h5 {
+  color: var(--accent);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+}
+
+.sidebar label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.category-btn {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 3%);
+  color: var(--white);
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.18s ease;
+  font-weight: 600;
+}
+
+.category-btn:hover {
+  background: rgb(245 197 24 / 12%);
+  color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.price-range {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.price-range input {
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 5%);
+  color: var(--white);
+  padding: 0.45rem;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* ---------- CATALOG HEADER ---------- */
+.catalog-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgb(255 255 255 / 4%);
+  padding-bottom: 0.6rem;
+}
+
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--glass);
+  border: 1px solid rgb(255 255 255 / 3%);
+  padding: 0.35rem;
+  border-radius: 10px;
+}
+
+.search-box input {
+  background: transparent;
+  border: 0;
+  color: var(--white);
+  outline: none;
+  padding: 0.4rem 0.6rem;
+  min-width: 180px;
+}
+
+.search-box button {
+  background: var(--accent);
+  border: 0;
+  color: #050506;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+/* ---------- PRODUCT GRID & CARD ---------- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+@media (width < 1200px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (width < 900px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width < 576px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-product {
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 1%),
+    rgb(255 255 255 / 2%)
+  );
+  border: 1px solid rgb(255 255 255 / 3%);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 60%);
+  transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 0.28s;
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+}
+
+.card-product:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 70%);
+  border-color: rgb(245 197 24 / 18%);
+}
+
+.card-product .media {
+  height: 260px;
+  background: #0b0b0c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-product .media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.card-product:hover .media img {
+  transform: scale(1.06);
+}
+
+.card-product .body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.product-title {
+  font-weight: 800;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.product-sub {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: -0.2rem;
+}
+
+.price-row {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.price {
+  font-weight: 900;
+  color: var(--white);
+}
+
+.add-btn {
+  background: linear-gradient(180deg, var(--accent), #e6b300);
+  border: 0;
+  color: #050506;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  font-weight: 800;
+  transition: transform 0.12s;
+}
+
+.add-btn:active {
+  transform: translateY(1px);
+}
+
+/* ---------- CATEGORY CHIPS ---------- */
+.catalog-title {
+  font-size: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+
+.chip {
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 3%);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.chip:hover {
+  background: rgb(245 197 24 / 12%);
+  color: var(--accent);
+  cursor: pointer;
+  transform: translateY(-3px);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  margin-top: 2.25rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgb(255 255 255 / 3%);
+  color: var(--muted);
+}
+
+footer h6 {
+  color: var(--accent);
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+
+/* small niceties */
+.muted {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.badge-accent {
+  background: var(--accent);
+  color: #050506;
+  font-weight: 900;
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+}

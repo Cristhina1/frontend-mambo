@@ -1,0 +1,121 @@
+<div class="site-container">
+  <div class="hero" role="banner" aria-label="Banner principal">
+    <h1>Encuentra tu estilo</h1>
+  </div>
+
+  <div class="main-grid">
+    <aside class="sidebar d-none d-md-block" aria-label="Filtros">
+      <h5>Filtrar</h5>
+
+      <label class="muted" for="categorias">Categorías</label>
+      <button class="category-btn" (click)="filterCategory('Poleras')">Poleras</button>
+      <button class="category-btn" (click)="filterCategory('Chaquetas')">Chaquetas</button>
+      <button class="category-btn" (click)="filterCategory('Pantalones')">Pantalones</button>
+      <button class="category-btn" (click)="filterCategory('Shorts')">Shorts</button>
+      <button class="category-btn" (click)="filterCategory('Accesorios')">Accesorios</button>
+      <button class="category-btn" (click)="filterCategory('Ofertas')">Ofertas</button>
+
+      <hr />
+
+      <label class="muted" for="precio">Precio (S/)</label>
+      <div class="price-range">
+        <input type="number" [(ngModel)]="minPrice" placeholder="Mín" min="0" />
+        <input type="number" [(ngModel)]="maxPrice" placeholder="Máx" min="0" />
+      </div>
+
+      <button class="category-btn mt-2" (click)="applyFilters()">Aplicar</button>
+      <button class="category-btn mt-2" (click)="clearFilters()">Limpiar filtros</button>
+    </aside>
+
+    <section class="catalogo">
+      <div class="catalog-top">
+        <div class="catalog-title">Catálogo</div>
+
+        <div class="search-box">
+          <input placeholder="Buscar por nombre..." [(ngModel)]="searchTerm" />
+          <button (click)="searchProducts()"><i class="bi bi-search"></i></button>
+        </div>
+      </div>
+
+      <button
+        class="btn btn-outline-warning d-md-none mb-3"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasFiltro"
+      >
+        <i class="bi bi-funnel"></i> Filtros
+      </button>
+
+      <div class="products-grid">
+        <div class="card-product" *ngFor="let producto of productosFiltrados">
+          <div class="media">
+            <img [src]="producto.imagen" [alt]="producto.nombre" />
+          </div>
+
+          <div class="body">
+            <div>
+              <div class="product-title">{{ producto.nombre }}</div>
+              <div class="product-sub muted">Categoría: {{ producto.categoria }}</div>
+              <div class="product-sub muted">Stock: {{ producto.stock }}</div>
+            </div>
+
+            <div class="price-row">
+              <div class="price">S/ {{ producto.precio }}</div>
+
+              <button
+                class="add-btn"
+                (click)="agregarAlCarrito(producto)"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#cartCanvas"
+              >
+                Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="mx-2 mt-5" />
+      <h4 class="catalog-title">CATEGORÍAS A ELEGIR</h4>
+
+      <div class="chips">
+        <div class="chip" (click)="filterCategory('Poleras')">Poleras</div>
+        <div class="chip" (click)="filterCategory('Chaquetas')">Chaquetas</div>
+        <div class="chip" (click)="filterCategory('Pantalones')">Pantalones</div>
+        <div class="chip" (click)="filterCategory('Accesorios')">Accesorios</div>
+        <div class="chip" (click)="filterCategory('Ofertas')">Ofertas</div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<app-carrito></app-carrito>
+
+<footer>
+  <div class="container site-container">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <h6>Ubicación</h6>
+        <p>Multicentro - Santa Clara - Ate<br />Tiendas N°05-393</p>
+        <a
+          href="https://www.google.com/maps?q=Multicentro+Santa+Clara+Ate"
+          target="_blank"
+          rel="noopener"
+          class="muted"
+          >Ver en Google Maps →</a
+        >
+      </div>
+      <div class="col-md-6">
+        <h6>Contacto</h6>
+        <p>
+          <i class="bi bi-telephone"></i> +51 923123890<br /><i class="bi bi-envelope"></i>
+          MamboClothing@gmail.com
+        </p>
+        <div style="margin-top: 0.5rem">
+          <a class="muted me-3" href="#"><i class="bi bi-facebook fs-4"></i></a>
+          <a class="muted me-3" href="#"><i class="bi bi-instagram fs-4"></i></a>
+          <a class="muted" href="#"><i class="bi bi-tiktok fs-4"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

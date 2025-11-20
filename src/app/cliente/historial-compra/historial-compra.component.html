@@ -1,0 +1,41 @@
+<div class="container-history">
+  <div class="card">
+    <div class="card-header">
+      <h3>🛍️ Historial de Compras</h3>
+
+      <p>Consulta tus compras realizadas en MAMBO</p>
+    </div>
+
+    <div class="card-body">
+      <div *ngIf="compras.length === 0" class="empty-message">
+        <p>No tienes compras registradas todavía.</p>
+        <a routerLink="/cliente/carrito" class="btn-custom mt-3">Ir al carrito</a>
+      </div>
+      <div *ngIf="compras.length > 0" class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio Unitario</th>
+              <th>Total</th>
+              <th>Fecha de Compra</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let compra of compras">
+              <td>{{ compra.producto }}</td>
+              <td>{{ compra.cantidad }}</td>
+              <td>S/ {{ compra.precio | number : '1.2-2' }}</td>
+              <td>S/ {{ compra.total | number : '1.2-2' }}</td>
+              <td>{{ compra.fechaCompra | date : 'dd/MM/yyyy HH:mm' }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-4">
+          <a routerLink="/cliente/carrito" class="btn-custom">🛒 Volver al carrito</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

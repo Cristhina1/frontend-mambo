@@ -1,0 +1,210 @@
+/* --- Estilos Globales de la Vista (Escritorio) --- */
+
+.checkout-container {
+  display: flex;
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+
+/* LEFT (formularios)     */
+
+
+.checkout-left {
+  flex: 1;
+}
+
+/* Botón "Seguir comprando" */
+.volver-btn {
+  display: block;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  background: var(--glass);
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 12px;
+  color: var(--white);
+  backdrop-filter: blur(10px);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: fit-content;
+}
+
+.volver-btn:hover {
+  background: rgb(255 255 255 / 8%);
+  transform: translateY(-2px);
+}
+
+.checkout-panel {
+  padding: 20px 0;
+}
+
+
+/* RIGHT (resumen)        */
+
+
+.checkout-right {
+  width: 330px;
+  background: var(--glass);
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px);
+}
+
+.checkout-right h4 {
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.summary-item {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.summary-item .info {
+  flex-grow: 1;
+}
+
+
+
+.summary-item .info small {
+  display: block;
+  color: rgb(255 255 255 / 60%);
+}
+
+.summary-item strong {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.summary-item img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.summary-total {
+  margin-top: 25px;
+  border-top: 1px solid rgb(255 255 255 / 7%);
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-total p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: rgb(255 255 255 / 70%);
+}
+
+.summary-total h3 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+.finish-btn {
+  width: 100%;
+  margin-top: 20px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+/* orden corregido (primero :disabled, luego hover) */
+.finish-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.finish-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+
+/* --- Media Queries (MÓVIL Y TABLET) --- */
+
+@media (width <= 992px) {
+  .checkout-container {
+    gap: 20px;
+    padding: 20px 15px;
+  }
+}
+
+@media (width <= 768px) {
+  .checkout-container {
+    flex-direction: column;
+    padding: 15px;
+    max-width: 100%;
+    gap: 20px;
+  }
+
+  .checkout-right {
+    width: 100%;
+    order: -1;
+    padding: 20px;
+    margin-bottom: 0;
+  }
+
+  .checkout-left {
+    width: 100%;
+    flex: none;
+  }
+
+  .volver-btn {
+    width: 100%;
+    margin-bottom: 20px;
+    transform: none;
+    text-align: center;
+  }
+
+  .summary-item img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* PASOS (app-paso-header) */
+  app-paso-header > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+  }
+
+  app-paso-header [class*="paso-"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: calc(33.33% - 5px);
+    text-align: center;
+    padding: 10px 5px;
+  }
+
+  app-paso-header span {
+    font-size: 0.75rem;
+    line-height: 1.1;
+    margin-top: 5px;
+    display: block;
+    overflow-wrap: break-word;
+  }
+
+  app-paso-header span:first-child {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+}

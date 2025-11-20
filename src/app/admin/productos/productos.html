@@ -1,0 +1,146 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1><i class="bi bi-box text-success"></i> Gestión de Productos</h1>
+      <p class="text-muted">Administra tu inventario y productos</p>
+    </div>
+
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalNuevoProducto">
+      <i class="bi bi-plus-circle me-2"></i>Nuevo Producto
+    </button>
+  </div>
+
+  <!-- Buscador y filtro -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <div class="input-group w-auto">
+      <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Buscar por nombre..."
+        [(ngModel)]="buscador"
+      />
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <label class="fw-semibold text-secondary mb-0" for="">Filtrar por stock:</label>
+      <select class="form-select form-select-sm w-auto" [(ngModel)]="filtroStock">
+        <option value="todos">Todos</option>
+        <option value="sin-stock">Sin stock</option>
+        <option value="bajo-stock">Bajo stock</option>
+        <option value="en-stock">En stock</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="card shadow-sm border-0">
+    <div class="card-header bg-white">
+      <h5 class="mb-0"><i class="bi bi-table me-2"></i> Lista de Productos</h5>
+    </div>
+
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light text-center">
+          <tr>
+            <th>ID</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody class="text-center">
+          <tr *ngFor="let p of productosFiltrados">
+            <td>{{ p.id }}</td>
+            <td>
+              <img
+                *ngIf="p.imagenUrl; else sinImg"
+                [src]="p.imagenUrl"
+                alt="imagen"
+                class="rounded shadow-sm"
+                style="width: 70px; height: 70px; object-fit: cover"
+              />
+              <ng-template #sinImg>
+                <span class="text-muted fst-italic">Sin imagen</span>
+              </ng-template>
+            </td>
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.categoria || 'Sin categoría' }}</td>
+            <td>S/ {{ p.precio | number:'1.2-2' }}</td>
+            <td>{{ p.stock }}</td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'bg-danger': getEstado(p.stock) === 'sin-stock',
+                  'bg-warning text-dark': getEstado(p.stock) === 'bajo-stock',
+                  'bg-success': getEstado(p.stock) === 'en-stock'
+                }"
+              >
+                {{ getEstado(p.stock).replace('-', ' ') }}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-outline-danger" (click)="eliminarProducto(p.id)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="productosFiltrados.length === 0">
+            <td colspan="8" class="text-muted">No se encontraron productos...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal nuevo producto -->
+<div class="modal fade" id="modalNuevoProducto" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form (ngSubmit)="agregarProducto()">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-box me-2"></i> Nuevo Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
+            <span class="visually-hidden">Cerrar</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="nombre">Nombre *</label>
+              <input type="text" class="form-control" [(ngModel)]="nuevoProducto.nombre" name="nombre" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="categoria">Categoría *</label>
+              <input type="text" class="form-control" [(ngModel)]="nuevoProducto.categoria" name="categoria" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="precio">Precio *</label>
+              <div class="input-group">
+                <span class="input-group-text">S/</span>
+                <input type="number" class="form-control" [(ngModel)]="nuevoProducto.precio" name="precio" required />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="stock">Stock *</label>
+              <input type="number" class="form-control" [(ngModel)]="nuevoProducto.stock" name="stock" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

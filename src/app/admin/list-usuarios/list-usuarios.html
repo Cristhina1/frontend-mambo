@@ -1,0 +1,171 @@
+<div class="main-content p-4">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="mb-2">
+          <i class="bi bi-person-badge text-dark"></i>
+          Gestión de Vendedores
+        </h1>
+        <p class="text-muted">Administra tu equipo de ventas</p>
+      </div>
+      <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalNuevoVendedor">
+        <i class="bi bi-plus-circle me-2"></i>Nuevo Vendedor
+      </button>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="row mb-4">
+      <div class="col-lg-3 col-md-6 mb-3" *ngFor="let card of estadisticas">
+        <div class="card text-white" [ngClass]="card.bg">
+          <div class="card-body d-flex justify-content-between">
+            <div>
+              <h6 class="card-title">{{ card.titulo }}</h6>
+              <h3 class="mb-0">{{ card.valor }}</h3>
+            </div>
+            <i class="{{ card.icono }} fs-1 align-self-center"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row g-2">
+          <div class="col-md-4">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Buscar vendedor..."
+                [(ngModel)]="filtroNombre"
+              />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" [(ngModel)]="filtroEstado">
+              <option value="">Todos los estados</option>
+              <option value="Activo">Activos</option>
+              <option value="Inactivo">Inactivos</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" [(ngModel)]="filtroTurno">
+              <option value="">Todos los turnos</option>
+              <option value="Mañana">Mañana</option>
+              <option value="Tarde">Tarde</option>
+              <option value="Noche">Noche</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-outline-secondary w-100" (click)="filtrarVendedores()">
+              <i class="bi bi-funnel me-2"></i>Filtrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-table me-2"></i>Lista de Vendedores</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th>ID</th>
+                <th>Nombre Completo</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Turno</th>
+                <th>Ventas</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let vendedor of vendedoresFiltrados">
+                <td>{{ vendedor.id }}</td>
+                <td>{{ vendedor.nombre }}</td>
+                <td>{{ vendedor.email }}</td>
+                <td>{{ vendedor.telefono }}</td>
+                <td><span class="badge bg-primary">{{ vendedor.turno }}</span></td>
+                <td>{{ vendedor.ventas }}</td>
+                <td>
+                  <span class="badge" [ngClass]="{'bg-success': vendedor.estado === 'Activo', 'bg-warning': vendedor.estado === 'Inactivo'}">
+                    {{ vendedor.estado }}
+                  </span>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></button>
+                  <button class="btn btn-sm btn-outline-info me-1"><i class="bi bi-eye"></i></button>
+                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalNuevoVendedor" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Nuevo Vendedor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
+            <span class="visually-hidden">Cerrar</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="nombres">Nombre Completo</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="dni">DNI</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="email">Email</label>
+                <input type="email" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="telefono">Teléfono</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="turno">Turno</label>
+                <select class="form-select">
+                  <option>Mañana</option>
+                  <option>Tarde</option>
+                  <option>Noche</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="fechaIngreso">Fecha de ingreso</label>
+                <input type="date" class="form-control" />
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="direccion">Dirección</label>
+                <textarea class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-dark">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

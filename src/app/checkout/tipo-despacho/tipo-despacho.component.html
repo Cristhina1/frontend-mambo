@@ -1,0 +1,52 @@
+<h2 class="titulo-paso">Tipo de despacho</h2>
+
+<form #f="ngForm" (ngSubmit)="enviar()">
+  <div class="opciones">
+    <!-- RETIRO -->
+    <label class="opcion-card">
+      <input type="radio" name="tipo" value="retiro" [(ngModel)]="model.tipo" />
+      <div class="contenido">
+        <h3>Retiro en tienda</h3>
+        <p>Retira tu producto en nuestra tienda.</p>
+      </div>
+    </label>
+
+    <!-- ENVÍO -->
+    <label class="opcion-card">
+      <input type="radio" name="tipo" value="envio" [(ngModel)]="model.tipo" />
+      <div class="contenido">
+        <h3>Envío a domicilio</h3>
+        <p>Entrega a la dirección que indiques.</p>
+      </div>
+    </label>
+  </div>
+
+  <!-- FORMULARIO DIRECCIÓN -->
+  <div class="direccion" *ngIf="model.tipo === 'envio'">
+    <div class="campo">
+      <label for="direccion">Dirección</label>
+      <input
+        type="text"
+        [(ngModel)]="model.direccion"
+        name="direccion"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="campo">
+      <label for="ciudad">Ciudad</label>
+      <input type="text" [(ngModel)]="model.ciudad" name="ciudad" class="form-control" required />
+    </div>
+
+    <div class="campo">
+      <label for="referencia">Referencia</label>
+      <input type="text" [(ngModel)]="model.referencia" name="referencia" class="form-control" />
+    </div>
+  </div>
+
+  <button class="btn-finalizar">
+    Continuar
+    <i class="bi bi-arrow-right-circle"></i>
+  </button>
+</form>

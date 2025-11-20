@@ -1,0 +1,46 @@
+.paso-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  background: var(--glass);
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid rgb(255 255 255 / 5%);
+}
+
+.paso {
+  flex: 1;
+  text-align: center;
+  padding: 12px 10px;
+  cursor: pointer;
+  background: var(--dark-card);
+  border-radius: 10px;
+  transition: 0.25s ease;
+  color: var(--muted);
+  font-weight: 500;
+  border: 1px solid transparent;
+
+  .num {
+    background: var(--glass);
+    padding: 4px 9px;
+    border-radius: 8px;
+    margin-right: 5px;
+    border: 1px solid rgb(255 255 255 / 10%);
+  }
+
+  &:hover {
+    border-color: var(--accent);
+    color: var(--white);
+  }
+
+  &.activo {
+    background: var(--accent);
+    color: #000;
+    font-weight: 700;
+
+    .num {
+      background: rgb(0 0 0 / 15%);
+      color: #000;
+    }
+  }
+}

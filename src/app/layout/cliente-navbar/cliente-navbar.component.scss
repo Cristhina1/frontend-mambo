@@ -1,0 +1,111 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+/* ================================
+   NAVBAR STYLES
+================================ */
+
+.navbar {
+  background: #000; /* negro sólido */
+  border-bottom: 1px solid #fff; /* blanco sólido */
+  min-height: 65px;
+  padding: 0.3rem 0;
+  width: 100%;
+  font-family: Alexandria, sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.navbar * {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* LOGO */
+.navbar-brand {
+  color: var(--accent);
+  font-weight: 900;
+  letter-spacing: 1px;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.navbar-brand:hover {
+  color: #fff; /* sólido */
+}
+
+/* LINKS */
+.nav-link {
+  color: var(--muted) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  margin: 0 0.5rem;
+  transition: color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.nav-link:hover {
+  color: var(--accent) !important;
+}
+
+/* LINK ACTIVO */
+.navbar-nav .nav-link.active {
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+}
+
+/* BOTONES */
+.btn-dark {
+  border: 1px solid #f5c518; /* amarillo sólido */
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-dark:hover {
+  background-color: #f5c518;
+  color: #000;
+  border-color: #f5c518;
+}
+
+/* DROPDOWN */
+.dropdown-menu {
+  background: #111; /* sólido */
+  border: 1px solid #fff; /* sólido */
+}
+
+.dropdown-item {
+  color: var(--muted);
+}
+
+.dropdown-item:hover {
+  color: var(--accent);
+  background: #111; /* sin transparencia */
+}
+
+/* BADGE (carrito) */
+.badge {
+  font-size: 0.75rem !important;
+  font-weight: 900;
+  padding: 0.25rem 0.35rem;
+  background-color: var(--accent) !important; /* amarillo sólido */
+  color: #000 !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  line-height: 1.2rem;
+}
+
+/* MOBILE FIX */
+@media (width < 768px) {
+  .navbar {
+    font-size: 0.8rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+}

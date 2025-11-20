@@ -1,0 +1,96 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* ================================
+   CONTENEDOR DEL FORMULARIO
+================================ */
+.checkout-form {
+  background: var(--glass);
+  padding: 1.8rem;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px);
+}
+
+/* ================================
+   TÍTULO
+================================ */
+.titulo-paso {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--white);
+}
+
+/* ================================
+   CAMPOS
+================================ */
+.campo {
+  margin-bottom: 1.3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  color: var(--muted);
+}
+
+
+.form-control {
+  background: rgb(255 255 255 / 4%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  color: var(--white);
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgb(255 255 255 / 7%);
+
+    /* rgba(245,197,24,0.25) → rgb + % */
+    box-shadow: 0 0 0 2px rgb(245 197 24 / 25%);
+  }
+}
+
+
+.error {
+  color: #ff6b6b;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.btn-finalizar {
+  width: 100%;
+  margin-top: 1.6rem;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 0.9rem 1.2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+/* mover antes del hover para NO-DESCENDING-SPECIFICITY */
+.btn-finalizar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-finalizar:hover:not(:disabled) {
+  background: #ffdb4d;
+  transform: translateY(-2px);
+}

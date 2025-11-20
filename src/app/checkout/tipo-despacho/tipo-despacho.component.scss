@@ -1,0 +1,145 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Título */
+.titulo-paso {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--white);
+}
+
+/* Contenedor general */
+form {
+  background: var(--glass);
+  padding: 1.8rem;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(12px);
+}
+
+/* Contenedor de opciones */
+.opciones {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+/* Cada tarjeta */
+.opcion-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgb(255 255 255 / 5%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
+  width: 100%;
+  user-select: none;
+}
+
+/* Hover */
+.opcion-card:hover {
+  border-color: var(--accent);
+  background: rgb(255 255 255 / 15%);
+}
+
+/* Input radio real (oculto) */
+.opcion-card input[type="radio"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--muted);
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+/* Cuando está seleccionado */
+.opcion-card input[type="radio"]:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+/* Contenido de texto */
+.contenido h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--white);
+}
+
+.contenido p {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Sección de dirección */
+.direccion {
+  margin-top: 1.5rem;
+  padding: 1.4rem;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 5%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  box-shadow: var(--card-shadow);
+}
+
+.campo {
+  margin-bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 0.3rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+input.form-control {
+  background: rgb(255 255 255 / 4%);
+  color: var(--white);
+  border-radius: 10px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  padding: 0.7rem 0.9rem;
+  transition: all 0.25s ease;
+}
+
+input.form-control:focus {
+  border-color: var(--accent);
+  background: rgb(255 255 255 / 8%);
+  box-shadow: 0 0 0 2px rgb(245 197 24 / 25%);
+  outline: none;
+}
+
+/* Botón */
+.btn-finalizar {
+  width: 100%;
+  margin-top: 1.6rem;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 0.9rem 1.2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-finalizar:hover {
+  background: #ffdb4d;
+  transform: translateY(-2px);
+}

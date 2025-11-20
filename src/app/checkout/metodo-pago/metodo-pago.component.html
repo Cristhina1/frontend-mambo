@@ -1,0 +1,59 @@
+<h2 class="titulo-paso">Método de pago</h2>
+
+<form #f="ngForm" (ngSubmit)="pagar()">
+  <div class="opciones">
+    <label class="opcion-card">
+      <input type="radio" name="metodo" value="tarjeta" [(ngModel)]="model.metodo" />
+      <div class="contenido">
+        <h3>Tarjeta de crédito / débito</h3>
+      </div>
+    </label>
+
+    <label class="opcion-card">
+      <input type="radio" name="metodo" value="yape" [(ngModel)]="model.metodo" />
+      <div class="contenido">
+        <h3>Yape / Plin</h3>
+      </div>
+    </label>
+
+    <label class="opcion-card">
+      <input type="radio" name="metodo" value="contra" [(ngModel)]="model.metodo" />
+      <div class="contenido">
+        <h3>Pago contraentrega</h3>
+      </div>
+    </label>
+  </div>
+
+  <!-- FORM TARJETA -->
+  <div *ngIf="model.metodo === 'tarjeta'" class="tarjeta-form">
+    <div class="campo">
+      <label>Número de tarjeta</label>
+      <input
+        type="text"
+        [(ngModel)]="model.numeroTarjeta"
+        name="tarjeta"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="campo">
+      <label>Fecha de expiración</label>
+      <input type="month" [(ngModel)]="model.fecha" name="fecha" class="form-control" required />
+    </div>
+
+    <div class="campo">
+      <label>CVV</label>
+      <input
+        type="number"
+        [(ngModel)]="model.cvv"
+        name="cvv"
+        class="form-control"
+        required
+        minlength="3"
+      />
+    </div>
+  </div>
+
+  <button class="btn-finalizar">Finalizar pago</button>
+</form>

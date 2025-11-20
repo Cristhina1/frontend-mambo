@@ -1,0 +1,131 @@
+<header class="hero-section">
+  <div class="hero-background-model"></div>
+  <div class="hero-overlay"></div>
+  <div class="container site-container hero-content">
+    <h1 class="hero-title">MAMBO</h1>
+    <h2 class="hero-subtitle">CLOTHING</h2>
+    <p class="hero-description">
+      Tu estilo no se copia, se crea, comienza eligiendo a<br />
+      <strong style="color: var(--accent)">MAMBO</strong>
+    </p>
+    <a routerLink="/productos" class="hero-cta-button">COMIENZA A ELEGIR</a>
+  </div>
+</header>
+
+<section id="about-section" class="about-section">
+  <div class="container site-container">
+    <div class="section-header">
+      <p class="subtitle">MAMBO CLOTHING</p>
+      <h2 class="heading">Nuestra Esencia Urbana</h2>
+    </div>
+
+    <div class="row g-4 mt-4">
+      <div class="col 6 col-md-6">
+        <div class="mv-card">
+          <div>
+            <i class="bi bi-rocket-takeoff"></i>
+            <h3>Misión</h3>
+          </div>
+          <p>
+            Ser el catalizador de la <strong>expresión individual</strong> en la moda urbana.
+            Ofrecemos prendas de alta calidad que fusionan el diseño de vanguardia con la comodidad
+            callejera.
+          </p>
+        </div>
+      </div>
+
+      <div class="col 6 col-md-6">
+        <div class="mv-card">
+          <div>
+            <i class="bi bi-eye"></i>
+            <h3>Visión</h3>
+          </div>
+          <p>
+            Convertirnos en la marca <strong>líder global</strong> de <em>streetwear</em> de lujo
+            asequible, siendo reconocidos por nuestras colecciones disruptivas y nuestra comunidad
+            creativa.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-item">
+        <h6>Innovación Continua</h6>
+        <p>Siempre a la vanguardia, creando tendencias y desafiando lo convencional.</p>
+      </div>
+      <div class="value-item">
+        <h6>Calidad Intransigente</h6>
+        <p>Cada prenda es un testimonio de nuestra dedicación a la durabilidad y el confort.</p>
+      </div>
+      <div class="value-item">
+        <h6>Autenticidad</h6>
+        <p>Celebramos y empoderamos la voz y el estilo único de cada individuo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container site-container">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <h6>Ubicación</h6>
+        <p>Multicentro - Santa Clara - Ate<br />Tiendas N°05-393</p>
+        <a
+          href="https://www.google.com/maps?q=Multicentro+Santa+Clara+Ate"
+          target="_blank"
+          rel="noopener"
+          >Ver en Google Maps →</a
+        >
+      </div>
+      <div class="col-md-6">
+        <h6>Contacto</h6>
+        <p>
+          <i class="bi bi-telephone"></i> +51 923123890<br /><i class="bi bi-envelope"></i>
+          MamboClothing@gmail.com
+        </p>
+        <div style="margin-top: 0.5rem">
+          <a class="me-3" href="#"><i class="bi bi-facebook fs-4"></i></a>
+          <a class="me-3" href="#"><i class="bi bi-instagram fs-4"></i></a>
+          <a href="#"><i class="bi bi-tiktok fs-4"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<app-carrito></app-carrito>
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <h5 class="modal-title" style="color: var(--accent)">Iniciar sesión</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Cerrar"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="loginForm" (submit)="handleLoginSubmit($event)">
+          <div class="mb-3">
+            <label class="muted" for="correo">Correo</label>
+            <input required type="email" class="form-control bg-transparent border-1 text-white" />
+          </div>
+          <div class="mb-3">
+            <label class="muted" for="contra">Contraseña</label>
+            <input
+              required
+              type="password"
+              class="form-control bg-transparent border-1 text-white"
+            />
+          </div>
+          <button class="add-btn w-100" type="submit">Entrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

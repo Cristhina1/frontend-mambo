@@ -1,0 +1,76 @@
+<h2 class="titulo-paso">Datos personales</h2>
+
+<form #f="ngForm" (ngSubmit)="enviar(f)">
+  <!-- Nombre -->
+  <div class="campo">
+    <label>Nombres</label>
+    <input
+      type="text"
+      name="nombres"
+      [(ngModel)]="model.nombres"
+      required
+      class="form-control"
+      #nombres="ngModel"
+    />
+
+    <small *ngIf="nombres.invalid && nombres.touched" class="error">
+      Este campo es obligatorio
+    </small>
+  </div>
+
+  <!-- Apellidos -->
+  <div class="campo">
+    <label>Apellidos</label>
+    <input
+      type="text"
+      name="apellidos"
+      [(ngModel)]="model.apellidos"
+      required
+      class="form-control"
+      #apellidos="ngModel"
+    />
+
+    <small *ngIf="apellidos.invalid && apellidos.touched" class="error">
+      Este campo es obligatorio
+    </small>
+  </div>
+
+  <!-- Email -->
+  <div class="campo">
+    <label>Email</label>
+    <input
+      type="email"
+      name="email"
+      [(ngModel)]="model.email"
+      required
+      email
+      class="form-control"
+      #email="ngModel"
+    />
+
+    <small *ngIf="email.invalid && email.touched" class="error"> Ingresa un email válido </small>
+  </div>
+
+  <!-- Teléfono -->
+  <div class="campo">
+    <label>Teléfono</label>
+    <input
+      type="text"
+      name="telefono"
+      [(ngModel)]="model.telefono"
+      required
+      minlength="6"
+      class="form-control"
+      #telefono="ngModel"
+    />
+
+    <small *ngIf="telefono.invalid && telefono.touched" class="error">
+      Ingresa un teléfono válido
+    </small>
+  </div>
+
+  <button class="btn-finalizar" [disabled]="f.invalid">
+    Continuar
+    <i class="bi bi-arrow-right-circle"></i>
+  </button>
+</form>

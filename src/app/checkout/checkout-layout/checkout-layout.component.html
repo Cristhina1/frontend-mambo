@@ -1,0 +1,56 @@
+<div class="checkout-container">
+  <div class="checkout-left">
+    <button class="volver-btn" (click)="goToProductos()">← Seguir comprando</button>
+
+    <app-paso-header [paso]="pasoActual" (onPasoSeleccionado)="cambiarPaso($event)">
+    </app-paso-header>
+
+    <div class="checkout-panel">
+      <ng-container [ngSwitch]="pasoActual">
+        <ng-container *ngSwitchCase="1">
+          <app-datos-personales></app-datos-personales>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="2">
+          <app-tipo-despacho></app-tipo-despacho>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="3">
+          <app-metodo-pago></app-metodo-pago>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="checkout-right">
+    <h4>Tu pedido</h4>
+
+    <div *ngFor="let item of carrito" class="summary-item">
+      <img [src]="item.imagen" [alt]="item.nombre" />
+      <div class="info">
+        <p>{{ item.nombre }}</p>
+        <small>Cantidad: {{ item.cantidad }}</small>
+      </div>
+      <strong>S/ {{ item.precio * item.cantidad | number : '1.2-2' }}</strong>
+    </div>
+
+    <div class="summary-total">
+      <p>Total:</p>
+      <h3>S/ {{ total | number : '1.2-2' }}</h3>
+    </div>
+  </div>
+
+  <div class="modal fade" id="compraExitosa" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4">
+        <h4 class="text-center text-success">¡Compra Exitosa!</h4>
+        <p class="text-center">
+          Tu pedido ha sido registrado. Recibirás un mensaje cuando esté en camino.
+        </p>
+        <button class="btn btn-primary w-100" (click)="goToProductos()" data-bs-dismiss="modal">
+          Volver a productos
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

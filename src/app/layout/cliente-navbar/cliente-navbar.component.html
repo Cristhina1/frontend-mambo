@@ -1,0 +1,78 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container site-container">
+    <!-- LOGO -->
+    <a class="navbar-brand text-white" routerLink="/inicio"> MAMBO </a>
+
+    <!-- TOGGLER -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navMain"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- MENU -->
+    <div class="collapse navbar-collapse justify-content-end" id="navMain">
+      <ul class="navbar-nav align-items-center">
+        <!-- HOME -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/inicio" routerLinkActive="active">Home</a>
+        </li>
+
+        <!-- PRODUCTOS -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/productos" routerLinkActive="active">Productos</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/productos" routerLinkActive="active">Productos</a>
+        </li>
+
+        <!-- CONTACTANOS -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contactanos" routerLinkActive="active">Contáctanos</a>
+        </li>
+
+        <!-- LOGIN -->
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a class="nav-link" routerLink="/login"> <i class="bi bi-person"></i> Iniciar </a>
+        </li>
+
+        <!-- USUARIO LOGUEADO -->
+        <li class="nav-item dropdown" *ngIf="isLoggedIn">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle"></i> {{ userName || 'Usuario' }}
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" routerLink="/historial">Historial</a></li>
+            <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar sesión</a></li>
+          </ul>
+        </li>
+
+        <!-- CARRITO -->
+        <li class="nav-item ms-2">
+          <button
+            class="btn btn-dark position-relative"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#cartCanvas"
+          >
+            <i class="bi bi-cart3 fs-5"></i>
+            <span class="badge badge-carrito position-absolute top-0 start-100 translate-middle">
+              {{ carritoItems.length }}
+            </span>
+          </button>
+        </li>
+
+        <!-- HISTORIAL -->
+        <li class="nav-item ms-2">
+          <a routerLink="/historial" class="btn btn-dark">
+            <i class="bi bi-clock-history fs-5"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

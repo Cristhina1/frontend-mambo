@@ -1,0 +1,195 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h1 class="mb-2">
+              <i class="bi bi-receipt text-warning"></i>
+              Generar Boleta
+            </h1>
+            <p class="text-muted">Crear nueva boleta de venta</p>
+          </div>
+          <button class="btn btn-outline-secondary" (click)="limpiarFormulario()">
+            <i class="bi bi-arrow-clockwise me-2"></i>Limpiar Formulario
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Formulario -->
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0"><i class="bi bi-file-earmark me-2"></i> Nueva Boleta</h5>
+          </div>
+          <div class="card-body">
+            <!-- Cliente -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2">Información del Cliente</h6>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="tipoDoc">Tipo Documento</label>
+                <select class="form-select" [(ngModel)]="boleta.tipoDocumento" name="tipoDoc">
+                  <option value="dni">DNI</option>
+                  <option value="ruc">RUC</option>
+                  <option value="carnet">Carnet Extranjería</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="numDocumento">Número Documento</label>
+                <input type="text" class="form-control" [(ngModel)]="boleta.numDocumento" placeholder="Ingrese número">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="razonSocial">Nombre/Razón Social</label>
+                <input type="text" class="form-control" [(ngModel)]="boleta.nombreCliente" placeholder="Nombre del cliente">
+              </div>
+            </div>
+
+            <!-- Productos -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2">Productos</h6>
+              </div>
+              <div class="col-md-4">
+                <label id="CodigoNombre" for="" class="form-label">Código / Nombre</label>
+                <input class="form-control" [(ngModel)]="producto.codigo" placeholder="Código o nombre">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label" for="cantidad">Cantidad</label>
+                <input type="number" class="form-control" [(ngModel)]="producto.cantidad" min="1">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label" for="precioUnitario">Precio Unit.</label>
+                <input type="number" class="form-control" [(ngModel)]="producto.precio" step="0.01">
+              </div>
+              <div class="col-md-2">
+                <label class="form-label" for="">&nbsp;</label>
+                <button class="btn btn-primary w-100" (click)="agregarProducto()">
+                  Agregar <i class="bi bi-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Lista -->
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead class="table-light">
+                  <tr>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unit.</th>
+                    <th>Subtotal</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of productos; let i = index">
+                    <td>{{ item.codigo }}</td>
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>S/ {{ item.precio | number:'1.2-2' }}</td>
+                    <td>S/ {{ (item.cantidad * item.precio) | number:'1.2-2' }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-danger" (click)="eliminarProducto(i)">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="productos.length === 0">
+                    <td colspan="6" class="text-center text-muted">No hay productos agregados</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Botones -->
+            <div class="mt-4 d-flex gap-2">
+              <button class="btn btn-warning" (click)="generarBoleta()">
+                <i class="bi bi-receipt me-2"></i>Generar Boleta
+              </button>
+              <button class="btn btn-outline-primary" (click)="verPreview()">
+                <i class="bi bi-eye me-2"></i>Vista Previa
+              </button>
+              <button class="btn btn-outline-success" (click)="guardarBorrador()">
+                <i class="bi bi-save me-2"></i>Guardar Borrador
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen -->
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header"><h5 class="mb-0"><i class="bi bi-calculator me-2"></i>Resumen de Venta</h5></div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-2">
+              <span>Subtotal:</span><span>S/ {{ subtotal | number:'1.2-2' }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span>IGV (18%):</span><span>S/ {{ igv | number:'1.2-2' }}</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between mb-3">
+              <strong>Total:</strong><strong class="text-primary">S/ {{ total | number:'1.2-2' }}</strong>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="metodoPago">Método de Pago</label>
+              <select class="form-select" [(ngModel)]="boleta.metodoPago">
+                <option value="efectivo">Efectivo</option>
+                <option value="tarjeta">Tarjeta</option>
+                <option value="transferencia">Transferencia</option>
+                <option value="mixto">Mixto</option>
+              </select>
+            </div>
+
+            <div class="mb-3" *ngIf="boleta.metodoPago === 'efectivo'">
+              <label class="form-label" for="monto">Monto Recibido</label>
+              <input type="number" class="form-control" [(ngModel)]="boleta.montoRecibido" step="0.01">
+            </div>
+
+            <div class="mb-3" *ngIf="vuelto > 0">
+              <label class="form-label" for="vuelto">Vuelto</label>
+              <div class="form-control bg-light">S/ {{ vuelto | number:'1.2-2' }}</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="observaciones">Observaciones</label>
+              <textarea class="form-control" [(ngModel)]="boleta.observaciones" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Productos disponibles -->
+        <div class="card mt-4">
+          <div class="card-header"><h6 class="mb-0"><i class="bi bi-box me-2"></i>Productos Disponibles</h6></div>
+          <div class="card-body">
+            <div class="mb-2">
+              <input type="text" class="form-control form-control-sm" placeholder="Buscar producto..." [(ngModel)]="buscarRapido">
+            </div>
+
+            <div
+              class="producto-item d-flex justify-content-between align-items-center p-2 border-bottom"
+              *ngFor="let p of disponibles"
+              [hidden]="buscarRapido && !p.nombre.toLowerCase().includes(buscarRapido.toLowerCase())"
+              (click)="seleccionarProducto(p.codigo, p.nombre, p.precio)"
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <small class="fw-bold">{{ p.codigo }} - {{ p.nombre }}</small><br>
+                <small class="text-muted">Stock: 50</small>
+              </div>
+              <span class="badge bg-primary">S/ {{ p.precio | number:'1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

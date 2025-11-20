@@ -1,0 +1,108 @@
+<section class="contact-banner">
+  <div class="site-container">
+    <h1>¿Tienes dudas? ¡ha!</h1>
+    <p>Estamos aquí para ayudarte. Escríbenos cualquier consulta, sugerencia o comentario.</p>
+  </div>
+</section>
+
+<section class="contact-section">
+  <div class="site-container row g-4">
+    <!-- 📝 FORMULARIO -->
+    <div class="col-lg-6">
+      <div class="contact-card">
+        <h3>Envíanos un mensaje</h3>
+
+        <form [formGroup]="form" (ngSubmit)="enviar()">
+          <!-- Nombre -->
+          <div class="mb-3">
+            <label class="form-label" for="nombre">Nombre completo</label>
+            <input
+              type="text"
+              formControlName="nombre"
+              class="form-control"
+              [class.is-invalid]="form.get('nombre')?.touched && form.get('nombre')?.invalid"
+            />
+
+            <div class="invalid-feedback" *ngIf="form.get('nombre')?.errors?.['required']">
+              Este campo es obligatorio.
+            </div>
+            <div class="invalid-feedback" *ngIf="form.get('nombre')?.errors?.['minlength']">
+              El nombre debe tener al menos 3 caracteres.
+            </div>
+          </div>
+
+          <!-- Correo -->
+          <div class="mb-3">
+            <label class="form-label" for="correo">Correo electrónico</label>
+            <input
+              type="email"
+              formControlName="correo"
+              class="form-control"
+              [class.is-invalid]="form.get('correo')?.touched && form.get('correo')?.invalid"
+            />
+
+            <div class="invalid-feedback" *ngIf="form.get('correo')?.errors?.['required']">
+              Este campo es obligatorio.
+            </div>
+            <div class="invalid-feedback" *ngIf="form.get('correo')?.errors?.['email']">
+              Ingresa un correo válido.
+            </div>
+          </div>
+
+          <!-- Mensaje -->
+          <div class="mb-3">
+            <label class="form-label" for="mensaje">Mensaje</label>
+            <textarea
+              rows="4"
+              formControlName="mensaje"
+              class="form-control"
+              [class.is-invalid]="form.get('mensaje')?.touched && form.get('mensaje')?.invalid"
+            ></textarea>
+
+            <div class="invalid-feedback" *ngIf="form.get('mensaje')?.errors?.['required']">
+              Este campo es obligatorio.
+            </div>
+
+            <div class="invalid-feedback" *ngIf="form.get('mensaje')?.errors?.['minlength']">
+              Tu mensaje debe tener al menos 10 caracteres.
+            </div>
+          </div>
+
+          <button type="submit" class="btn send-btn w-100">Enviar mensaje</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 📍 INFORMACIÓN DE CONTACTO -->
+    <div class="col-lg-6">
+      <div class="info-card">
+        <h3>Información de contacto</h3>
+
+        <p>
+          <strong>📍 Dirección:</strong><br />
+          Multicentro - Santa Clara - Ate<br />
+          Tiendas N°05-393
+        </p>
+
+        <p><strong>📞 Teléfono:</strong> +51 923123890</p>
+        <p><strong>📧 Correo:</strong> MamboClothing@gmail.com</p>
+
+        <h5 class="mt-4">Síguenos</h5>
+        <div class="socials">
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-tiktok"></i></a>
+        </div>
+
+        <!-- MAPA -->
+        <div class="map-container mt-4">
+          <iframe
+            src="https://www.google.com/maps?q=Multicentro+Santa+Clara+Ate&output=embed"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

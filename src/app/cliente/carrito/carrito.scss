@@ -1,0 +1,73 @@
+/* ---------- OFFCANVAS / CART ---------- */
+.offcanvas {
+  background: #050506;
+  color: var(--white);
+  border-left: 2px solid rgb(245 197 24 / 25%);
+}
+
+.offcanvas .offcanvas-header {
+  border-bottom: 1px solid rgb(255 255 255 / 3%);
+}
+
+/* cuerpo del offcanvas */
+.offcanvas-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-item {
+  display: flex;
+  gap: .75rem;
+  align-items: flex-start;
+  padding: .85rem 0;
+  border-bottom: 1px solid rgb(255 255 255 / 3%);
+}
+
+.cart-item img {
+  width: 74px;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cart-info h6 {
+  margin: 0;
+  font-weight: 800;
+  font-size: .95rem;
+}
+
+.cart-info p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.qty-control {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+  margin-top: .45rem;
+}
+
+.qty-control button {
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 4%);
+  color: var(--white);
+  padding: .25rem .5rem;
+  border-radius: 6px;
+}
+
+.subtotal {
+  font-weight: 900;
+  color: var(--white);
+}
+
+.remove-btn {
+  background: #ff3b3b;
+  border: 0;
+  color: #fff;
+  padding: .35rem .6rem;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-left: auto;
+}

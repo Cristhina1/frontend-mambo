@@ -1,0 +1,13 @@
+<div class="paso-header">
+  <div class="paso" [class.activo]="paso === 1" (click)="seleccionarPaso(1)">
+    <span class="num">1</span> Datos personales
+  </div>
+
+  <div class="paso" [class.activo]="paso === 2" (click)="seleccionarPaso(2)">
+    <span class="num">2</span> Tipo de despacho
+  </div>
+
+  <div class="paso" [class.activo]="paso === 3" (click)="seleccionarPaso(3)">
+    <span class="num">3</span> Método de pago
+  </div>
+</div>
