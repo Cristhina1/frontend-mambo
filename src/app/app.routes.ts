@@ -20,6 +20,7 @@ import { ReporteComponent } from './admin/reporte/reporte.component';
 import { VendedoresComponent } from './admin/vendedores/vendedores.component';
 import { ClienteLayout } from './layout/layout-cliente/layout-cliente.component';
 import { AdminLayoutComponent } from './admin/layout/layout-admin/layout-admin.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
   // RUTAS DE ADMIN
@@ -37,8 +38,8 @@ export const routes: Routes = [
       { path: 'vendedores', component: VendedoresComponent },
     ]
   },
-
-   // RUTAS DE CLIENTE (PÚBLICAS)
+  { path: 'login', component: LoginComponent },
+   // RUTAS DE CLIENTE
   {
     path: '',
     component: ClienteLayout,
@@ -49,7 +50,7 @@ export const routes: Routes = [
       { path: 'historial', component: HistorialCompraComponent },
       { path: 'contactanos', component: ContactanosComponent },
 
-      // CHECKOUT también usa layout cliente
+      // CHECKOUT
       {
         path: 'checkout',
         component: CheckoutLayoutComponent,

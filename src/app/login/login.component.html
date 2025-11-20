@@ -1,0 +1,42 @@
+<div class="login-container">
+  <div class="card">
+    <a class="brand" routerLink="/">Mambo</a>
+    <h2>Iniciar sesión</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+      <div class="field">
+        <label for="correo">Correo</label>
+        <input type="email" formControlName="email" placeholder="tucorreo@ejemplo.com" />
+        <p class="error" *ngIf="email?.touched && email?.invalid">
+          <span *ngIf="email?.errors?.['required']">El correo es obligatorio.</span>
+          <span *ngIf="email?.errors?.['email']">Formato inválido.</span>
+        </p>
+      </div>
+
+      <div class="field">
+        <label for="">Contraseña</label>
+        <input type="password" formControlName="password" placeholder="********" />
+        <p class="error" *ngIf="password?.touched && password?.invalid">
+          <span *ngIf="password?.errors?.['required']">La contraseña es obligatoria.</span>
+          <span *ngIf="password?.errors?.['minlength']">Mínimo 6 caracteres.</span>
+        </p>
+      </div>
+
+      <div class="actions">
+        <label class="remember">
+          <input type="checkbox" formControlName="remember" /> Recuérdame
+        </label>
+
+        <button type="submit" [disabled]="form.invalid">
+          Entrar
+        </button>
+      </div>
+
+      <p class="small">
+        ¿No tienes cuenta? <a routerLink="/registro">Regístrate</a>
+      </p>
+
+    </form>
+  </div>
+</div>
