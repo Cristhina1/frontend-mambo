@@ -1,5 +1,8 @@
 <div class="site-container">
+
   <div class="hero" role="banner" aria-label="Banner principal">
+    <img src="assets/img/banner.jpg" alt="Banner de moda" class="hero-img" />
+
     <h1>Encuentra tu estilo</h1>
   </div>
 
@@ -47,10 +50,10 @@
 
       <div class="products-grid">
         <div class="card-product" *ngFor="let producto of productosFiltrados">
-         <div class="media">
-  <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
-</div>
 
+          <div class="media">
+            <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
+          </div>
 
           <div class="body">
             <div>
@@ -72,6 +75,7 @@
               </button>
             </div>
           </div>
+
         </div>
       </div>
 
@@ -102,15 +106,18 @@
           target="_blank"
           rel="noopener"
           class="muted"
-          >Ver en Google Maps →</a
         >
+          Ver en Google Maps →
+        </a>
       </div>
+
       <div class="col-md-6">
         <h6>Contacto</h6>
         <p>
-          <i class="bi bi-telephone"></i> +51 923123890<br /><i class="bi bi-envelope"></i>
-          MamboClothing@gmail.com
+          <i class="bi bi-telephone"></i> +51 923123890<br />
+          <i class="bi bi-envelope"></i> MamboClothing@gmail.com
         </p>
+
         <div style="margin-top: 0.5rem">
           <a class="muted me-3" href="#"><i class="bi bi-facebook fs-4"></i></a>
           <a class="muted me-3" href="#"><i class="bi bi-instagram fs-4"></i></a>
