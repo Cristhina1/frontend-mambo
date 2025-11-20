@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CarritoComponent } from '../carrito/carrito';
 import { CarritoService } from '../../services/carrito.service';
+import { ProductService, Producto } from '../../services/product';
 
 @Component({
   selector: 'app-lista-productos',
@@ -11,22 +12,47 @@ import { CarritoService } from '../../services/carrito.service';
   templateUrl: './lista-productos.html',
   styleUrls: ['./lista-productos.scss']
 })
-export class ListaProductosComponent {
+export class ListaProductosComponent implements OnInit {
 
-  productos = [
-    { id: 1, nombre: "Gorro", precio: 200, categoria: "Gorro", imagen: "../../assets/img/p1.png", stock: 14 },
-    { id: 2, nombre: "Overside Polera", precio: 120, categoria: "Polera", imagen: "assets/img/p2.png", stock: 10 },
-  ];
-
-  productosFiltrados = [...this.productos];
+  productos: Producto[] = [];
+  productosFiltrados: Producto[] = [];
 
   minPrice: number | null = null;
   maxPrice: number | null = null;
   searchTerm: string = '';
 
-  constructor(private carritoService: CarritoService) {}
+  constructor(
+    private carritoService: CarritoService,
+    private productService: ProductService
+  ) {}
 
-  agregarAlCarrito(producto: any) {
+  ngOnInit() {
+    this.cargarProductos();
+  }
+
+  // 🔥 CORREGIDO → Mapea imagenUrl correctamente
+  cargarProductos() {
+    this.productService.getProductos().subscribe({
+      next: (data: any[]) => {
+        this.productos = data.map(p => ({
+          id: p.id,
+          nombre: p.nombre,
+          precio: p.precio,
+          categoria: p.categoria,
+          descripcion: p.descripcion,
+          imagenUrl: p.imagenUrl, // 👈 CAMBIO IMPORTANTE
+          stock: p.stock
+        }));
+
+        this.productosFiltrados = [...this.productos];
+
+        console.log("Productos desde API:", this.productos);
+      },
+      error: (err) => console.error("Error al cargar productos:", err)
+    });
+  }
+
+  agregarAlCarrito(producto: Producto) {
     this.carritoService.agregarProducto(producto);
 
     setTimeout(() => {
@@ -38,15 +64,16 @@ export class ListaProductosComponent {
     });
   }
 
+  // FILTROS
   filterCategory(categoria: string) {
     this.productosFiltrados = this.productos.filter(p => p.categoria === categoria);
   }
 
   applyFilters() {
     this.productosFiltrados = this.productos.filter(p => {
-      const passesMin = this.minPrice === null || p.precio >= this.minPrice;
-      const passesMax = this.maxPrice === null || p.precio <= this.maxPrice;
-      return passesMin && passesMax;
+      const min = this.minPrice === null || p.precio >= this.minPrice;
+      const max = this.maxPrice === null || p.precio <= this.maxPrice;
+      return min && max;
     });
   }
 

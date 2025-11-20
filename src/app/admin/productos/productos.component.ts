@@ -1,15 +1,7 @@
-import { Component } from '@angular/core';
+import { ProductService, Producto } from './../../services/product';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Producto {
-  id: number;
-  nombre: string;
-  categoria: string;
-  precio: number;
-  stock: number;
-  imagenUrl?: string;
-}
 
 @Component({
   selector: 'app-productos',
@@ -18,18 +10,42 @@ interface Producto {
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.scss']
 })
-export class ProductosComponent {
-  productos: Producto[] = [
-    { id: 1, nombre: 'Camiseta Hombre', categoria: 'Ropa', precio: 49.9, stock: 20, imagenUrl: 'https://via.placeholder.com/70' },
-    { id: 2, nombre: 'Pantalón Mujer', categoria: 'Ropa', precio: 89.5, stock: 5 },
-    { id: 3, nombre: 'Zapatillas', categoria: 'Calzado', precio: 199.9, stock: 0 }
-  ];
+export class ProductosComponent implements OnInit {
 
+  productos: Producto[] = [];
   buscador = '';
   filtroStock = 'todos';
 
-  nuevoProducto: Producto = { id: 0, nombre: '', categoria: '', precio: 0, stock: 0 };
+  nuevoProducto: Producto = {
+    id: 0,
+    nombre: '',
+    categoria: '',
+    precio: 0,
+    stock: 0,
+    descripcion: '',
+    imagenUrl: ''
+  };
 
+  constructor(private productService: ProductService) {}
+
+  ngOnInit(): void {
+    this.cargarProductos();
+  }
+
+  // 👉 Método reutilizable
+  cargarProductos() {
+    this.productService.getProductos().subscribe({
+      next: (data) => {
+        this.productos = data;
+        console.log("Productos cargados:", data);
+      },
+      error: (err) => console.error("Error al obtener productos:", err)
+    });
+  }
+
+  // -------------------------
+  // FILTRO
+  // -------------------------
   get productosFiltrados(): Producto[] {
     return this.productos.filter(p => {
       const coincideNombre = p.nombre.toLowerCase().includes(this.buscador.toLowerCase());
@@ -45,14 +61,41 @@ export class ProductosComponent {
     return 'en-stock';
   }
 
+  // -------------------------
+  // AGREGAR
+  // -------------------------
   agregarProducto() {
-    if (this.nuevoProducto.nombre.trim() === '') return;
-    const nuevo: Producto = { ...this.nuevoProducto, id: this.productos.length + 1 };
-    this.productos.push(nuevo);
-    this.nuevoProducto = { id: 0, nombre: '', categoria: '', precio: 0, stock: 0 };
+    if (!this.nuevoProducto.nombre.trim()) return;
+
+    this.productService.addProducto(this.nuevoProducto).subscribe({
+      next: (nuevo) => {
+        console.log("Producto agregado desde API:", nuevo);
+        this.cargarProductos(); // refrescar tabla
+      }
+    });
+
+    // Reset formulario
+    this.nuevoProducto = {
+      id: 0,
+      nombre: '',
+      categoria: '',
+      precio: 0,
+      stock: 0,
+      descripcion: '',
+      imagenUrl: ''
+    };
   }
 
+  // -------------------------
+  // ELIMINAR
+  // -------------------------
   eliminarProducto(id: number) {
-    this.productos = this.productos.filter(p => p.id !== id);
+    this.productService.deleteProducto(id).subscribe({
+      next: () => {
+        console.log("Producto eliminado:", id);
+        this.cargarProductos(); // refrescar tabla
+      }
+    });
   }
+
 }
