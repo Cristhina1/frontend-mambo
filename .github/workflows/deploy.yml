@@ -30,6 +30,12 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Instalar dependencias
+        run: npm install --legacy-peer-deps
+
+      - name: Build Angular App para Lighthouse
+        run: npm run build -- --configuration production --base-href "/"
+
       - name: Instalar HTMLHint
         run: npm install -g htmlhint
 
@@ -42,9 +48,8 @@ jobs:
       - name: Instalar y ejecutar Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.15.x
-          echo "Auditar con Lighthouse CI (perf, accessibility, best-practices)..."
+          echo "Auditar con Lighthouse CI..."
           lhci autorun \
-            --upload.target=temporary-public-storage \
             --collect.staticDistDir=dist/frontend/browser \
             --collect.url=/index.html \
             --assert.assertions.accessibility=warn \
@@ -68,7 +73,7 @@ jobs:
       - name: Instalar dependencias
         run: npm install --legacy-peer-deps
 
-      - name: Build Angular App
+      - name: Build Angular App para GitHub Pages
         run: npm run build -- --configuration production --base-href "/frontend-mambo/"
 
       - name: Setup GitHub Pages
