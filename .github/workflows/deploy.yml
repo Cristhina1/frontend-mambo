@@ -21,8 +21,6 @@ jobs:
   ci:
     name: Pruebas y validación
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,14 +39,15 @@ jobs:
           htmlhint dist/frontend/browser/index.html --rules "tag-pair,attr-value-double-quotes,id-unique,doctype-first"
           echo "HTML válido"
 
-      - name: Instalar y ejecutar Lighthouse CI
+      - name: Instalar Lighthouse CI
+        run: npm install -g @lhci/cli@0.15.x http-server
+
+      - name: Ejecutar Lighthouse CI
         run: |
-          npm install -g @lhci/cli@0.15.x
-          echo "Auditar con Lighthouse CI (perf, accessibility, best-practices)..."
+          echo "Auditar con Lighthouse CI..."
           lhci autorun \
-            --upload.target=temporary-public-storage \
-            --collect.staticDistDir=dist/frontend/browser \
-            --collect.url=/index.html \
+            --collect.startServerCommand="npx http-server ./dist/frontend/browser -p 8080" \
+            --collect.url=http://localhost:8080/index.html \
             --assert.assertions.accessibility=warn \
             --assert.assertions.performance=warn \
             --assert.assertions['best-practices']=warn
@@ -58,6 +57,8 @@ jobs:
     needs: ci
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
     steps:
       - name: Checkout
         uses: actions/checkout@v4
