@@ -1,6 +1,7 @@
 # .github/workflows/ci-cd.yml
 name: CI/CD Pipeline
 
+# Dispara el workflow en push, pull_request a main y manualmente
 on:
   push:
     branches: [ main ]
@@ -8,43 +9,97 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# Permisos necesarios para Pages y contenidos
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-
+# Evita que se ejecuten múltiples jobs de despliegue al mismo tiempo
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
 jobs:
-  build:
+  # Job de pruebas y validación
+  ci:
+    name: Pruebas y validación
     runs-on: ubuntu-latest
     steps:
+      # Obtener el código
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Configurar Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Instalar dependencias
-        run: npm install
+      # Instalar HTMLHint globalmente
+      - name: Instalar HTMLHint
+        run: npm install -g htmlhint
 
-      - name: build app
-        run: npm run build
+      # Validar HTML del build
+      - name: Validar HTML
+        run: |
+          echo "Ejecutando HTMLHint..."
+          htmlhint dist/frontend/browser/index.html --rules "tag-pair,attr-value-double-quotes,id-unique,doctype-first"
+          echo "HTML válido"
 
-      - name: Artifactos de subida
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: dist/frontend-mambo/browser
-  deploy:
-    needs: build
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+      # Instalar Lighthouse CI y servidor HTTP simple
+      - name: Instalar Lighthouse CI
+        run: npm install -g @lhci/cli@0.15.x http-server
+
+      # Ejecutar auditoría con Lighthouse CI
+      - name: Ejecutar Lighthouse CI
+        run: |
+          echo "Auditar con Lighthouse CI..."
+          lhci autorun \
+            --collect.startServerCommand="npx http-server ./dist/frontend/browser -p 8080" \
+            --collect.url=http://localhost:8080/index.html \
+            --assert.assertions.accessibility=warn \
+            --assert.assertions.performance=warn \
+            --assert.assertions['best-practices']=warn
+
+  # Job de despliegue a GitHub Pages
+  cd:
+    name: Despliegue a GitHub Pages
+    needs: ci
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
     steps:
-      - name: Deploy to GitHub Pages
-        id: deploy
-        uses: actions/deploy-pages@v1
+      # Obtener el código
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Instalar dependencias
+      - name: Instalar dependencias
+        run: npm install --legacy-peer-deps
+
+      # Generar build de Angular
+      - name: Build Angular App
+        run: npm run build -- --configuration production --base-href "/frontend-mambo/"
+
+      # Configurar GitHub Pages
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # Subir artefacto (build) a GitHub Pages
+      - name: Subir artefacto
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist/frontend-mambo/browser
+
+      # Desplegar en GitHub Pages
+      - name: Deploy a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
