@@ -20,15 +20,15 @@ jobs:
           node-version: "22"
 
       - name: Instalar dependencias del frontend
-        working-directory: ./frontend-mambo
+        working-directory: ./
         run: npm install --legacy-peer-deps
 
       # ---- VALIDAR HTML ----
       - name: Lint HTML
-        working-directory: ./frontend-mambo
+        working-directory: ./
         run: npx htmlhint --config .htmlhintrc "src/app/**/**/*.html" "src/**/*.html"
 
       # ---- VALIDAR SCSS ----
       - name: Lint SCSS
-        working-directory: ./frontend-mambo
+        working-directory: ./
         run: npm run lint:scss
