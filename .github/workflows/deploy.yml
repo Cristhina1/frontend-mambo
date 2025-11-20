@@ -86,7 +86,7 @@ jobs:
     - name: Subir artefacto
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./dist/frontend/browser
+        path: dist/frontend/browser
 
     - name: Deploy a GitHub Pages
       id: deployment
