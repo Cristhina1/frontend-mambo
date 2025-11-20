@@ -409,3 +409,102 @@ footer {
   border-radius: 8px;
   font-weight: 700;
 }
+
+// ========================================
+// FEATURED COLLECTION SECTION
+// ========================================
+.featured-collection-section {
+  padding: 5rem 0;
+  background-color: #0b0b0d; /* Un color de fondo más oscuro para contraste */
+}
+
+.product-card {
+  background-color: var(--dark-card);
+  border: 1px solid rgb(245 197 24 / 10%);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgb(0 0 0 / 50%);
+  }
+}
+
+.product-image {
+  height: 300px; /* Altura de la imagen */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border-bottom: 1px solid rgb(245 197 24 / 5%);
+}
+
+.product-tag {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: #ff3b3b;
+  color: var(--white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.accent-tag {
+  background-color: var(--accent) !important;
+  color: #050506 !important;
+}
+
+.product-details {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-name {
+  font-family: Poppins, sans-serif;
+  font-weight: 800;
+  color: var(--white);
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-price {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  margin-top: auto; /* Empuja el precio y el botón hacia abajo */
+}
+
+.add-btn {
+  background-color: var(--accent);
+  color: #050506;
+  border: none;
+  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  transition: background-color 0.2s;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  
+  &:hover {
+    background-color: var(--white);
+    color: #050506;
+  }
+}
+
+.view-all-btn {
+  margin-top: 2rem;
+  display: inline-block;
+}
