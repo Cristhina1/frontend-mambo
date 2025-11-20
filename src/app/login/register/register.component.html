@@ -1,0 +1,69 @@
+<div class="login-container">
+  <div class="card">
+    <a class="brand" routerLink="/">Mambo</a>
+    <h2>Crear cuenta</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+      <div class="field">
+        <label>Tipo de documento</label>
+        <select formControlName="tipoDocumento">
+          <option value="">Seleccione</option>
+          <option value="DNI">DNI</option>
+          <option value="CE">Carnet Extranjería</option>
+        </select>
+        <p class="error" *ngIf="tipoDocumento?.touched && tipoDocumento?.invalid">
+          El tipo de documento es obligatorio.
+        </p>
+      </div>
+
+      <div class="field">
+        <label>Número de documento</label>
+        <input type="text" formControlName="numeroDocumento" placeholder="12345678" />
+        <p class="error" *ngIf="numeroDocumento?.touched && numeroDocumento?.invalid">
+          <span *ngIf="numeroDocumento?.errors?.['required']">Obligatorio.</span>
+          <span *ngIf="numeroDocumento?.errors?.['minlength']">Mínimo 8 dígitos.</span>
+        </p>
+      </div>
+
+      <div class="field">
+        <label>Nombre completo</label>
+        <input type="text" formControlName="nombreCompleto" placeholder="Tu nombre completo" />
+        <p class="error" *ngIf="nombreCompleto?.touched && nombreCompleto?.invalid">
+          Obligatorio.
+        </p>
+      </div>
+
+      <div class="field">
+        <label>Correo</label>
+        <input type="email" formControlName="email" placeholder="tucorreo@ejemplo.com" />
+        <p class="error" *ngIf="email?.touched && email?.invalid">
+          <span *ngIf="email?.errors?.['required']">El correo es obligatorio.</span>
+          <span *ngIf="email?.errors?.['email']">Formato inválido.</span>
+        </p>
+      </div>
+
+      <div class="field">
+        <label>Contraseña</label>
+        <input type="password" formControlName="password" placeholder="********" />
+        <p class="error" *ngIf="password?.touched && password?.invalid">
+          <span *ngIf="password?.errors?.['required']">Obligatoria.</span>
+          <span *ngIf="password?.errors?.['minlength']">Mínimo 6 caracteres.</span>
+        </p>
+      </div>
+
+      <div class="actions">
+        <button type="submit" [disabled]="form.invalid">
+          Crear cuenta
+        </button>
+      </div>
+
+      <p class="small">
+        ¿Ya tienes cuenta? <a routerLink="/login">Iniciar sesión</a>
+      </p>
+      <button type="button" class="btn-back" routerLink="/productos">
+  ← Regresar
+</button>
+    </form>
+  </div>
+</div>

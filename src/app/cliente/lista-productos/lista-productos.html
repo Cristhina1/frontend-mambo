@@ -47,9 +47,10 @@
 
       <div class="products-grid">
         <div class="card-product" *ngFor="let producto of productosFiltrados">
-          <div class="media">
-            <img [src]="producto.imagen" [alt]="producto.nombre" />
-          </div>
+         <div class="media">
+  <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
+</div>
+
 
           <div class="body">
             <div>

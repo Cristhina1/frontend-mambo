@@ -101,38 +101,92 @@
 </div>
 
 <!-- Modal nuevo producto -->
+<!-- Modal nuevo producto -->
 <div class="modal fade" id="modalNuevoProducto" tabindex="-1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form (ngSubmit)="agregarProducto()">
         <div class="modal-header">
           <h5 class="modal-title"><i class="bi bi-box me-2"></i> Nuevo Producto</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
-            <span class="visually-hidden">Cerrar</span>
-          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
         <div class="modal-body">
           <div class="row g-3">
+            <!-- Nombre -->
             <div class="col-md-6">
-              <label class="form-label" for="nombre">Nombre *</label>
-              <input type="text" class="form-control" [(ngModel)]="nuevoProducto.nombre" name="nombre" required />
+              <label class="form-label">Nombre *</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="nuevoProducto.nombre"
+                name="nombre"
+                required
+              />
             </div>
+
+            <!-- Categoría -->
             <div class="col-md-6">
-              <label class="form-label" for="categoria">Categoría *</label>
-              <input type="text" class="form-control" [(ngModel)]="nuevoProducto.categoria" name="categoria" required />
+              <label class="form-label">Categoría *</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="nuevoProducto.categoria"
+                name="categoria"
+                required
+              />
             </div>
+
+            <!-- Precio -->
             <div class="col-md-6">
-              <label class="form-label" for="precio">Precio *</label>
+              <label class="form-label">Precio *</label>
               <div class="input-group">
                 <span class="input-group-text">S/</span>
-                <input type="number" class="form-control" [(ngModel)]="nuevoProducto.precio" name="precio" required />
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="nuevoProducto.precio"
+                  name="precio"
+                  required
+                />
               </div>
             </div>
+
+            <!-- Stock -->
             <div class="col-md-6">
-              <label class="form-label" for="stock">Stock *</label>
-              <input type="number" class="form-control" [(ngModel)]="nuevoProducto.stock" name="stock" required />
+              <label class="form-label">Stock *</label>
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="nuevoProducto.stock"
+                name="stock"
+                required
+              />
             </div>
+
+            <!-- Descripción -->
+            <div class="col-12">
+              <label class="form-label">Descripción</label>
+              <textarea
+                class="form-control"
+                rows="3"
+                [(ngModel)]="nuevoProducto.descripcion"
+                name="descripcion"
+              ></textarea>
+            </div>
+
+            <!-- Imagen URL -->
+            <div class="col-12">
+              <label class="form-label">URL de imagen</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="https://..."
+                [(ngModel)]="nuevoProducto.imagenUrl"
+                name="imagenUrl"
+              />
+            </div>
+
           </div>
         </div>
 
@@ -144,3 +198,4 @@
     </div>
   </div>
 </div>
+
