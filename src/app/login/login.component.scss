@@ -3,24 +3,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f7f7f7;
+  background: rgb(247 247 247);
   padding: 2rem;
-  font-family: "Inter", sans-serif;
+  font-family: Inter, sans-serif;
 }
 
 .card {
   width: 100%;
   max-width: 420px;
-  background: #fff;
+  background: rgb(255 255 255);
   padding: 2rem;
   border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(23, 23, 23, 0.07);
+  box-shadow: 0 6px 20px rgb(23 23 23 / 7%);
 }
 
 .brand {
   font-weight: 700;
   text-decoration: none;
-  color: #111;
+  color: rgb(17 17 17);
   display: inline-block;
   margin-bottom: 0.5rem;
 }
@@ -37,25 +37,25 @@ h2 {
     display: block;
     margin-bottom: 0.3rem;
     font-size: 0.9rem;
-    color: #444;
+    color: rgb(68 68 68);
   }
 
   input {
     width: 100%;
     padding: 0.65rem 0.75rem;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid rgb(221 221 221);
     font-size: 0.95rem;
 
     &:focus {
       outline: none;
-      border-color: #7b7bff;
-      box-shadow: 0 0 0 3px rgba(100, 100, 255, 0.15);
+      border-color: rgb(123 123 255);
+      box-shadow: 0 0 0 3px rgb(100 100 255 / 15%);
     }
   }
 
   .error {
-    color: #e63946;
+    color: rgb(230 57 70);
     font-size: 0.8rem;
     margin-top: 0.3rem;
   }
@@ -74,7 +74,7 @@ h2 {
   }
 
   button {
-    background: #222;
+    background: rgb(34 34 34);
     color: white;
     padding: 0.55rem 1rem;
     border-radius: 8px;
@@ -84,7 +84,7 @@ h2 {
     transition: 0.2s ease;
 
     &:hover {
-      background: #000;
+      background: rgb(0 0 0);
     }
 
     &:disabled {
@@ -99,7 +99,7 @@ h2 {
   font-size: 0.9rem;
 
   a {
-    color: #0f62fe;
+    color: rgb(15 98 254);
     text-decoration: none;
   }
 }
