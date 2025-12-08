@@ -1,56 +1,83 @@
-import { ProductService, Producto } from './../../services/product';
+// productos.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProductoService } from './../../services/producto.service';
+import { Producto } from '../../models/producto.model';
 
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.scss']
 })
 export class ProductosComponent implements OnInit {
 
   productos: Producto[] = [];
-  buscador = '';
-  filtroStock = 'todos';
 
-  nuevoProducto: Producto = {
-    id: 0,
-    nombre: '',
-    categoria: '',
-    precio: 0,
-    stock: 0,
-    descripcion: '',
-    imagenUrl: ''
-  };
+  // Formulario reactivo para nuevo producto
+  productoForm!: FormGroup;
 
-  constructor(private productService: ProductService) {}
+  // Formulario reactivo para filtros
+  filtrosForm!: FormGroup;
+
+  constructor(
+    private productoService: ProductoService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
+    this.crearFormularioProducto();
+    this.crearFormularioFiltros();
     this.cargarProductos();
   }
 
-  // 👉 Método reutilizable
-  cargarProductos() {
-    this.productService.getProductos().subscribe({
-      next: (data) => {
-        this.productos = data;
-        console.log("Productos cargados:", data);
-      },
-      error: (err) => console.error("Error al obtener productos:", err)
+  // -------------------------
+  // Formulario Nuevo Producto
+  // -------------------------
+  crearFormularioProducto() {
+    this.productoForm = this.fb.group({
+      nombre: ['', Validators.required],
+      categoria: ['', Validators.required],
+      precio: [0, [Validators.required, Validators.min(0)]],
+      stock: [0, [Validators.required, Validators.min(0)]],
+      descripcion: [''],
+      imagenUrl: ['']
     });
   }
 
   // -------------------------
-  // FILTRO
+  // Formulario Filtros
+  // -------------------------
+  crearFormularioFiltros() {
+    this.filtrosForm = this.fb.group({
+      buscador: [''],
+      filtroStock: ['todos']
+    });
+  }
+
+  // -------------------------
+  // Cargar Productos
+  // -------------------------
+  cargarProductos() {
+    this.productoService.getProductos().subscribe({
+      next: data => this.productos = data,
+      error: err => console.error("Error al obtener productos:", err)
+    });
+  }
+
+  // -------------------------
+  // Filtro Productos
   // -------------------------
   get productosFiltrados(): Producto[] {
+    const buscador = this.filtrosForm.get('buscador')?.value.toLowerCase() || '';
+    const filtroStock = this.filtrosForm.get('filtroStock')?.value || 'todos';
+
     return this.productos.filter(p => {
-      const coincideNombre = p.nombre.toLowerCase().includes(this.buscador.toLowerCase());
+      const coincideNombre = p.nombre.toLowerCase().includes(buscador);
       const estado = this.getEstado(p.stock);
-      const coincideStock = this.filtroStock === 'todos' || estado === this.filtroStock;
+      const coincideStock = filtroStock === 'todos' || estado === filtroStock;
       return coincideNombre && coincideStock;
     });
   }
@@ -62,39 +89,39 @@ export class ProductosComponent implements OnInit {
   }
 
   // -------------------------
-  // AGREGAR
+  // Agregar Producto
   // -------------------------
   agregarProducto() {
-    if (!this.nuevoProducto.nombre.trim()) return;
+    if (this.productoForm.invalid) {
+      this.productoForm.markAllAsTouched();
+      return;
+    }
 
-    this.productService.addProducto(this.nuevoProducto).subscribe({
-      next: (nuevo) => {
-        console.log("Producto agregado desde API:", nuevo);
-        this.cargarProductos(); // refrescar tabla
+    const nuevoProducto: Producto = this.productoForm.value;
+
+    this.productoService.createProducto(nuevoProducto).subscribe({
+      next: () => {
+        this.cargarProductos();
+        this.productoForm.reset({
+          nombre: '',
+          categoria: '',
+          precio: 0,
+          stock: 0,
+          descripcion: '',
+          imagenUrl: ''
+        });
       }
     });
-
-    // Reset formulario
-    this.nuevoProducto = {
-      id: 0,
-      nombre: '',
-      categoria: '',
-      precio: 0,
-      stock: 0,
-      descripcion: '',
-      imagenUrl: ''
-    };
   }
 
   // -------------------------
-  // ELIMINAR
+  // Eliminar Producto
   // -------------------------
   eliminarProducto(id: number) {
-    this.productService.deleteProducto(id).subscribe({
-      next: () => {
-        console.log("Producto eliminado:", id);
-        this.cargarProductos(); // refrescar tabla
-      }
+    if (!confirm('¿Eliminar producto?')) return;
+
+    this.productoService.deleteProducto(id).subscribe({
+      next: () => this.cargarProductos()
     });
   }
 

@@ -11,66 +11,41 @@
   </div>
 
   <!-- Buscador y filtro -->
-  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <div class="d-flex flex-wrap justify-content-between mb-3 gap-2" [formGroup]="filtrosForm">
     <div class="input-group w-auto">
       <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Buscar por nombre..."
-        [(ngModel)]="buscador"
-      />
+      <input type="text" class="form-control" placeholder="Buscar..." formControlName="buscador" />
     </div>
 
-    <div class="d-flex align-items-center gap-2">
-      <label class="fw-semibold text-secondary mb-0" for="">Filtrar por stock:</label>
-      <select class="form-select form-select-sm w-auto" [(ngModel)]="filtroStock">
-        <option value="todos">Todos</option>
-        <option value="sin-stock">Sin stock</option>
-        <option value="bajo-stock">Bajo stock</option>
-        <option value="en-stock">En stock</option>
-      </select>
-    </div>
+    <select class="form-select w-auto" formControlName="filtroStock">
+      <option value="todos">Todos</option>
+      <option value="sin-stock">Sin stock</option>
+      <option value="bajo-stock">Bajo stock</option>
+      <option value="en-stock">En stock</option>
+    </select>
   </div>
 
-  <!-- Tabla -->
+  <!-- Tabla de productos -->
   <div class="card shadow-sm border-0">
     <div class="card-header bg-white">
       <h5 class="mb-0"><i class="bi bi-table me-2"></i> Lista de Productos</h5>
     </div>
-
     <div class="card-body table-responsive">
       <table class="table table-hover align-middle">
         <thead class="table-light text-center">
           <tr>
             <th>ID</th>
-            <th>Imagen</th>
             <th>Nombre</th>
-            <th>Categoría</th>
             <th>Precio</th>
             <th>Stock</th>
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
-
         <tbody class="text-center">
           <tr *ngFor="let p of productosFiltrados">
             <td>{{ p.id }}</td>
-            <td>
-              <img
-                *ngIf="p.imagenUrl; else sinImg"
-                [src]="p.imagenUrl"
-                alt="imagen"
-                class="rounded shadow-sm"
-                style="width: 70px; height: 70px; object-fit: cover"
-              />
-              <ng-template #sinImg>
-                <span class="text-muted fst-italic">Sin imagen</span>
-              </ng-template>
-            </td>
             <td>{{ p.nombre }}</td>
-            <td>{{ p.categoria || 'Sin categoría' }}</td>
             <td>S/ {{ p.precio | number:'1.2-2' }}</td>
             <td>{{ p.stock }}</td>
             <td>
@@ -92,7 +67,7 @@
             </td>
           </tr>
           <tr *ngIf="productosFiltrados.length === 0">
-            <td colspan="8" class="text-muted">No se encontraron productos...</td>
+            <td colspan="6" class="text-muted">No se encontraron productos...</td>
           </tr>
         </tbody>
       </table>
@@ -100,12 +75,11 @@
   </div>
 </div>
 
-<!-- Modal nuevo producto -->
-<!-- Modal nuevo producto -->
+<!-- Modal Nuevo Producto -->
 <div class="modal fade" id="modalNuevoProducto" tabindex="-1">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form (ngSubmit)="agregarProducto()">
+      <form [formGroup]="productoForm" (ngSubmit)="agregarProducto()">
         <div class="modal-header">
           <h5 class="modal-title"><i class="bi bi-box me-2"></i> Nuevo Producto</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -113,80 +87,33 @@
 
         <div class="modal-body">
           <div class="row g-3">
-            <!-- Nombre -->
             <div class="col-md-6">
               <label class="form-label">Nombre *</label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="nuevoProducto.nombre"
-                name="nombre"
-                required
-              />
+              <input type="text" class="form-control" formControlName="nombre" />
             </div>
-
-            <!-- Categoría -->
             <div class="col-md-6">
               <label class="form-label">Categoría *</label>
-              <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="nuevoProducto.categoria"
-                name="categoria"
-                required
-              />
+              <input type="text" class="form-control" formControlName="categoria" />
             </div>
-
-            <!-- Precio -->
             <div class="col-md-6">
               <label class="form-label">Precio *</label>
               <div class="input-group">
                 <span class="input-group-text">S/</span>
-                <input
-                  type="number"
-                  class="form-control"
-                  [(ngModel)]="nuevoProducto.precio"
-                  name="precio"
-                  required
-                />
+                <input type="number" class="form-control" formControlName="precio" />
               </div>
             </div>
-
-            <!-- Stock -->
             <div class="col-md-6">
               <label class="form-label">Stock *</label>
-              <input
-                type="number"
-                class="form-control"
-                [(ngModel)]="nuevoProducto.stock"
-                name="stock"
-                required
-              />
+              <input type="number" class="form-control" formControlName="stock" />
             </div>
-
-            <!-- Descripción -->
             <div class="col-12">
               <label class="form-label">Descripción</label>
-              <textarea
-                class="form-control"
-                rows="3"
-                [(ngModel)]="nuevoProducto.descripcion"
-                name="descripcion"
-              ></textarea>
+              <textarea class="form-control" rows="3" formControlName="descripcion"></textarea>
             </div>
-
-            <!-- Imagen URL -->
             <div class="col-12">
               <label class="form-label">URL de imagen</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="https://..."
-                [(ngModel)]="nuevoProducto.imagenUrl"
-                name="imagenUrl"
-              />
+              <input type="text" class="form-control" formControlName="imagenUrl" />
             </div>
-
           </div>
         </div>
 
@@ -198,4 +125,3 @@
     </div>
   </div>
 </div>
-
