@@ -1,32 +1,35 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CheckoutService } from '../../services/checkout'; 
+import { PersonalData } from '../../services/checkout-data.model'; 
 
 @Component({
   selector: 'app-datos-personales',
   standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule
-  ],
+  imports: [ FormsModule, CommonModule ],
   templateUrl: './datos-personales.component.html',
   styleUrls: ['./datos-personales.component.scss']
 })
-export class DatosPersonalesComponent {
+export class DatosPersonalesComponent implements OnInit {
 
-  model = {
-    nombres: '',
-    apellidos: '',
-    email: '',
-    telefono: ''
-  };
+  model: PersonalData = { nombres: '', apellidos: '', email: '', telefono: '' };
+  @Output() nextStep = new EventEmitter<void>(); 
 
-  enviar(form: any) {
+  constructor(private checkoutService: CheckoutService) {} //INYECTADO
+
+  ngOnInit(): void {
+    this.model = this.checkoutService.getCurrentData().personal;
+  }
+
+  enviar(form: NgForm) {
     if (form.invalid) {
       form.control.markAllAsTouched();
       return;
     }
 
-    console.log('Datos enviados:', this.model);
+    this.checkoutService.setPersonalData(this.model); //GUARDADO TEMPORAL
+    console.log('Datos guardados en instancia temporal:', this.model);
+    this.nextStep.emit();
   }
 }

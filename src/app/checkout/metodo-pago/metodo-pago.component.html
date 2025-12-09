@@ -1,6 +1,6 @@
 <h2 class="titulo-paso">Método de pago</h2>
 
-<form #f="ngForm" (ngSubmit)="pagar()">
+<form #f="ngForm" (ngSubmit)="pagar(f)">
   <div class="opciones">
     <label class="opcion-card">
       <input type="radio" name="metodo" value="tarjeta" [(ngModel)]="model.metodo" />
