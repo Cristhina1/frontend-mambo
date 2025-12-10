@@ -41,7 +41,7 @@ export class ListaProductosComponent implements OnInit {
           precio: p.precio,
           categoriaNombre: p.categoriaNombre,
           descripcion: p.descripcion,
-          img: p.img,
+          img: p.img ?`http://localhost:8080${p.img}` : 'assets/no-image.png',
           stock: p.stock
         }));
 
