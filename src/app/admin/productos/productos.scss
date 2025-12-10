@@ -1,15 +1,26 @@
-h1 {
-  font-weight: 600;
-  color: #1e1e1e;
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
 }
 
-.badge {
-  padding: 0.45em 0.75em;
-  border-radius: 10px;
-  font-size: 0.85rem;
+.bg-danger { background: #dc2626 !important; }
+.bg-warning { background: #f59e0b !important; }
+.bg-success { background: #10b981 !important; }
+
+@media (max-width: 768px) {
+  .row > .col-md-4 {
+    width: 50% !important;
+  }
 }
 
-.table {
-  border-radius: 8px;
-  overflow: hidden;
+@media (max-width: 576px) {
+  .row > .col-md-4 {
+    width: 100% !important;
+  }
+
+  .card-body {
+    padding: 20px !important;
+  }
 }
+

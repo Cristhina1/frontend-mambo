@@ -9,7 +9,7 @@ import { Producto } from '../models/producto.model';
 export class ProductoService {
 
   // Asegúrate de que esta URL coincida con tu @RequestMapping del Controller en Java
-  private apiUrl = 'http://localhost:8080/api/productos';
+  private apiUrl = 'http://localhost:8080/lista/productos';
 
   constructor(private http: HttpClient) { }
 

@@ -1,15 +1,108 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/admin/home">Mambo Admin</a>
-    <div class="navbar-nav">
-      <a class="nav-link" routerLink="/admin/home">Dashboard</a>
-      <a class="nav-link" routerLink="/admin/clientes">Clientes</a>
-      <a class="nav-link" routerLink="/admin/boleta">Boleta</a>
-      <a class="nav-link" routerLink="/admin/list-usuarios">Vendedores</a>
-      <a class="nav-link" routerLink="/admin/productos">Productos</a>
-      <a class="nav-link" routerLink="/admin/reporte">Reportes</a>
-      <a class="nav-link" routerLink="/admin/factura">Factura</a>
-      <a class="nav-link" routerLink="/admin/list-usuarios">Lista de Usuarios</a>
+<aside class="sidebar" style="background: #111827; width: 260px; min-height: 100vh;
+          position: fixed; left: 0; top: 0; z-index: 1000;">
+
+    <!-- Logo Mambo -->
+    <div class="sidebar-header py-5" style="padding-left: 25px; border-bottom: 1px solid #374151;">
+      <div class="d-flex align-items-center">
+        <div style="width: 40px; height: 40px; background: white; border-radius: 10px;
+                    display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+          <span style="color: #111827; font-size: 1.2rem; font-weight: 800;">M</span>
+        </div>
+        <div>
+          <h5 style="color: white; margin: 0; font-weight: 700; font-size: 1.3rem;">Mambo</h5>
+          <small style="color: #9ca3af; font-size: 0.85rem;">Admin Panel</small>
+        </div>
+      </div>
     </div>
-  </div>
-</nav>
+
+    <!-- Menú Principal -->
+    <nav class="sidebar-menu py-6">
+      <ul style="list-style: none; padding: 0; margin: 0;">
+
+        <li class="menu-item">
+          <a class="menu-link" routerLink="/admin/home" routerLinkActive="active"
+             style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
+                    padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
+            <i class="bi bi-speedometer2 me-4" style="width: 20px; color: white;"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a class="menu-link" routerLink="/admin/clientes" routerLinkActive="active"
+             style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
+                    padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
+            <i class="bi bi-people me-4" style="width: 20px; color: white;"></i>
+            <span>Clientes</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a class="menu-link" routerLink="/admin/boleta" routerLinkActive="active"
+             style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
+                    padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
+            <i class="bi bi-receipt me-4" style="width: 20px; color: white;"></i>
+            <span>Boleta</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a class="menu-link" routerLink="/admin/list-usuarios" routerLinkActive="active"
+             style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
+                    padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
+            <i class="bi bi-person-badge me-4" style="width: 20px; color: white;"></i>
+            <span>Vendedores</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a class="menu-link" routerLink="/admin/productos" routerLinkActive="active"
+             style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
+                    padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
+            <i class="bi bi-box-seam me-4" style="width: 20px; color: white;"></i>
+            <span>Productos</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a class="menu-link" routerLink="/admin/reporte" routerLinkActive="active"
+             style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
+                    padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
+            <i class="bi bi-graph-up me-4" style="width: 20px; color: white;"></i>
+            <span>Reportes</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a class="menu-link" routerLink="/admin/factura" routerLinkActive="active"
+             style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
+                    padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
+            <i class="bi bi-file-earmark-text me-4" style="width: 20px; color: white;"></i>
+            <span>Factura</span>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a class="menu-link" routerLink="/admin/list-usuarios" routerLinkActive="active"
+             style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
+                    padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
+            <i class="bi bi-person-lines-fill me-4" style="width: 20px; color: white;"></i>
+            <span>Lista de Usuarios</span>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
+
+    <!-- Cerrar Sesión -->
+    <div class="sidebar-footer" style="position: absolute; bottom: 0; width: 100%; padding: 25px;">
+      <button class="btn w-100 d-flex align-items-center justify-content-center"
+              (click)="logout()"
+              style="background: #374151; color: white; border: none; padding: 12px;
+                     border-radius: 8px; font-weight: 500; transition: all 0.2s ease;">
+        <i class="bi bi-box-arrow-left me-3"></i>
+        Cerrar Sesión
+      </button>
+    </div>
+
+  </aside>

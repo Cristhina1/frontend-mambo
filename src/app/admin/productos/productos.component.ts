@@ -47,22 +47,30 @@ export class ProductosComponent implements OnInit {
   }
 
   crearFormularioFiltros() {
-    this.filtrosForm = this.fb.group({
-      buscador: [''],
-      filtroStock: ['todos']
-    });
-  }
+  this.filtrosForm = this.fb.group({
+    buscador: [''],
+    filtroStock: ['todos'],
+    filtroCategoria: ['todas']  // AÑADE ESTA LÍNEA
+  });
+}
+get categoriasUnicas(): string[] {
+  const categorias = this.productosFiltrados.map(p => p.categoriaNombre);
+  return [...new Set(categorias)]; // Elimina duplicados
+}
  get productosFiltrados(): Producto[] {
-    const buscador = this.filtrosForm.get('buscador')?.value.toLowerCase() || '';
-    const filtroStock = this.filtrosForm.get('filtroStock')?.value || 'todos';
+  const buscador = this.filtrosForm.get('buscador')?.value.toLowerCase() || '';
+  const filtroStock = this.filtrosForm.get('filtroStock')?.value || 'todos';
+  const filtroCategoria = this.filtrosForm.get('filtroCategoria')?.value || 'todas';
 
-    return this.productos.filter(p => {
-      const coincideNombre = p.nombre.toLowerCase().includes(buscador);
-      const estado = this.getEstado(p.stock);
-      const coincideStock = filtroStock === 'todos' || estado === filtroStock;
-      return coincideNombre && coincideStock;
-    });
-  }
+  return this.productos.filter(p => {
+    const coincideNombre = p.nombre.toLowerCase().includes(buscador);
+    const estado = this.getEstado(p.stock);
+    const coincideStock = filtroStock === 'todos' || estado === filtroStock;
+    const coincideCategoria = filtroCategoria === 'todas' || p.categoriaNombre === filtroCategoria;
+
+    return coincideNombre && coincideStock && coincideCategoria;
+  });
+}
 
   cargarProductos() {
   this.productoService.getProductos().subscribe({
@@ -83,9 +91,9 @@ export class ProductosComponent implements OnInit {
     },
     error: (err) => console.error("Error", err)
   });
+
+
 }
-
-
 
   getEstado(stock: number): string {
     if (stock === 0) return 'sin-stock';

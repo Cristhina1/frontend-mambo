@@ -13,20 +13,11 @@ export class AdminNavbarComponent {
   constructor(
     private router: Router,
   ) {}
-  confirmarCerrarSesion() {
-    const modal = new (window as any).bootstrap.Modal(document.getElementById('confirmLogoutModal'));
-    modal.show();
-  }
-
-  cerrarSesion() {
-    // Lógica para cerrar sesión
-    // Ejemplo: this.authService.logout();
-
-    // Redirigir al login
-    this.router.navigate(['/login']);
-
-    // Mostrar mensaje de éxito
-    console.log('Sesión cerrada exitosamente');
+  logout(): void {
+    if (confirm('¿Estás seguro de cerrar sesión?')) {
+      // Aquí tu lógica para cerrar sesión
+      this.router.navigate(['/login']);
+    }
   }
 
 }
