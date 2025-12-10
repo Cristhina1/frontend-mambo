@@ -52,13 +52,13 @@
         <div class="card-product" *ngFor="let producto of productosFiltrados">
 
           <div class="media">
-            <img [src]="producto.imagenUrl" [alt]="producto.nombre" />
+            <img [src]="producto.img" [alt]="producto.nombre" />
           </div>
 
           <div class="body">
             <div>
               <div class="product-title">{{ producto.nombre }}</div>
-              <div class="product-sub muted">Categoría: {{ producto.categoria }}</div>
+              <div class="product-sub muted">Categoría: {{ producto.categoriaNombre }}</div>
               <div class="product-sub muted">Stock: {{ producto.stock }}</div>
             </div>
 

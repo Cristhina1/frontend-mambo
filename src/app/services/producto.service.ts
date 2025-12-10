@@ -8,24 +8,26 @@ import { Producto } from '../models/producto.model';
 })
 export class ProductoService {
 
+  // Asegúrate de que esta URL coincida con tu @RequestMapping del Controller en Java
   private apiUrl = 'http://localhost:8080/api/productos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
+  // GET: Obtener todos
   getProductos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.apiUrl);
   }
 
-  getProducto(id: number): Observable<Producto> {
+  getProductoById(id: number): Observable<Producto> {
     return this.http.get<Producto>(`${this.apiUrl}/${id}`);
   }
 
-  createProducto(producto: Producto): Observable<Producto> {
-    return this.http.post<Producto>(this.apiUrl, producto);
+  createProducto(data: FormData): Observable<Producto> {
+    return this.http.post<Producto>(this.apiUrl, data);
   }
 
-  updateProducto(id: number, producto: Producto): Observable<Producto> {
-    return this.http.put<Producto>(`${this.apiUrl}/${id}`, producto);
+  updateProducto(id: number, data: FormData): Observable<Producto> {
+    return this.http.put<Producto>(`${this.apiUrl}/${id}`, data);
   }
 
   deleteProducto(id: number): Observable<void> {

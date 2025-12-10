@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CarritoComponent } from '../carrito/carrito';
 import { CarritoService } from '../../services/carrito.service';
-import { ProductService, Producto } from '../../services/product';
+import { ProductoService } from '../../services/producto.service';
+import { Producto } from '../../models/producto.model';
 
 @Component({
   selector: 'app-lista-productos',
@@ -23,7 +24,7 @@ export class ListaProductosComponent implements OnInit {
 
   constructor(
     private carritoService: CarritoService,
-    private productService: ProductService
+    private productoService: ProductoService
   ) {}
 
   ngOnInit() {
@@ -32,20 +33,19 @@ export class ListaProductosComponent implements OnInit {
 
   // 🔥 CORREGIDO → Mapea imagenUrl correctamente
   cargarProductos() {
-    this.productService.getProductos().subscribe({
+    this.productoService.getProductos().subscribe({
       next: (data: any[]) => {
         this.productos = data.map(p => ({
           id: p.id,
           nombre: p.nombre,
           precio: p.precio,
-          categoria: p.categoria,
+          categoriaNombre: p.categoriaNombre,
           descripcion: p.descripcion,
-          imagenUrl: p.imagenUrl, // 👈 CAMBIO IMPORTANTE
+          img: p.img,
           stock: p.stock
         }));
 
         this.productosFiltrados = [...this.productos];
-
         console.log("Productos desde API:", this.productos);
       },
       error: (err) => console.error("Error al cargar productos:", err)
@@ -66,7 +66,7 @@ export class ListaProductosComponent implements OnInit {
 
   // FILTROS
   filterCategory(categoria: string) {
-    this.productosFiltrados = this.productos.filter(p => p.categoria === categoria);
+    this.productosFiltrados = this.productos.filter(p => p.categoriaNombre === categoria);
   }
 
   applyFilters() {

@@ -82,38 +82,44 @@
       <form [formGroup]="productoForm" (ngSubmit)="agregarProducto()">
         <div class="modal-header">
           <h5 class="modal-title"><i class="bi bi-box me-2"></i> Nuevo Producto</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal">nuevo</button>
         </div>
 
         <div class="modal-body">
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label">Nombre *</label>
+              <label for="" class="form-label">Nombre *</label>
               <input type="text" class="form-control" formControlName="nombre" />
             </div>
             <div class="col-md-6">
-              <label class="form-label">Categoría *</label>
-              <input type="text" class="form-control" formControlName="categoria" />
+              <label for="" class="form-label">Categoría *</label>
+              <input type="text" class="form-control" formControlName="categoriaNombre" />
             </div>
             <div class="col-md-6">
-              <label class="form-label">Precio *</label>
+              <label for="" class="form-label">Precio *</label>
               <div class="input-group">
                 <span class="input-group-text">S/</span>
                 <input type="number" class="form-control" formControlName="precio" />
               </div>
             </div>
             <div class="col-md-6">
-              <label class="form-label">Stock *</label>
+              <label for="" class="form-label">Stock *</label>
               <input type="number" class="form-control" formControlName="stock" />
             </div>
             <div class="col-12">
-              <label class="form-label">Descripción</label>
+              <label for="" class="form-label">Descripción</label>
               <textarea class="form-control" rows="3" formControlName="descripcion"></textarea>
             </div>
             <div class="col-12">
-              <label class="form-label">URL de imagen</label>
-              <input type="text" class="form-control" formControlName="imagenUrl" />
-            </div>
+  <label for="imagenInput" class="form-label">Subir Imagen</label>
+  <input
+    type="file"
+    class="form-control"
+    id="imagenInput"
+    (change)="onFileSelected($event)"
+    accept="image/*"
+  />
+</div>
           </div>
         </div>
 

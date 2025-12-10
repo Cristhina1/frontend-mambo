@@ -18,14 +18,14 @@ export class LoginComponent {
 
   ngOnInit() {
     this.form = this.fb.group({
-      dni: ['', [Validators.required, Validators.minLength(8)]],
+      numeroDocumento: ['', [Validators.required, Validators.minLength(8)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       remember: [false],
     });
   }
-  
-  get dni() {
-    return this.form.get('dni');
+
+  get numeroDocumento() {
+    return this.form.get('numeroDocumento');
   }
   get password() {
     return this.form.get('password');
@@ -38,7 +38,7 @@ export class LoginComponent {
     }
 
     const request: Login = {
-      dni: this.dni.value,
+      numeroDocumento: this.numeroDocumento.value,
       password: this.password.value,
     };
 
@@ -56,7 +56,7 @@ export class LoginComponent {
       },
       error: (err) => {
         console.error('❌ Error en login', err);
-        alert('DNI o contraseña incorrectos');
+        alert('numeroDocumento o contraseña incorrectos');
       },
     });
   }

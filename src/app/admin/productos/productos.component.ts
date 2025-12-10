@@ -1,4 +1,3 @@
-// productos.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,17 +14,12 @@ import { Producto } from '../../models/producto.model';
 export class ProductosComponent implements OnInit {
 
   productos: Producto[] = [];
-
-  // Formulario reactivo para nuevo producto
   productoForm!: FormGroup;
-
-  // Formulario reactivo para filtros
   filtrosForm!: FormGroup;
+  archivoSeleccionado: File | null = null; 
 
-  constructor(
-    private productoService: ProductoService,
-    private fb: FormBuilder
-  ) {}
+  constructor(private fb: FormBuilder, private productoService: ProductoService) {
+  }
 
   ngOnInit(): void {
     this.crearFormularioProducto();
@@ -33,13 +27,18 @@ export class ProductosComponent implements OnInit {
     this.cargarProductos();
   }
 
-  // -------------------------
-  // Formulario Nuevo Producto
-  // -------------------------
+  // Captura el archivo del input HTML
+  onFileSelected(event: any) {
+    const archivo: File = event.target.files[0];
+    if (archivo) {
+      this.archivoSeleccionado = archivo;
+    }
+  }
+
   crearFormularioProducto() {
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
-      categoria: ['', Validators.required],
+      categoriaNombre: ['', Validators.required],
       precio: [0, [Validators.required, Validators.min(0)]],
       stock: [0, [Validators.required, Validators.min(0)]],
       descripcion: [''],
@@ -47,9 +46,6 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  // -------------------------
-  // Formulario Filtros
-  // -------------------------
   crearFormularioFiltros() {
     this.filtrosForm = this.fb.group({
       buscador: [''],
@@ -57,9 +53,6 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  // -------------------------
-  // Cargar Productos
-  // -------------------------
   cargarProductos() {
     this.productoService.getProductos().subscribe({
       next: data => this.productos = data,
@@ -67,9 +60,6 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  // -------------------------
-  // Filtro Productos
-  // -------------------------
   get productosFiltrados(): Producto[] {
     const buscador = this.filtrosForm.get('buscador')?.value.toLowerCase() || '';
     const filtroStock = this.filtrosForm.get('filtroStock')?.value || 'todos';
@@ -88,41 +78,37 @@ export class ProductosComponent implements OnInit {
     return 'en-stock';
   }
 
-  // -------------------------
-  // Agregar Producto
-  // -------------------------
   agregarProducto() {
     if (this.productoForm.invalid) {
       this.productoForm.markAllAsTouched();
       return;
     }
 
-    const nuevoProducto: Producto = this.productoForm.value;
+    const formData = new FormData();
+    formData.append('nombre', this.productoForm.get('nombre')?.value);
+    formData.append('categoriaNombre', this.productoForm.get('categoriaNombre')?.value);
+    formData.append('precio', this.productoForm.get('precio')?.value);
+    formData.append('stock', this.productoForm.get('stock')?.value);
+    formData.append('descripcion', this.productoForm.get('descripcion')?.value);
 
-    this.productoService.createProducto(nuevoProducto).subscribe({
+    if (this.archivoSeleccionado) {
+      formData.append('imagenUrl', this.archivoSeleccionado);
+    }
+
+    this.productoService.createProducto(formData).subscribe({
       next: () => {
         this.cargarProductos();
-        this.productoForm.reset({
-          nombre: '',
-          categoria: '',
-          precio: 0,
-          stock: 0,
-          descripcion: '',
-          imagenUrl: ''
-        });
-      }
+        this.productoForm.reset();
+        this.archivoSeleccionado = null;
+      },
+      error: (e) => console.error('Error al guardar', e)
     });
   }
 
-  // -------------------------
-  // Eliminar Producto
-  // -------------------------
   eliminarProducto(id: number) {
     if (!confirm('¿Eliminar producto?')) return;
-
     this.productoService.deleteProducto(id).subscribe({
       next: () => this.cargarProductos()
     });
   }
-
 }

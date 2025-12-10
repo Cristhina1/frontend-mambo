@@ -1,10 +1,10 @@
 export interface Login {
-  dni: string;
+  numeroDocumento: string;
   password: string;
 }
 
 export interface Register {
-  dni: string;
+  numeroDocumento: string;
   password: string;
   email: string;
 }

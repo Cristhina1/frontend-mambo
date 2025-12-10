@@ -8,10 +8,10 @@
 
       <div class="field">
         <label for="correo">DNI</label>
-        <input type="dni" formControlName="dni" placeholder="XXXXXXXX" />
-        <p class="error" *ngIf="dni?.touched && dni?.invalid">
-          <span *ngIf="dni?.errors?.['required']">El Dni es obligatorio.</span>
-          <span *ngIf="dni?.errors?.['minlength']">Debe tener 8 digitos</span>
+        <input type="numeroDocumento" formControlName="numeroDocumento" placeholder="XXXXXXXX" />
+        <p class="error" *ngIf="numeroDocumento?.touched && numeroDocumento?.invalid">
+          <span *ngIf="numeroDocumento?.errors?.['required']">El numeroDocumento es obligatorio.</span>
+          <span *ngIf="numeroDocumento?.errors?.['minlength']">Debe tener 8 digitos</span>
         </p>
       </div>
 
