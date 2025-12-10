@@ -22,6 +22,7 @@
         <p>S/ {{ item.precio }}</p>
 
         <div class="qty-control">
+          
           <button (click)="carritoService.disminuirCantidad(item.id)">-</button>
           <span>{{ item.cantidad }}</span>
           <button (click)="carritoService.aumentarCantidad(item.id)">+</button>

@@ -1,45 +1,96 @@
-<div class="login-container">
+<div class="login-container" style="background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
 
-  <div class="card">
-    <a class="brand" routerLink="/">Mambo</a>
-    <h2>Iniciar sesión</h2>
+  <div class="card animate__animated animate__fadeIn" style="background-color: #1a1a1a; border-radius: 20px; border: 1px solid #333; padding: 40px; max-width: 450px; width: 100%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);">
+
+    <div class="text-center mb-4">
+      <a class="brand" routerLink="/" style="color: #ffcc00; font-size: 2.5rem; font-weight: bold; text-decoration: none; display: block; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);">
+        🎵 MAMBO STORE
+      </a>
+      <h2 style="color: #fff; margin-bottom: 10px; font-weight: 700;">Bienvenido de vuelta</h2>
+      <p style="color: #888; margin-bottom: 30px;">Inicia sesión para continuar</p>
+    </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
-      <div class="field">
-        <label for="correo">DNI</label>
-        <input type="numeroDocumento" formControlName="numeroDocumento" placeholder="XXXXXXXX" />
-        <p class="error" *ngIf="numeroDocumento?.touched && numeroDocumento?.invalid">
-          <span *ngIf="numeroDocumento?.errors?.['required']">El numeroDocumento es obligatorio.</span>
-          <span *ngIf="numeroDocumento?.errors?.['minlength']">Debe tener 8 digitos</span>
-        </p>
-      </div>
-
-      <div class="field">
-        <label for="">Contraseña</label>
-        <input type="password" formControlName="password" placeholder="********" />
-        <p class="error" *ngIf="password?.touched && password?.invalid">
-          <span *ngIf="password?.errors?.['required']">La contraseña es obligatoria.</span>
-          <span *ngIf="password?.errors?.['minlength']">Mínimo 6 caracteres.</span>
-        </p>
-      </div>
-
-      <div class="actions">
-        <label class="remember">
-          <input type="checkbox" formControlName="remember" /> Recuérdame
+      <div class="field mb-4">
+        <label style="color: #ffcc00; font-weight: 500; margin-bottom: 8px; display: block;">
+          <i class="bi bi-person-badge me-2"></i>DNI
         </label>
-
-        <button type="submit" [disabled]="form.invalid">
-          Entrar
-        </button>
+        <div class="input-group">
+          <span class="input-group-text" style="background-color: #2a2a2a; border: 1px solid #444; color: #ffcc00; border-right: none;">
+            <i class="bi bi-id-card"></i>
+          </span>
+          <input
+            type="text"
+            formControlName="numeroDocumento"
+            placeholder="Ingresa tu DNI"
+            style="background-color: #2a2a2a; border: 1px solid #444; border-left: none; color: #fff; padding: 12px; border-radius: 0 8px 8px 0; width: 100%;"
+            [ngClass]="{'is-invalid': numeroDocumento?.touched && numeroDocumento?.invalid}"
+          />
+        </div>
+        <p class="error mt-2" *ngIf="numeroDocumento?.touched && numeroDocumento?.invalid"
+           style="color: #ff4444; font-size: 0.85rem; margin: 5px 0 0 0;">
+          <i class="bi bi-exclamation-circle me-1"></i>
+          <span *ngIf="numeroDocumento?.errors?.['required']">El DNI es obligatorio.</span>
+          <span *ngIf="numeroDocumento?.errors?.['minlength']">Debe tener 8 dígitos.</span>
+        </p>
       </div>
 
-      <p class="small">
-        ¿No tienes cuenta? <a routerLink="/register">Regístrate</a>
-      </p>
-      <button type="button" class="btn-back" routerLink="/productos">
-  ← Regresar
-</button>
+      <div class="field mb-4">
+        <label style="color: #ffcc00; font-weight: 500; margin-bottom: 8px; display: block;">
+          <i class="bi bi-shield-lock me-2"></i>Contraseña
+        </label>
+        <div class="input-group d-flex">
+          <span class="input-group-text" style="background-color: #2a2a2a; border: 1px solid #444; color: #ffcc00; border-right: none;">
+            <i class="bi bi-lock"></i>
+          </span>
+
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Ingresa tu contraseña"
+            style="background-color: #2a2a2a; border: 1px solid #444; border-left: none; border-right: none; color: #fff; padding: 12px; width: 100%; flex-grow: 1;"
+            [ngClass]="{'is-invalid': password?.touched && password?.invalid}"
+          />
+
+          <button type="button" class="btn"
+                  style="background-color: #2a2a2a; border: 1px solid #444; border-left: none; color: #888; border-radius: 0 8px 8px 0;"
+                  (click)="togglePasswordVisibility()">
+            <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+          </button>
+        </div>
+
+        <p class="error mt-2" *ngIf="password?.touched && password?.invalid"
+           style="color: #ff4444; font-size: 0.85rem; margin: 5px 0 0 0;">
+          <i class="bi bi-exclamation-circle me-1"></i> La contraseña es requerida.
+        </p>
+      </div>
+
+      <div class="actions mb-4 d-flex justify-content-between align-items-center">
+        <label class="remember" style="color: #aaa; cursor: pointer; font-size: 0.9rem;">
+          <input type="checkbox" formControlName="remember" style="accent-color: #ffcc00; margin-right: 5px;"/>
+          Recuérdame
+        </label>
+        <a routerLink="/register" style="color: #ffcc00; text-decoration: none; font-size: 0.9rem; transition: 0.3s;" class="hover-link">
+          ¿Olvidaste tu contraseña?
+        </a>
+      </div>
+
+      <button type="submit" [disabled]="form.invalid || loading"
+              style="background: linear-gradient(90deg, #ffcc00, #ffaa00); color: #000; border: none; padding: 14px; border-radius: 8px; font-weight: 800; font-size: 1rem; width: 100%; transition: all 0.3s ease; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;"
+              [ngStyle]="{'opacity': form.invalid || loading ? '0.6' : '1', 'cursor': form.invalid ? 'not-allowed' : 'pointer'}">
+
+        <span *ngIf="!loading">ENTRAR AHORA</span>
+
+        <span *ngIf="loading">
+          <span class="spinner-border spinner-border-sm me-2"></span> Verificando...
+        </span>
+      </button>
+
+      <button type="button" class="btn-back" routerLink="/productos"
+              style="background: transparent; color: #888; border: 1px solid #444; padding: 10px; border-radius: 8px; width: 100%; transition: all 0.3s ease; font-size: 0.9rem;">
+        <i class="bi bi-arrow-left me-2"></i> Regresar a la tienda
+      </button>
 
     </form>
   </div>

@@ -25,7 +25,7 @@
     <div *ngIf="model.metodo === 'tarjeta'" class="tarjeta-form card p-3 mb-4 animate__animated animate__fadeIn" style="background-color: #1a1a1a; border-color: #333;">
       <div class="row g-3">
         <div class="col-12">
-          <label class="form-label" style="color: #ffcc00;">Número de tarjeta</label>
+          <label for="" class="form-label" style="color: #ffcc00;">Número de tarjeta</label>
           <div class="input-group">
             <span class="input-group-text" style="background-color: #333; border-color: #444; color: #ffcc00;">
               <i class="bi bi-credit-card-2-front"></i>
@@ -104,7 +104,7 @@
     </div>
     <div class="d-flex justify-content-between mb-3" style="color: #fff;">
       <span class="fw-bold" style="color: #ffcc00;">Cliente:</span>
-      <span class="text-uppercase">{{ datosVenta?.destinatario?.nombreCompleto }}</span>
+      <span class="text-uppercase">{{ datosVenta?.destinatario?.nombres}}</span>
     </div>
 
     <hr class="border-secondary" style="border-color: #444 !important;">
@@ -112,7 +112,7 @@
     <div class="productos-list mb-3">
       <div *ngFor="let det of datosVenta?.detalles" class="d-flex justify-content-between mb-2" style="color: #fff;">
         <span class="text-truncate pe-2" style="max-width: 70%;">
-          {{ det.cantidad }} x Producto (ID: {{ det.productoId }})
+          {{ det.cantidad }} x {{ det.nombreProducto }}
         </span>
         <span class="fw-bold" style="color: #ffcc00;">S/ {{ det.subtotal | number:'1.2-2' }}</span>
       </div>
@@ -121,7 +121,7 @@
     <hr class="border-secondary" style="border-color: #444 !important;">
 
     <div class="d-flex justify-content-between mb-1" style="color: #fff;">
-      <span>Envío:</span>
+      <span>Envío: {{ datosVenta?.envio?.tipoEnvio}}</span>
       <span>{{ datosVenta?.envio?.precio > 0 ? ('S/ ' + (datosVenta?.envio?.precio | number:'1.2-2')) : 'GRATIS' }}</span>
     </div>
     <div class="d-flex justify-content-between fs-5 fw-bold mt-2 pt-2 border-top" style="border-color: #444 !important; color: #fff;">

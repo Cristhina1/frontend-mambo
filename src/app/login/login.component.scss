@@ -122,3 +122,32 @@ h2 {
     text-decoration: none;
   }
 }
+
+/* Animación de entrada */
+.animate__fadeIn {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Inputs bonitos al hacer focus */
+input:focus {
+  border-color: #ffcc00 !important;
+  box-shadow: 0 0 0 4px rgba(255, 204, 0, 0.1) !important;
+}
+
+/* Hover en enlace */
+.hover-link:hover {
+  text-decoration: underline !important;
+  color: #fff !important;
+}
+
+/* Botón Regresar Hover */
+.btn-back:hover {
+  border-color: #fff !important;
+  color: #fff !important;
+  background-color: rgba(255,255,255,0.05) !important;
+}

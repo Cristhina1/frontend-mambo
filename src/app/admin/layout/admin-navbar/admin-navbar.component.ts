@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,5 +10,23 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./admin-navbar.component.scss'],
 })
 export class AdminNavbarComponent {
+  constructor(
+    private router: Router,
+  ) {}
+  confirmarCerrarSesion() {
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('confirmLogoutModal'));
+    modal.show();
+  }
+
+  cerrarSesion() {
+    // Lógica para cerrar sesión
+    // Ejemplo: this.authService.logout();
+
+    // Redirigir al login
+    this.router.navigate(['/login']);
+
+    // Mostrar mensaje de éxito
+    console.log('Sesión cerrada exitosamente');
+  }
 
 }

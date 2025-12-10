@@ -1,13 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { ItemCarrito } from '../models/carrito.model';
 
-export interface ItemCarrito {
-  id: number;
-  nombre: string;
-  precio: number;
-  img?: string;
-  cantidad: number;
-}
+
 
 @Injectable({
   providedIn: 'root'
@@ -32,36 +27,54 @@ export class CarritoService {
     this.carritoSubject.next([...this.carrito]);
   }
 
-  agregarProducto(producto: any) {
+  // En carrito.service.ts
+
+agregarProducto(producto: any) {
+  // 1. VALIDACIÓN INICIAL: Si no hay stock, no hace nada
+  if (!producto.stock || producto.stock <= 0) {
+    alert("Este producto está agotado.");
+    return;
+  }
+
+  const existente = this.carrito.find(p => p.id === producto.id);
+
+  if (existente) {
+    // 2. VALIDACIÓN AL SUMAR: Solo suma si no supera el stock
+    if (existente.cantidad < existente.stockMaximo) {
+      existente.cantidad++;
+    } else {
+      alert(`Solo quedan ${existente.stockMaximo} unidades de este producto.`);
+    }
+  } else {
+    // 3. AGREGAR NUEVO: Guardamos el stock real del producto
     const itemToAdd: ItemCarrito = {
       id: producto.id,
       nombre: producto.nombre,
       precio: producto.precio,
-      img: producto.img || producto.img || 'assets/no-image.png', // Mapeo de seguridad
-      cantidad: 1
+      img: producto.img || producto.imagen || 'assets/no-image.png',
+      cantidad: 1,
+      stockMaximo: producto.stock // <--- GUARDAMOS EL LÍMITE
     };
-
-    const existente = this.carrito.find(p => p.id === itemToAdd.id);
-
-    if (existente) {
-      existente.cantidad++;
-    } else {
-      this.carrito.push({
-        ...producto,
-        cantidad: 1
-      });
-    }
-
-    this.guardarStore();
+    this.carrito.push(itemToAdd);
   }
 
-  aumentarCantidad(id: number) {
-    const item = this.carrito.find(p => p.id === id);
-    if (item) {
+  this.guardarStore();
+}
+
+aumentarCantidad(id: number) {
+  const item = this.carrito.find(p => p.id === id);
+
+  if (item) {
+    // 4. VALIDACIÓN EN EL BOTÓN (+):
+    if (item.cantidad < item.stockMaximo) {
       item.cantidad++;
-      this.carritoSubject.next([...this.carrito]);
+      this.guardarStore();
+    } else {
+      // Opcional: mostrar alerta o simplemente no hacer nada
+      console.log("Stock máximo alcanzado");
     }
   }
+}
 
   disminuirCantidad(id: number) {
     const item = this.carrito.find(p => p.id === id);

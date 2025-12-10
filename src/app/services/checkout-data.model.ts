@@ -1,4 +1,4 @@
-import { ItemCarrito } from './carrito.service'; // Ajusta la ruta si es necesario
+import { ItemCarrito } from "../models/carrito.model";
 
 export interface PersonalData {
   nombres: string;

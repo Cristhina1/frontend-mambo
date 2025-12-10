@@ -66,13 +66,12 @@
               <div class="price">S/ {{ producto.precio }}</div>
 
               <button
-                class="add-btn"
-                (click)="agregarAlCarrito(producto)"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#cartCanvas"
-              >
-                Agregar
-              </button>
+  class="add-btn"
+  [class.btn-disabled]="producto.stock === 0"  (click)="agregarAlCarrito(producto)"
+  [disabled]="producto.stock === 0"
+>
+  {{ producto.stock === 0 ? 'Sin Stock' : 'Agregar' }}
+</button>
             </div>
           </div>
 

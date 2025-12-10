@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CarritoService, ItemCarrito } from '../../services/carrito.service';
+import { CarritoService } from '../../services/carrito.service';
+import { ItemCarrito } from '../../models/carrito.model';
 import { Router } from '@angular/router';
-declare let bootstrap: any;
+
 
 @Component({
   selector: 'app-carrito',
