@@ -10,12 +10,10 @@ interface Vendedor {
   turno: string;
   ventas: number;
   estado: 'Activo' | 'Inactivo';
-
   // nuevos campos
   fechaIngreso: string;
   direccion: string;
 }
-
 
 interface EstadisticaCard {
   titulo: string;
@@ -40,53 +38,52 @@ export class ListUsuariosComponent {
   filtroTurno = '';
 
   // Datos de vendedores (mock en memoria)
- vendedores: Vendedor[] = [
-  {
-    id: 'V001',
-    nombre: 'María López',
-    email: 'maria@mambo.com',
-    telefono: '987654321',
-    turno: 'Mañana',
-    ventas: 12500,
-    estado: 'Activo',
-    fechaIngreso: '2025-09-01',
-    direccion: 'Av. Primavera 123, Lima',
-  },
-  {
-    id: 'V002',
-    nombre: 'Carlos Gómez',
-    email: 'carlos@mambo.com',
-    telefono: '956123456',
-    turno: 'Tarde',
-    ventas: 8940,
-    estado: 'Activo',
-    fechaIngreso: '2025-08-15',
-    direccion: 'Jr. Los Olivos 456, Lima',
-  },
-  {
-    id: 'V003',
-    nombre: 'José Pérez',
-    email: 'jose@mambo.com',
-    telefono: '923456789',
-    turno: 'Noche',
-    ventas: 1780,
-    estado: 'Activo',
-    fechaIngreso: '2025-07-20',
-    direccion: 'Av. Arequipa 789, Lima',
-  },
-  {
-    id: 'V004',
-    nombre: 'Ana Torres',
-    email: 'ana@mambo.com',
-    telefono: '912345678',
-    turno: 'Mañana',
-    ventas: 2345,
-    estado: 'Inactivo',
-    fechaIngreso: '2025-06-10',
-    direccion: 'Calle Las Flores 321, Lima',
-  },
-];
-
+  vendedores: Vendedor[] = [
+    {
+      id: 'V001',
+      nombre: 'María López',
+      email: 'maria@mambo.com',
+      telefono: '987654321',
+      turno: 'Mañana',
+      ventas: 12500,
+      estado: 'Activo',
+      fechaIngreso: '2025-09-01',
+      direccion: 'Av. Primavera 123, Lima',
+    },
+    {
+      id: 'V002',
+      nombre: 'Carlos Gómez',
+      email: 'carlos@mambo.com',
+      telefono: '956123456',
+      turno: 'Tarde',
+      ventas: 8940,
+      estado: 'Activo',
+      fechaIngreso: '2025-08-15',
+      direccion: 'Jr. Los Olivos 456, Lima',
+    },
+    {
+      id: 'V003',
+      nombre: 'José Pérez',
+      email: 'jose@mambo.com',
+      telefono: '923456789',
+      turno: 'Noche',
+      ventas: 1780,
+      estado: 'Activo',
+      fechaIngreso: '2025-07-20',
+      direccion: 'Av. Arequipa 789, Lima',
+    },
+    {
+      id: 'V004',
+      nombre: 'Ana Torres',
+      email: 'ana@mambo.com',
+      telefono: '912345678',
+      turno: 'Mañana',
+      ventas: 2345,
+      estado: 'Inactivo',
+      fechaIngreso: '2025-06-10',
+      direccion: 'Calle Las Flores 321, Lima',
+    },
+  ];
 
   // Copia filtrada para la tabla
   vendedoresFiltrados: Vendedor[] = [];
@@ -108,20 +105,19 @@ export class ListUsuariosComponent {
   // Helpers
   // ==============================
 
- private crearVendedorVacio(): Vendedor {
-  return {
-    id: '',
-    nombre: '',
-    email: '',
-    telefono: '',
-    turno: '',
-    ventas: 0,
-    estado: 'Activo',
-    fechaIngreso: '',
-    direccion: '',
-  };
-}
-
+  private crearVendedorVacio(): Vendedor {
+    return {
+      id: '',
+      nombre: '',
+      email: '',
+      telefono: '',
+      turno: '',
+      ventas: 0,
+      estado: 'Activo',
+      fechaIngreso: '',
+      direccion: '',
+    };
+  }
 
   private actualizarEstadisticas(): void {
     const total = this.vendedores.length;
@@ -201,50 +197,68 @@ export class ListUsuariosComponent {
     this.nuevoVendedor = { ...vendedor };
   }
 
- guardarVendedor(): void {
-  // Validación simple
-  if (!this.nuevoVendedor.nombre || !this.nuevoVendedor.email) {
-    alert('Nombre y email son obligatorios.');
-    return;
-  }
-
-  if (this.editando) {
-    // UPDATE
-    const index = this.vendedores.findIndex(
-      (v) => v.id === this.nuevoVendedor.id
-    );
-    if (index !== -1) {
-      this.vendedores[index] = { ...this.nuevoVendedor };
+  guardarVendedor(): void {
+    // Validación simple
+    if (!this.nuevoVendedor.nombre || !this.nuevoVendedor.email) {
+      alert('Nombre y email son obligatorios.');
+      return;
     }
-  } else {
-    // CREATE
-    const siguienteNumero = this.vendedores.length + 1;
-    const nuevoId =
-      this.nuevoVendedor.id && this.nuevoVendedor.id.trim() !== ''
-        ? this.nuevoVendedor.id
-        : `V${siguienteNumero.toString().padStart(3, '0')}`;
 
-    this.vendedores.push({
-      ...this.nuevoVendedor,
-      id: nuevoId,
-    });
+    if (this.editando) {
+      // UPDATE
+      const index = this.vendedores.findIndex(
+        (v) => v.id === this.nuevoVendedor.id
+      );
+      if (index !== -1) {
+        this.vendedores[index] = { ...this.nuevoVendedor };
+      }
+    } else {
+      // CREATE
+      const siguienteNumero = this.vendedores.length + 1;
+      const nuevoId =
+        this.nuevoVendedor.id && this.nuevoVendedor.id.trim() !== ''
+          ? this.nuevoVendedor.id
+          : `V${siguienteNumero.toString().padStart(3, '0')}`;
+
+      this.vendedores.push({
+        ...this.nuevoVendedor,
+        id: nuevoId,
+      });
+    }
+
+    // Actualizar lista filtrada y estadísticas
+    this.vendedoresFiltrados = [...this.vendedores];
+    this.filtrarVendedores();
+    this.actualizarEstadisticas();
+
+    // ===== Cerrar modal manualmente =====
+    const modalElement = document.getElementById('modalNuevoVendedor');
+    if (modalElement) {
+      const modalInstance =
+        bootstrap.Modal.getInstance(modalElement) ||
+        new bootstrap.Modal(modalElement);
+      modalInstance.hide();
+    }
   }
 
-  // Actualizar lista filtrada y estadísticas
-  this.vendedoresFiltrados = [...this.vendedores];
-  this.filtrarVendedores();
-  this.actualizarEstadisticas();
+  eliminarVendedor(id: string): void {
+    const vendedor = this.vendedores.find((v) => v.id === id);
+    if (!vendedor) {
+      return;
+    }
 
-  // ===== Cerrar modal manualmente =====
-  const modalElement = document.getElementById('modalNuevoVendedor');
-  if (modalElement) {
-    const modalInstance =
-      bootstrap.Modal.getInstance(modalElement) ||
-      new bootstrap.Modal(modalElement);
-    modalInstance.hide();
+    const confirmar = confirm(
+      `¿Seguro que deseas eliminar al vendedor ${vendedor.nombre}?`
+    );
+    if (!confirmar) {
+      return;
+    }
+
+    // Eliminamos en memoria
+    this.vendedores = this.vendedores.filter((v) => v.id !== id);
+
+    // Reaplicar filtros y actualizar estadísticas
+    this.filtrarVendedores();
+    this.actualizarEstadisticas();
   }
-}
-
-
-
 }
