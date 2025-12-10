@@ -1,53 +1,149 @@
-<h2 class="titulo-paso">Método de pago</h2>
+<div class="pago-container" style="background-color: #000; color: #fff; min-height: 100vh; padding: 20px;">
+<ng-container *ngIf="!compraRealizada">
+  <h2 class="titulo-paso mb-4" style="color: #ffcc00;">Método de pago</h2>
 
-<form #f="ngForm" (ngSubmit)="pagar(f)">
-  <div class="opciones">
-    <label class="opcion-card">
-      <input type="radio" name="metodo" value="tarjeta" [(ngModel)]="model.metodo" />
-      <div class="contenido">
-        <h3>Tarjeta de crédito / débito</h3>
+  <form #f="ngForm" (ngSubmit)="pagar(f)">
+
+    <div class="opciones mb-4 d-flex gap-3 flex-wrap">
+      <label class="opcion-card flex-grow-1" [class.selected]="model.metodo === 'tarjeta'" style="background-color: #1a1a1a; border-color: #333;">
+        <input type="radio" name="metodo" value="tarjeta" [(ngModel)]="model.metodo" />
+        <div class="contenido text-center p-3">
+          <i class="bi bi-credit-card fs-3 d-block mb-2" style="color: #ffcc00;"></i>
+          <h6 class="m-0" style="color: #ffcc00;">Tarjeta Crédito/Débito</h6>
+        </div>
+      </label>
+
+      <label class="opcion-card flex-grow-1" [class.selected]="model.metodo === 'yape'" style="background-color: #1a1a1a; border-color: #333;">
+        <input type="radio" name="metodo" value="yape" [(ngModel)]="model.metodo" />
+        <div class="contenido text-center p-3">
+          <i class="bi bi-qr-code fs-3 d-block mb-2" style="color: #ffcc00;"></i>
+          <h6 class="m-0" style="color: #ffcc00;">Yape / Plin</h6>
+        </div>
+      </label>
+    </div>
+
+    <div *ngIf="model.metodo === 'tarjeta'" class="tarjeta-form card p-3 mb-4 animate__animated animate__fadeIn" style="background-color: #1a1a1a; border-color: #333;">
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label" style="color: #ffcc00;">Número de tarjeta</label>
+          <div class="input-group">
+            <span class="input-group-text" style="background-color: #333; border-color: #444; color: #ffcc00;">
+              <i class="bi bi-credit-card-2-front"></i>
+            </span>
+            <input
+              type="text"
+              [(ngModel)]="model.numeroTarjeta"
+              name="tarjeta"
+              class="form-control"
+              required
+              placeholder="0000 0000 0000 0000"
+              maxlength="19"
+              style="background-color: #333; border-color: #444; color: #fff;"
+            />
+          </div>
+        </div>
+
+        <div class="col-6">
+          <label for="" class="form-label" style="color: #ffcc00;">Vencimiento</label>
+          <input type="month" [(ngModel)]="model.fecha" name="fecha" class="form-control" required
+                 style="background-color: #333; border-color: #444; color: #fff;" />
+        </div>
+
+        <div class="col-6">
+          <label for="" class="form-label" style="color: #ffcc00;">CVV</label>
+          <input type="password" [(ngModel)]="model.cvv" name="cvv" class="form-control" required maxlength="4" placeholder="123"
+                 style="background-color: #333; border-color: #444; color: #fff;" />
+        </div>
       </div>
-    </label>
+    </div>
 
-    <label class="opcion-card">
-      <input type="radio" name="metodo" value="yape" [(ngModel)]="model.metodo" />
-      <div class="contenido">
-        <h3>Yape / Plin</h3>
-      </div>
-    </label>
+    <button class="btn-finalizar w-100 py-3" [disabled]="f.invalid || loading"
+            style="background-color: #ffcc00; color: #000; border: none; font-weight: bold;">
+      <ng-container *ngIf="!loading">
+        Finalizar Compra <i class="bi bi-lock-fill ms-2"></i>
+      </ng-container>
 
+      <ng-container *ngIf="loading">
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Procesando...
+      </ng-container>
+    </button>
+  </form>
+</ng-container>
+
+
+<div *ngIf="compraRealizada" class="confirmacion-container text-center animate__animated animate__zoomIn" style="background-color: #000; padding: 20px;">
+
+  <div class="mb-4">
+    <div class="icon-success mb-3">
+      <i class="bi bi-envelope-check-fill" style="font-size: 4rem; color: #ffcc00;"></i>
+    </div>
+    <h2 class="fw-bold" style="color: #ffcc00;">¡Compra Exitosa!</h2>
+    <p class="lead" style="color: #fff;">
+      La boleta y detalles han sido enviados a: <br>
+      <span class="fw-bold" style="color: #ffcc00;">{{ datosVenta?.destinatario?.email }}</span>
+    </p>
+    <p class="small" style="color: #aaa;">Revisa tu bandeja de entrada o spam.</p>
   </div>
 
-  <!-- FORM TARJETA -->
-  <div *ngIf="model.metodo === 'tarjeta'" class="tarjeta-form">
-    <div class="campo">
-      <label for="">Número de tarjeta</label>
-      <input
-        type="text"
-        [(ngModel)]="model.numeroTarjeta"
-        name="tarjeta"
-        class="form-control"
-        required
-      />
+  <div class="ticket shadow p-4 mx-auto text-start mb-4" style="background-color: #1a1a1a; color: #fff; border-color: #333;">
+
+    <div class="text-center border-bottom pb-3 mb-3" style="border-color: #444 !important;">
+      <h4 class="fw-bold m-0 text-uppercase" style="color: #ffcc00;">Mambo Store</h4>
+      <small class="text-muted" style="color: #aaa !important;">RUC: 20601234567</small> <br>
+      <small style="color: #aaa;">Comprobante: {{ datosVenta?.tipoComprobante }}</small>
     </div>
 
-    <div class="campo">
-      <label for="">Fecha de expiración</label>
-      <input type="month" [(ngModel)]="model.fecha" name="fecha" class="form-control" required />
+    <div class="d-flex justify-content-between mb-1" style="color: #fff;">
+      <span class="fw-bold" style="color: #ffcc00;">Pedido:</span>
+      <span>#{{ datosVenta?.id }}</span>
+    </div>
+    <div class="d-flex justify-content-between mb-1" style="color: #fff;">
+      <span class="fw-bold" style="color: #ffcc00;">Fecha:</span>
+      <span>{{ datosVenta?.fechaCreacion | date:'short' }}</span>
+    </div>
+    <div class="d-flex justify-content-between mb-3" style="color: #fff;">
+      <span class="fw-bold" style="color: #ffcc00;">Cliente:</span>
+      <span class="text-uppercase">{{ datosVenta?.destinatario?.nombreCompleto }}</span>
     </div>
 
-    <div class="campo">
-      <label for="">CVV</label>
-      <input
-        type="number"
-        [(ngModel)]="model.cvv"
-        name="cvv"
-        class="form-control"
-        required
-        minlength="3"
-      />
+    <hr class="border-secondary" style="border-color: #444 !important;">
+
+    <div class="productos-list mb-3">
+      <div *ngFor="let det of datosVenta?.detalles" class="d-flex justify-content-between mb-2" style="color: #fff;">
+        <span class="text-truncate pe-2" style="max-width: 70%;">
+          {{ det.cantidad }} x Producto (ID: {{ det.productoId }})
+        </span>
+        <span class="fw-bold" style="color: #ffcc00;">S/ {{ det.subtotal | number:'1.2-2' }}</span>
+      </div>
+    </div>
+
+    <hr class="border-secondary" style="border-color: #444 !important;">
+
+    <div class="d-flex justify-content-between mb-1" style="color: #fff;">
+      <span>Envío:</span>
+      <span>{{ datosVenta?.envio?.precio > 0 ? ('S/ ' + (datosVenta?.envio?.precio | number:'1.2-2')) : 'GRATIS' }}</span>
+    </div>
+    <div class="d-flex justify-content-between fs-5 fw-bold mt-2 pt-2 border-top" style="border-color: #444 !important; color: #fff;">
+      <span style="color: #ffcc00;">TOTAL:</span>
+      <span style="color: #ffcc00;">S/ {{ datosVenta?.total | number:'1.2-2' }}</span>
+    </div>
+
+    <div class="text-center mt-4">
+      <small class="fst-italic" style="color: #aaa;">¡Gracias por tu preferencia!</small>
     </div>
   </div>
 
-  <button class="btn-finalizar">Finalizar pago</button>
-</form>
+  <div class="d-flex gap-2 justify-content-center no-print">
+    <button class="btn btn-outline-secondary" (click)="imprimirBoleta()"
+            style="border-color: #ffcc00; color: #ffcc00; background-color: transparent;">
+      <i class="bi bi-printer me-2"></i> Imprimir / PDF
+    </button>
+    <button class="btn" (click)="volverInicio()"
+            style="background-color: #ffcc00; color: #000; border: none; font-weight: bold;">
+      Volver a la Tienda
+    </button>
+  </div>
+
+</div>
+</div>

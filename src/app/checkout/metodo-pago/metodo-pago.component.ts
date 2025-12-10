@@ -4,7 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CheckoutService } from '../../services/checkout.service';
 import { PagoData } from '../../services/checkout-data.model';
-declare let bootstrap: any;
+
 @Component({
   selector: 'app-metodo-pago',
   standalone: true,
@@ -16,6 +16,10 @@ export class MetodoPagoComponent implements OnInit {
 
   model: PagoData = { metodo: 'tarjeta', numeroTarjeta: '', fecha: '', cvv: '' };
   loading = false;
+
+  // --- VARIABLES NUEVAS PARA LA LÓGICA DE BOLETA ---
+  compraRealizada = false; // Controla si mostramos el formulario o la boleta
+  datosVenta: any = null;  // Aquí guardamos la respuesta del backend (ID compra, total, etc.)
 
   constructor(
     private checkoutService: CheckoutService,
@@ -33,7 +37,7 @@ export class MetodoPagoComponent implements OnInit {
       return;
     }
 
-    if (this.loading) return; // Evitar doble clic
+    if (this.loading) return;
 
     // 1. Guardar estado local
     this.checkoutService.setPagoData(this.model);
@@ -41,30 +45,37 @@ export class MetodoPagoComponent implements OnInit {
     // 2. Activar carga
     this.loading = true;
 
-    // 3. LLAMAR AL SERVICIO QUE YA TIENE LA LÓGICA HTTP Y EL MAPEO
+    // 3. ENVIAR AL BACKEND
     this.checkoutService.procesarCompra().subscribe({
       next: (response) => {
         this.loading = false;
         console.log('Compra exitosa:', response);
 
-        // A. Abrir el Modal de Éxito (El que tienes en tu HTML padre)
-        const modalElement = document.getElementById('compraExitosa');
-        if (modalElement) {
-          const modal = new bootstrap.Modal(modalElement);
-          modal.show();
-        }
+        // A. Guardamos la respuesta para mostrarla en la boleta
+        this.datosVenta = response;
 
-        // B. Limpiar datos del carrito
+        // B. Cambiamos la vista: Ocultamos form, mostramos boleta
+        this.compraRealizada = true;
+
+        // C. Limpiamos el carrito en memoria (la compra ya está segura en BD)
         this.checkoutService.clearData();
       },
       error: (err) => {
         this.loading = false;
         console.error('Error al comprar:', err);
 
-        // Manejo de error de Stock (Mensaje del Backend)
+        // Manejo de error
         const msg = err.error?.message || "Ocurrió un error inesperado";
         alert("⚠️ Error: " + msg);
       }
     });
+  }
+
+  imprimirBoleta() {
+    window.print();
+  }
+
+  volverInicio() {
+    this.router.navigate(['/lista-productos']);
   }
 }

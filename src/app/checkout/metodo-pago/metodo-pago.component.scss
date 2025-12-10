@@ -147,3 +147,94 @@ input.form-control:focus {
   background: #ffdb4d;
   transform: translateY(-2px);
 }
+
+/* Estilos generales */
+.opcion-card {
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: all 0.2s;
+
+  /* Ocultar el radio nativo visualmente pero mantenerlo funcional */
+  input[type="radio"] {
+    display: none;
+  }
+
+  &:hover {
+    background-color: #f8f9fa;
+    border-color: #aaa;
+  }
+
+  /* Estilo cuando está seleccionado */
+  &.selected {
+    border-color: var(--accent, #28a745); /* Tu color principal */
+    background-color: #e8f5e9;
+    color: var(--accent, #28a745);
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+}
+
+.btn-finalizar {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: 0.3s;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: #218838;
+  }
+}
+
+/* ============================
+   ESTILOS DE LA BOLETA (Ticket)
+   ============================ */
+.ticket {
+  max-width: 380px;
+  border-top: 5px solid #28a745; /* Borde verde arriba */
+  position: relative;
+  font-family: 'Courier New', Courier, monospace; /* Fuente tipo ticket */
+}
+
+/* ============================
+   MODO IMPRESIÓN
+   ============================ */
+@media print {
+  /* Ocultar todo el cuerpo de la página */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Mostrar solo el ticket */
+  .ticket, .ticket * {
+    visibility: visible;
+  }
+
+  .ticket {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: none; /* Que ocupe el ancho del papel */
+    border: none;
+    box-shadow: none !important;
+  }
+
+  /* Ocultar los botones de acción en la impresión */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ocultar el header del sitio, footer, etc si existen fuera del componente */
+  app-header, app-footer, .checkout-left, .checkout-right {
+    display: none;
+  }
+}
