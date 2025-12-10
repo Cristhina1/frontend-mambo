@@ -8,8 +8,7 @@ import { Producto } from '../models/producto.model';
 })
 export class ProductoService {
 
-  private apiUrl = 'http://localhost:8080/api/productos'; 
-  // La API la hará tu compañera en Spring Boot
+  private apiUrl = 'http://localhost:8080/api/productos';
 
   constructor(private http: HttpClient) {}
 
