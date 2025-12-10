@@ -16,7 +16,7 @@ export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
   productoForm!: FormGroup;
   filtrosForm!: FormGroup;
-  archivoSeleccionado: File | null = null; 
+  archivoSeleccionado: File | null = null;
 
   constructor(private fb: FormBuilder, private productoService: ProductoService) {
   }
@@ -52,15 +52,7 @@ export class ProductosComponent implements OnInit {
       filtroStock: ['todos']
     });
   }
-
-  cargarProductos() {
-    this.productoService.getProductos().subscribe({
-      next: data => this.productos = data,
-      error: err => console.error("Error al obtener productos:", err)
-    });
-  }
-
-  get productosFiltrados(): Producto[] {
+ get productosFiltrados(): Producto[] {
     const buscador = this.filtrosForm.get('buscador')?.value.toLowerCase() || '';
     const filtroStock = this.filtrosForm.get('filtroStock')?.value || 'todos';
 
@@ -71,6 +63,29 @@ export class ProductosComponent implements OnInit {
       return coincideNombre && coincideStock;
     });
   }
+
+  cargarProductos() {
+  this.productoService.getProductos().subscribe({
+    next: (data: any[]) => {
+      console.log("DATOS CRUDOS DEL BACKEND:", data);
+      this.productos = data.map(p => ({
+        id: p.id,
+        nombre: p.nombre,
+        precio: p.precio,
+        categoriaNombre: p.categoriaNombre,
+        stock: p.stock,
+        descripcion: p.descripcion,
+        img: p.img ?`http://localhost:8080${p.img}` : 'assets/no-image.png'
+      }));
+
+      console.log("Productos cargados:", this.productos);
+      console.log("URL GENERADA:", this.productos[0]?.img);
+    },
+    error: (err) => console.error("Error", err)
+  });
+}
+
+
 
   getEstado(stock: number): string {
     if (stock === 0) return 'sin-stock';
