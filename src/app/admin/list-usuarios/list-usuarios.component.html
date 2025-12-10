@@ -1,5 +1,6 @@
 <div class="main-content p-4">
   <div class="container-fluid">
+    <!-- Título + botón -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div>
         <h1 class="mb-2">
@@ -8,7 +9,12 @@
         </h1>
         <p class="text-muted">Administra tu equipo de ventas</p>
       </div>
-      <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalNuevoVendedor">
+      <button
+        class="btn btn-dark"
+        data-bs-toggle="modal"
+        data-bs-target="#modalNuevoVendedor"
+        (click)="abrirNuevoVendedor()"
+      >
         <i class="bi bi-plus-circle me-2"></i>Nuevo Vendedor
       </button>
     </div>
@@ -59,7 +65,10 @@
             </select>
           </div>
           <div class="col-md-2">
-            <button class="btn btn-outline-secondary w-100" (click)="filtrarVendedores()">
+            <button
+              class="btn btn-outline-secondary w-100"
+              (click)="filtrarVendedores()"
+            >
               <i class="bi bi-funnel me-2"></i>Filtrar
             </button>
           </div>
@@ -70,7 +79,9 @@
     <!-- Tabla -->
     <div class="card">
       <div class="card-header">
-        <h5 class="mb-0"><i class="bi bi-table me-2"></i>Lista de Vendedores</h5>
+        <h5 class="mb-0">
+          <i class="bi bi-table me-2"></i>Lista de Vendedores
+        </h5>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -93,17 +104,47 @@
                 <td>{{ vendedor.nombre }}</td>
                 <td>{{ vendedor.email }}</td>
                 <td>{{ vendedor.telefono }}</td>
-                <td><span class="badge bg-primary">{{ vendedor.turno }}</span></td>
+                <td>
+                  <span class="badge bg-primary">{{ vendedor.turno }}</span>
+                </td>
                 <td>{{ vendedor.ventas }}</td>
                 <td>
-                  <span class="badge" [ngClass]="{'bg-success': vendedor.estado === 'Activo', 'bg-warning': vendedor.estado === 'Inactivo'}">
+                  <span
+                    class="badge"
+                    [ngClass]="{
+                      'bg-success': vendedor.estado === 'Activo',
+                      'bg-warning': vendedor.estado === 'Inactivo'
+                    }"
+                  >
                     {{ vendedor.estado }}
                   </span>
                 </td>
                 <td>
-                  <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></button>
-                  <button class="btn btn-sm btn-outline-info me-1"><i class="bi bi-eye"></i></button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-person-x"></i></button>
+                  <!-- Editar -->
+                  <button
+                    class="btn btn-sm btn-outline-primary me-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalNuevoVendedor"
+                    (click)="abrirEdicionVendedor(vendedor)"
+                  >
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <!-- (Ver) lo dejamos solo visual por ahora -->
+                  <button class="btn btn-sm btn-outline-info me-1">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <!-- Eliminar -->
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    (click)="eliminarVendedor(vendedor.id)"
+                  >
+                    <i class="bi bi-person-x"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="vendedoresFiltrados.length === 0">
+                <td colspan="8" class="text-center text-muted">
+                  No se encontraron vendedores con los filtros seleccionados.
                 </td>
               </tr>
             </tbody>
@@ -118,8 +159,16 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-dark text-white">
-          <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i>Nuevo Vendedor</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
+          <h5 class="modal-title">
+            <i class="bi bi-person-plus me-2"></i>
+            {{ editando ? 'Editar Vendedor' : 'Nuevo Vendedor' }}
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Cerrar"
+          >
             <span class="visually-hidden">Cerrar</span>
           </button>
         </div>
@@ -127,43 +176,122 @@
           <form>
             <div class="row g-3">
               <div class="col-md-6">
-                <label class="form-label" for="nombres">Nombre Completo</label>
-                <input type="text" class="form-control" />
+                <label class="form-label" for="nombre">Nombre Completo</label>
+                <input
+                  id="nombre"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="nuevoVendedor.nombre"
+                  name="nombre"
+                />
               </div>
               <div class="col-md-6">
-                <label class="form-label" for="dni">DNI</label>
-                <input type="text" class="form-control" />
+                <label class="form-label" for="id">DNI / ID</label>
+                <input
+                  id="id"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="nuevoVendedor.id"
+                  name="id"
+                />
               </div>
               <div class="col-md-6">
                 <label class="form-label" for="email">Email</label>
-                <input type="email" class="form-control" />
+                <input
+                  id="email"
+                  type="email"
+                  class="form-control"
+                  [(ngModel)]="nuevoVendedor.email"
+                  name="email"
+                />
               </div>
               <div class="col-md-6">
                 <label class="form-label" for="telefono">Teléfono</label>
-                <input type="text" class="form-control" />
+                <input
+                  id="telefono"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="nuevoVendedor.telefono"
+                  name="telefono"
+                />
               </div>
               <div class="col-md-6">
                 <label class="form-label" for="turno">Turno</label>
-                <select class="form-select">
-                  <option>Mañana</option>
-                  <option>Tarde</option>
-                  <option>Noche</option>
+                <select
+                  id="turno"
+                  class="form-select"
+                  [(ngModel)]="nuevoVendedor.turno"
+                  name="turno"
+                >
+                  <option value="">Selecciona un turno</option>
+                  <option value="Mañana">Mañana</option>
+                  <option value="Tarde">Tarde</option>
+                  <option value="Noche">Noche</option>
                 </select>
               </div>
+              <div class="col-md-3">
+                <label class="form-label" for="estado">Estado</label>
+                <select
+                  id="estado"
+                  class="form-select"
+                  [(ngModel)]="nuevoVendedor.estado"
+                  name="estado"
+                >
+                  <option value="Activo">Activo</option>
+                  <option value="Inactivo">Inactivo</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label" for="ventas">Ventas (mes)</label>
+                <input
+                  id="ventas"
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="nuevoVendedor.ventas"
+                  name="ventas"
+                  min="0"
+                />
+              </div>
+              <!-- Campos visuales extra (no afectan al CRUD) -->
               <div class="col-md-6">
-                <label class="form-label" for="fechaIngreso">Fecha de ingreso</label>
-                <input type="date" class="form-control" />
-              </div>
-              <div class="col-12">
-                <label class="form-label" for="direccion">Dirección</label>
-                <textarea class="form-control" rows="3"></textarea>
-              </div>
+  <label class="form-label" for="fechaIngreso">Fecha de ingreso</label>
+  <input
+    id="fechaIngreso"
+    type="date"
+    class="form-control"
+    [(ngModel)]="nuevoVendedor.fechaIngreso"
+    name="fechaIngreso"
+  />
+</div>
+<div class="col-12">
+  <label class="form-label" for="direccion">Dirección</label>
+  <textarea
+    id="direccion"
+    class="form-control"
+    rows="3"
+    [(ngModel)]="nuevoVendedor.direccion"
+    name="direccion"
+  ></textarea>
+</div>
+
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button class="btn btn-dark">Guardar</button>
+          <button
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            type="button"
+          >
+            Cancelar
+          </button>
+          <button
+            class="btn btn-dark"
+            type="button"
+            (click)="guardarVendedor()"
+          >
+            Guardar
+          </button>
         </div>
       </div>
     </div>
