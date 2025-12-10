@@ -2,7 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { ViewEncapsulation } from '@angular/core';
-import { CarritoComponent } from '../carrito/carrito';
+import { CarritoComponent } from '../carrito/carrito.component';
 import { FormsModule } from "@angular/forms";
 
 declare var bootstrap: any;

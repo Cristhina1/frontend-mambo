@@ -15,7 +15,7 @@
 
     <!-- LISTA DE PRODUCTOS -->
     <div *ngFor="let item of carrito; let i = index" class="cart-item">
-      <img [src]="item.imagen" [alt]="item.nombre" />
+      <img [src]="item.img" [alt]="item.nombre" />
 
       <div class="cart-info">
         <h6>{{ item.nombre }}</h6>

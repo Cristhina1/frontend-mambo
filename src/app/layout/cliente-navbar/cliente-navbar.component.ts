@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CarritoService } from '../../services/carrito.service';
 import { ItemCarrito } from '../../services/carrito.service';
-import { CarritoComponent } from '../../cliente/carrito/carrito';
+import { CarritoComponent } from '../../cliente/carrito/carrito.component';
 
 @Component({
   selector: 'app-cliente-navbar',

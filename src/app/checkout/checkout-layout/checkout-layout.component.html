@@ -8,11 +8,11 @@
     <div class="checkout-panel">
       <ng-container [ngSwitch]="pasoActual">
         <ng-container *ngSwitchCase="1">
-          <app-datos-personales></app-datos-personales>
+          <app-datos-personales (nextStep)="cambiarPaso(2)"></app-datos-personales>
         </ng-container>
 
         <ng-container *ngSwitchCase="2">
-          <app-tipo-despacho></app-tipo-despacho>
+          <app-tipo-despacho (nextStep)="cambiarPaso(3)"></app-tipo-despacho>
         </ng-container>
 
         <ng-container *ngSwitchCase="3">
@@ -26,7 +26,7 @@
     <h4>Tu pedido</h4>
 
     <div *ngFor="let item of carrito" class="summary-item">
-      <img [src]="item.imagen" [alt]="item.nombre" />
+      <img [src]="item.img" [alt]="item.nombre" />
       <div class="info">
         <p>{{ item.nombre }}</p>
         <small>Cantidad: {{ item.cantidad }}</small>

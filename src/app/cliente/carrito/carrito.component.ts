@@ -3,6 +3,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CarritoService, ItemCarrito } from '../../services/carrito.service';
 import { Router } from '@angular/router';
+declare let bootstrap: any;
 
 @Component({
   selector: 'app-carrito',

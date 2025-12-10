@@ -16,18 +16,12 @@
       </div>
     </label>
 
-    <label class="opcion-card">
-      <input type="radio" name="metodo" value="contra" [(ngModel)]="model.metodo" />
-      <div class="contenido">
-        <h3>Pago contraentrega</h3>
-      </div>
-    </label>
   </div>
 
   <!-- FORM TARJETA -->
   <div *ngIf="model.metodo === 'tarjeta'" class="tarjeta-form">
     <div class="campo">
-      <label>Número de tarjeta</label>
+      <label for="">Número de tarjeta</label>
       <input
         type="text"
         [(ngModel)]="model.numeroTarjeta"
@@ -38,12 +32,12 @@
     </div>
 
     <div class="campo">
-      <label>Fecha de expiración</label>
+      <label for="">Fecha de expiración</label>
       <input type="month" [(ngModel)]="model.fecha" name="fecha" class="form-control" required />
     </div>
 
     <div class="campo">
-      <label>CVV</label>
+      <label for="">CVV</label>
       <input
         type="number"
         [(ngModel)]="model.cvv"

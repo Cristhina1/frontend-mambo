@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { ClienteNavbarComponent } from "../cliente-navbar/cliente-navbar.component";
 import { RouterModule } from "@angular/router";
-import { CarritoComponent } from "../../cliente/carrito/carrito";
+import { CarritoComponent } from "../../cliente/carrito/carrito.component";
 
 @Component({
   selector: 'app-cliente-layout',

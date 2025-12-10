@@ -1,8 +1,8 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CheckoutService } from '../../services/checkout'; 
-import { PersonalData } from '../../services/checkout-data.model'; 
+import { CheckoutService } from '../../services/checkout.service';
+import { PersonalData } from '../../services/checkout-data.model';
 
 @Component({
   selector: 'app-datos-personales',
@@ -14,12 +14,15 @@ import { PersonalData } from '../../services/checkout-data.model';
 export class DatosPersonalesComponent implements OnInit {
 
   model: PersonalData = { nombres: '', apellidos: '', email: '', telefono: '' };
-  @Output() nextStep = new EventEmitter<void>(); 
+  @Output() nextStep = new EventEmitter<void>();
 
   constructor(private checkoutService: CheckoutService) {} //INYECTADO
 
   ngOnInit(): void {
-    this.model = this.checkoutService.getCurrentData().personal;
+    const savedData = this.checkoutService.getCurrentData().personal;
+    if (savedData && (savedData.nombres || savedData.email)) {
+      this.model = { ...savedData };
+    }
   }
 
   enviar(form: NgForm) {
@@ -28,7 +31,7 @@ export class DatosPersonalesComponent implements OnInit {
       return;
     }
 
-    this.checkoutService.setPersonalData(this.model); //GUARDADO TEMPORAL
+    this.checkoutService.setPersonalData(this.model);
     console.log('Datos guardados en instancia temporal:', this.model);
     this.nextStep.emit();
   }

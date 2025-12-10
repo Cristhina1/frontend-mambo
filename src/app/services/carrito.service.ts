@@ -5,7 +5,7 @@ export interface ItemCarrito {
   id: number;
   nombre: string;
   precio: number;
-  imagen?: string;
+  img?: string;
   cantidad: number;
 }
 
@@ -19,10 +19,29 @@ export class CarritoService {
   private carritoSubject = new BehaviorSubject<ItemCarrito[]>(this.carrito);
   carrito$ = this.carritoSubject.asObservable();
 
-  constructor() {}
+  constructor() {
+    const guardado = localStorage.getItem('carrito');
+    if (guardado) {
+      this.carrito = JSON.parse(guardado);
+      this.carritoSubject.next(this.carrito);
+    }
+  }
+
+  private guardarStore(){
+    localStorage.setItem('carrito', JSON.stringify(this.carrito));
+    this.carritoSubject.next([...this.carrito]);
+  }
 
   agregarProducto(producto: any) {
-    const existente = this.carrito.find(p => p.id === producto.id);
+    const itemToAdd: ItemCarrito = {
+      id: producto.id,
+      nombre: producto.nombre,
+      precio: producto.precio,
+      img: producto.img || producto.img || 'assets/no-image.png', // Mapeo de seguridad
+      cantidad: 1
+    };
+
+    const existente = this.carrito.find(p => p.id === itemToAdd.id);
 
     if (existente) {
       existente.cantidad++;
@@ -33,7 +52,7 @@ export class CarritoService {
       });
     }
 
-    this.carritoSubject.next([...this.carrito]);
+    this.guardarStore();
   }
 
   aumentarCantidad(id: number) {
