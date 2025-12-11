@@ -58,7 +58,6 @@ export class BoletaComponent {
   // Métodos
   agregarProducto() {
     if (!this.producto.codigo || this.producto.cantidad <= 0 || this.producto.precio <= 0) return;
-
     const idx = this.productos.findIndex(p => p.codigo === this.producto.codigo);
     if (idx >= 0) {
       this.productos[idx].cantidad += this.producto.cantidad;

@@ -85,9 +85,19 @@ export class ListaProductosComponent implements OnInit {
   }
 
   searchProducts() {
+    if (!this.searchTerm) {
+      this.productosFiltrados = [...this.productos];
+      return;
+    }
+    
     const term = this.searchTerm.toLowerCase();
     this.productosFiltrados = this.productos.filter(p =>
       p.nombre.toLowerCase().includes(term)
     );
   }
+
+  get categoriasUnicas(): string[] {
+  const categorias = this.productos.map(p => p.categoriaNombre);
+  return [...new Set(categorias)].filter(c => c);
+}
 }

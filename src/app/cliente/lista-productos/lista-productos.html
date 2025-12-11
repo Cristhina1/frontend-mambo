@@ -1,5 +1,4 @@
 <div class="site-container">
-
   <div class="hero" role="banner" aria-label="Banner principal">
     <img src="assets/img/banner.jpg" alt="Banner de moda" class="hero-img" />
 
@@ -11,12 +10,14 @@
       <h5>Filtrar</h5>
 
       <label class="muted" for="categorias">Categorías</label>
-      <button class="category-btn" (click)="filterCategory('Poleras')">Poleras</button>
-      <button class="category-btn" (click)="filterCategory('Chaquetas')">Chaquetas</button>
-      <button class="category-btn" (click)="filterCategory('Pantalones')">Pantalones</button>
-      <button class="category-btn" (click)="filterCategory('Shorts')">Shorts</button>
-      <button class="category-btn" (click)="filterCategory('Accesorios')">Accesorios</button>
-      <button class="category-btn" (click)="filterCategory('Ofertas')">Ofertas</button>
+      <button class="category-btn" (click)="clearFilters()">Todas</button>
+      <button
+        class="category-btn"
+        *ngFor="let cat of categoriasUnicas"
+        (click)="filterCategory(cat)"
+      >
+        {{ cat }}
+      </button>
 
       <hr />
 
@@ -35,7 +36,7 @@
         <div class="catalog-title">Catálogo</div>
 
         <div class="search-box">
-          <input placeholder="Buscar por nombre..." [(ngModel)]="searchTerm" />
+          <input placeholder="Buscar por nombre..." [(ngModel)]="searchTerm" (ngModelChange)="searchProducts()" />
           <button (click)="searchProducts()"><i class="bi bi-search"></i></button>
         </div>
       </div>
@@ -50,7 +51,6 @@
 
       <div class="products-grid">
         <div class="card-product" *ngFor="let producto of productosFiltrados">
-
           <div class="media">
             <img [src]="producto.img" [alt]="producto.nombre" />
           </div>
@@ -66,15 +66,15 @@
               <div class="price">S/ {{ producto.precio }}</div>
 
               <button
-  class="add-btn"
-  [class.btn-disabled]="producto.stock === 0"  (click)="agregarAlCarrito(producto)"
-  [disabled]="producto.stock === 0"
->
-  {{ producto.stock === 0 ? 'Sin Stock' : 'Agregar' }}
-</button>
+                class="add-btn"
+                [class.btn-disabled]="producto.stock === 0"
+                (click)="agregarAlCarrito(producto)"
+                [disabled]="producto.stock === 0"
+              >
+                {{ producto.stock === 0 ? 'Sin Stock' : 'Agregar' }}
+              </button>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -82,11 +82,10 @@
       <h4 class="catalog-title">CATEGORÍAS A ELEGIR</h4>
 
       <div class="chips">
-        <div class="chip" (click)="filterCategory('Poleras')">Poleras</div>
-        <div class="chip" (click)="filterCategory('Chaquetas')">Chaquetas</div>
-        <div class="chip" (click)="filterCategory('Pantalones')">Pantalones</div>
-        <div class="chip" (click)="filterCategory('Accesorios')">Accesorios</div>
-        <div class="chip" (click)="filterCategory('Ofertas')">Ofertas</div>
+        <div class="chip" (click)="clearFilters()">TODAS</div>
+        <div class="chip" *ngFor="let cat of categoriasUnicas" (click)="filterCategory(cat)">
+          {{ cat }}
+        </div>
       </div>
     </section>
   </div>

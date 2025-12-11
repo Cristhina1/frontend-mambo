@@ -6,3 +6,14 @@ export interface ItemCarrito {
   cantidad: number;
   stockMaximo: number;
 }
+
+export interface Compra{
+  id : number;
+  tipoEnvio: string;
+  nombreDestinario: string;
+  contactoDestinatario: string;
+  tipoPago: string;
+  total: number;
+  estado: string;
+  fechaCreacion: Date;
+}

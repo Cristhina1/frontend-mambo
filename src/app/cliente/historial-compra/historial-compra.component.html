@@ -1,41 +1,247 @@
-<div class="container-history">
-  <div class="card">
-    <div class="card-header">
-      <h3>🛍️ Historial de Compras</h3>
+<div class="container pt-4 pb-5 history-dark">
 
-      <p>Consulta tus compras realizadas en MAMBO</p>
+  <h1 class="mb-4 fw-semibold text-white">Historial de Compras</h1>
+  <p class="text-muted-light mb-5">Revisa y gestiona todas tus compras realizadas</p>
+
+  <!-- LOADING -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-accent" style="width: 3rem; height: 3rem;"></div>
+    <p class="mt-3 text-muted-light fs-5">Buscando tus compras...</p>
+  </div>
+
+  <!-- ERROR -->
+  <div *ngIf="errorMensaje" class="alert alert-danger-dark rounded-3">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    {{ errorMensaje }}
+  </div>
+
+  <!-- VACÍO -->
+  <div *ngIf="!loading && misCompras.length === 0 && !errorMensaje" class="text-center py-5">
+    <div class="empty-state-icon mb-4">
+      <i class="bi bi-cart-x text-muted-light" style="font-size: 4rem;"></i>
+    </div>
+    <h3 class="text-white mb-3">No hay compras registradas</h3>
+    <p class="text-muted-light mb-4">Aún no has realizado ninguna compra en nuestra tienda.</p>
+    <a href="/catalogo" class="btn btn-accent px-4 py-2 rounded-pill fw-semibold">
+      <i class="bi bi-bag me-2"></i>Explorar Catálogo
+    </a>
+  </div>
+
+  <!-- CARDS -->
+  <div *ngIf="!loading && misCompras.length > 0" class="row g-4">
+
+    <div class="col-12 col-md-6 col-lg-4" *ngFor="let compra of misCompras">
+      <div class="card card-dark shadow-lg h-100">
+
+        <!-- HEADER -->
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom-light pb-3">
+          <div>
+            <span class="text-muted-light small d-block mb-1">Orden #</span>
+            <span class="fw-bold text-white fs-5">{{ compra.id }}</span>
+          </div>
+          <span class="badge px-3 py-2 rounded-pill"
+            [ngClass]="{
+              'badge-success': compra.estado === 'ENTREGADO' || compra.estado === 'PAGADO',
+              'badge-warning': compra.estado === 'PENDIENTE',
+              'badge-danger': compra.estado === 'CANCELADO'
+            }">
+            {{ compra.estado }}
+          </span>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body">
+
+          <div class="mb-4">
+            <small class="text-muted-light d-block mb-1">Fecha de compra</small>
+            <p class="m-0 text-white fw-medium">
+              <i class="bi bi-calendar3 me-2 text-accent"></i>
+              {{ compra.fechaCreacion | date:'dd/MM/yyyy' }}
+              <span class="text-muted-light ms-2">{{ compra.fechaCreacion | date:'HH:mm' }}</span>
+            </p>
+          </div>
+
+          <div class="mb-4">
+            <small class="text-muted-light d-block mb-1">Destinatario</small>
+            <p class="m-0 text-white fw-medium">
+              <i class="bi bi-person me-2 text-accent"></i>
+              {{ compra.nombreDestinario }}
+            </p>
+            <p class="m-0 text-muted-light small mt-1 ms-4">
+              <i class="bi bi-telephone me-1"></i>
+              {{ compra.contactoDestinatario }}
+            </p>
+          </div>
+
+          <div class="mb-4">
+            <small class="text-muted-light d-block mb-1">Método de pago</small>
+            <p class="m-0 text-white fw-medium">
+              <i class="bi bi-credit-card me-2 text-accent"></i>
+              {{ compra.tipoPago }}
+            </p>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top-light">
+            <div>
+              <small class="text-muted-light d-block mb-1">Total pagado</small>
+              <span class="text-white fw-bold fs-4">S/ {{ compra.total | number:'1.2-2' }}</span>
+            </div>
+            <button class="btn btn-outline-accent rounded-pill px-4" (click)="verDetalle(compra.id)">
+              Ver Detalles
+            </button>
+          </div>
+
+        </div>
+
+      </div>
     </div>
 
-    <div class="card-body">
-      <div *ngIf="compras.length === 0" class="empty-message">
-        <p>No tienes compras registradas todavía.</p>
-        <a routerLink="/cliente/carrito" class="btn-custom mt-3">Ir al carrito</a>
-      </div>
-      <div *ngIf="compras.length > 0" class="table-responsive">
-        <table class="table table-hover align-middle">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Cantidad</th>
-              <th>Precio Unitario</th>
-              <th>Total</th>
-              <th>Fecha de Compra</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let compra of compras">
-              <td>{{ compra.producto }}</td>
-              <td>{{ compra.cantidad }}</td>
-              <td>S/ {{ compra.precio | number : '1.2-2' }}</td>
-              <td>S/ {{ compra.total | number : '1.2-2' }}</td>
-              <td>{{ compra.fechaCompra | date : 'dd/MM/yyyy HH:mm' }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="text-center mt-4">
-          <a routerLink="/cliente/carrito" class="btn-custom">🛒 Volver al carrito</a>
+  </div>
+
+</div>
+
+<!-- MODAL DETALLE -->
+<div class="modal fade" id="modalDetalle" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content modal-dark-card">
+
+      <!-- HEADER -->
+      <div class="modal-header d-flex align-items-center justify-content-between border-bottom-accent pb-3">
+        <div>
+          <h3 class="modal-title fw-semibold text-white mb-1">Detalle de Compra</h3>
+          <p class="text-muted-light small m-0">Orden #{{ compraSeleccionada?.id }}</p>
         </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
+
+      <!-- BODY -->
+      <div class="modal-body" *ngIf="compraSeleccionada">
+
+        <!-- INFO DE EMPRESA + CLIENTE -->
+        <div class="invoice-header-box mb-4">
+          <div class="row align-items-center">
+            <div class="col-6">
+              <h4 class="fw-semibold text-white mb-2">MAMBO Clothing</h4>
+              <p class="text-muted-light small mb-1">
+                <i class="bi bi-building me-1"></i>RUC: 20123456789
+              </p>
+              <p class="text-muted-light small m-0">
+                <i class="bi bi-geo-alt me-1"></i>Ate, Lima – Perú
+              </p>
+            </div>
+
+            <div class="col-6 text-end">
+              <div class="bg-dark-light p-3 rounded-3 d-inline-block">
+                <p class="m-0 text-white fw-medium">
+                  {{ compraSeleccionada.fechaCreacion | date:'dd/MM/yyyy' }}
+                  <span class="text-muted-light ms-2">{{ compraSeleccionada.fechaCreacion | date:'HH:mm' }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INFORMACIÓN DEL CLIENTE -->
+        <div class="customer-info-box mb-4 p-3 bg-dark-light rounded-3">
+          <h6 class="text-white fw-medium mb-3">
+            <i class="bi bi-person-circle me-2 text-accent"></i>Información del Cliente
+          </h6>
+          <div class="row">
+            <div class="col-6">
+              <small class="text-muted-light d-block mb-1">Nombre</small>
+              <p class="text-white fw-medium m-0">{{ compraSeleccionada.nombreDestinario }}</p>
+            </div>
+            <div class="col-6">
+              <small class="text-muted-light d-block mb-1">Contacto</small>
+              <p class="text-white fw-medium m-0">{{ compraSeleccionada.contactoDestinatario }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCTOS -->
+        <div class="items-box mb-4">
+          <h6 class="text-white fw-medium mb-3">
+            <i class="bi bi-box-seam me-2 text-accent"></i>Artículos Comprados
+          </h6>
+
+          <div class="table-responsive">
+            <table class="table table-dark table-borderless mb-0">
+              <thead>
+                <tr>
+                  <th class="text-muted-light fw-normal">Producto</th>
+                  <th class="text-muted-light fw-normal text-center">Cantidad</th>
+                  <th class="text-muted-light fw-normal text-end">P. Unitario</th>
+                  <th class="text-muted-light fw-normal text-end">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let detalle of compraSeleccionada.detalles">
+                  <td class="text-white fw-medium">{{ detalle.nombreProducto }}</td>
+                  <td class="text-white text-center">{{ detalle.cantidad }}</td>
+                  <td class="text-white text-end">S/ {{ detalle.precioUnitario | number:'1.2-2' }}</td>
+                  <td class="text-accent fw-semibold text-end">
+                    S/ {{ (detalle.precioUnitario * detalle.cantidad) | number:'1.2-2' }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- RESUMEN FINAL -->
+        <div class="summary-box p-4 bg-dark-light rounded-3">
+          <div class="row mb-3">
+            <div class="col-8">
+              <span class="text-muted-light">Costo de Envío</span>
+            </div>
+            <div class="col-4 text-end">
+              <span class="text-white fw-medium">S/ {{ compraSeleccionada.envioPrecio | number:'1.2-2' }}</span>
+            </div>
+          </div>
+
+          <div class="row pt-3 border-top-light">
+            <div class="col-8">
+              <h5 class="text-white fw-semibold m-0">Total a Pagar</h5>
+            </div>
+            <div class="col-4 text-end">
+              <h3 class="text-accent fw-bold m-0">S/ {{ compraSeleccionada.total | number:'1.2-2' }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- INFORMACIÓN ADICIONAL -->
+        <div class="info-footer mt-4 pt-4 border-top-light">
+          <div class="row">
+            <div class="col-6">
+              <small class="text-muted-light d-block mb-2">Método de Pago</small>
+              <div class="d-flex align-items-center">
+                <i class="bi bi-credit-card-2-front me-2 text-accent"></i>
+                <span class="text-white fw-medium">{{ compraSeleccionada.tipoPago }}</span>
+              </div>
+            </div>
+            <div class="col-6 text-end">
+              <small class="text-muted-light d-block mb-2">Estado de la Orden</small>
+              <span class="badge px-3 py-2 rounded-pill fs-6"
+                [ngClass]="{
+                  'badge-success': compraSeleccionada.estado === 'ENTREGADO' || compraSeleccionada.estado === 'PAGADO',
+                  'badge-warning': compraSeleccionada.estado === 'PENDIENTE',
+                  'badge-danger': compraSeleccionada.estado === 'CANCELADO'
+                }">
+                {{ compraSeleccionada.estado }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer border-top-accent pt-3">
+        <button class="btn btn-outline-light rounded-pill px-4" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-2"></i>Cerrar
+        </button>
+      </div>
+
     </div>
   </div>
 </div>

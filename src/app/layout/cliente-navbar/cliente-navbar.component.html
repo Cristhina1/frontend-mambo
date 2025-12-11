@@ -39,13 +39,12 @@
         <!-- USUARIO LOGUEADO -->
         <li class="nav-item dropdown" *ngIf="isLoggedIn">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle"></i> {{ userName || 'Usuario' }}
+            <i class="bi bi-person-circle"></i>Bienvenido: {{ userName || 'Usuario' }}
           </a>
+        </li>
 
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" routerLink="/historial">Historial</a></li>
-            <li><a class="dropdown-item" href="#" (click)="logout()">Cerrar sesión</a></li>
-          </ul>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link" routerLink="" (click)="logout()"> <i class="bi bi-person"></i> Cerrar Sesion </a>
         </li>
 
         <!-- CARRITO -->
