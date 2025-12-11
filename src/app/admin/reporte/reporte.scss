@@ -1,1 +1,66 @@
-/* archivo SCSS vacío temporalmente */
+/* --- Variables Light Theme --- */
+$bg-body: #f3f4f6;       // Gris muy suave para el fondo
+$card-bg: #ffffff;       // Blanco puro
+$text-dark: #111827;     // Casi negro
+$text-muted: #6b7280;    // Gris medio
+$primary: #111827;       // Negro para botones principales (Estilo Mambo)
+$accent: #ffcc00;        // Amarillo Mambo (Detalles)
+
+.main-container {
+  background-color: $bg-body;
+  min-height: 100vh;
+}
+
+/* --- Cards --- */
+.card {
+  background-color: $card-bg;
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+  }
+}
+
+/* --- Avatares --- */
+.avatar-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+/* --- Badges Personalizados --- */
+.bg-success-subtle { background-color: #dcfce7 !important; }
+.text-success { color: #166534 !important; }
+
+.bg-warning-subtle { background-color: #fef9c3 !important; }
+.text-warning-dark { color: #854d0e !important; }
+
+.bg-danger-subtle { background-color: #fee2e2 !important; }
+.text-danger { color: #991b1b !important; }
+
+/* --- Botones --- */
+.btn-dark {
+  background-color: $primary;
+  border: none;
+  &:hover {
+    background-color: lighten($primary, 10%);
+  }
+}
+
+.btn-white {
+  background-color: white;
+  color: $text-dark;
+  &:hover {
+    background-color: #f9fafb;
+  }
+}
+
+/* --- Modal --- */
+.modal-content {
+  border-radius: 16px;
+}

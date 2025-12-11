@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { Compra } from '../../models/carrito.model';
+import { CompraService } from '../../services/compra.service';
+declare let bootstrap: any;
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-reporte',
   standalone: true,
@@ -10,33 +13,81 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./reporte.scss']
 })
 export class ReporteComponent {
-  tipoReporte = 'ventas';
-  periodo = 'mes';
-  fechaInicio = '';
-  fechaFin = '';
+  misCompras: Compra[] = [];
+    compraSeleccionada: any = null;
+    loading: boolean = true;
+    errorMensaje: string = '';
 
-  resumen = [
-    { titulo: 'Ventas del Período', valor: 'S/ 15,670.00', icono: 'bi-cash-stack', bg: 'bg-primary' },
-    { titulo: 'Transacciones', valor: '127', icono: 'bi-receipt', bg: 'bg-success' },
-    { titulo: 'Ticket Promedio', valor: 'S/ 123.39', icono: 'bi-calculator', bg: 'bg-warning' },
-    { titulo: 'Crecimiento', valor: '+15.2%', icono: 'bi-trending-up', bg: 'bg-info' },
-  ];
+    constructor(private compraService: CompraService) {}
 
-  datos = [
-    { fecha: '09/09/2025', doc: 'B001-123', cliente: 'Juan Pérez', vendedor: 'Carlos Mendoza', total: 'S/ 450.00' },
-    { fecha: '09/09/2025', doc: 'F001-456', cliente: 'Empresa ABC S.A.C.', vendedor: 'María González', total: 'S/ 1,245.60' },
-    { fecha: '08/09/2025', doc: 'B001-124', cliente: 'Ana Torres', vendedor: 'José Pérez', total: 'S/ 78.50' },
-  ];
+    ngOnInit() {
+      this.cargarHistorial();
+    }
 
-  generarReporte() {
-    alert('Reporte generado correctamente ✅');
-  }
+    cargarHistorial() {
+      this.loading = true;
+      this.compraService.lista().subscribe({
+        next: (data) => {
+          this.misCompras = data;
+          this.loading = false;
+          console.log("Historial cargado:", data);
+        },
+        error: (err) => {
+          this.loading = false;
+          console.error("Error al cargar historial", err);
+          this.loading = false;
+          // Aquí podrías mostrar un mensaje si no hay compras o si falló el token
+        }
+      });
+    }
 
-  limpiarFiltros() {
-    this.tipoReporte = 'ventas';
-    this.periodo = 'mes';
-    this.fechaInicio = '';
-    this.fechaFin = '';
-  }
+    verDetalle(id:number){
+      this.compraService.obtenerDetalleCompra(id).subscribe({
+        next: (data) => {
+          this.compraSeleccionada = data;
+
+          // Abrir el modal manualmente una vez que tenemos los datos
+          const modalElement = document.getElementById('modalDetalle');
+          if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+          }
+        },
+        error: (err) => console.error("Error al cargar detalle", err)
+      })
+    }
+
+    entregarPedido(compra: any) {
+  Swal.fire({
+    title: 'Confirmar Entrega',
+    text: 'Ingrese su contraseña de usuario para validar:',
+    input: 'password', // Input tipo contraseña
+    inputAttributes: {
+      autocapitalize: 'off',
+      placeholder: 'Su contraseña aquí'
+    },
+    showCancelButton: true,
+    confirmButtonText: 'Confirmar Entrega',
+    confirmButtonColor: '#28a745', // Verde
+    showLoaderOnConfirm: true,
+    preConfirm: (password) => {
+      // Retornamos la promesa del servicio
+      return this.compraService.confirmarEntrega(compra.id, password).toPromise()
+        .catch(error => {
+          Swal.showValidationMessage(`❌ Error: ${error.error || 'Contraseña incorrecta'}`);
+        });
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: '¡Entregado!',
+        text: 'El estado de la compra ha sido actualizado.',
+        icon: 'success'
+      });
+      this.cargarHistorial(); // Recargar tabla
+    }
+  });
+}
 }
 

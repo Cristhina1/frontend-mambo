@@ -1,235 +1,222 @@
 <div class="container-fluid p-4" style="background: #f9fafb; min-height: 100vh;">
 
-  <!-- Header -->
-  <div class="d-flex justify-content-between align-items-center mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h1 style="color: #111827; font-weight: 700; margin-bottom: 4px;">
-        <i class="bi bi-receipt me-3" style="color: #111827;"></i>Generar Boleta
+      <h1 style="color: #111827; font-weight: 700;">
+        <i class="bi bi-receipt me-3"></i>Generar Boleta
       </h1>
-      <p style="color: #6b7280; font-size: 0.95rem; margin: 0;">
-        Crear nueva boleta de venta
-      </p>
     </div>
-    <button class="btn d-flex align-items-center" (click)="limpiarFormulario()"
-            style="background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; padding: 10px 20px;
-                   border-radius: 8px; font-weight: 500;">
-      <i class="bi bi-arrow-clockwise me-2"></i>Limpiar Formulario
+    <button class="btn btn-light border" (click)="limpiarFormulario()">
+      <i class="bi bi-arrow-clockwise me-2"></i>Nueva Venta
     </button>
   </div>
 
   <div class="row">
-    <!-- Formulario -->
     <div class="col-lg-8">
       <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
-        <div class="card-header border-0" style="background: white; padding: 20px 25px;">
-          <h5 class="mb-0" style="color: #111827; font-weight: 600;">
-            <i class="bi bi-file-earmark me-2" style="color: #111827;"></i> Nueva Boleta
-          </h5>
+
+        <div class="card-header border-0 bg-white p-4">
+          <button class="btn w-100 d-flex align-items-center justify-content-center p-3"
+                  (click)="abrirModal()"
+                  style="background: #111827; color: white; border-radius: 10px; font-size: 1.1rem;">
+            <i class="bi bi-search me-2"></i> BUSCAR Y AGREGAR PRODUCTOS
+          </button>
         </div>
 
-        <div class="card-body p-4">
-          <!-- Cliente -->
-          <div class="mb-5">
-            <h6 style="color: #111827; font-weight: 600; margin-bottom: 20px; padding-bottom: 10px;
-                       border-bottom: 2px solid #111827; display: inline-block;">
-              <i class="bi bi-person me-2"></i> Información del Cliente
-            </h6>
-
-            <div class="row g-3">
-              <div class="col-md-4">
-                <label class="form-label" style="color: #374151; font-weight: 500;">Tipo Documento</label>
-                <select class="form-select" [(ngModel)]="boleta.tipoDocumento" name="tipoDoc"
-                        style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; color: #374151;">
-                  <option value="dni">DNI</option>
-                  <option value="ruc">RUC</option>
-                  <option value="carnet">Carnet Extranjería</option>
-                </select>
-              </div>
-
-              <div class="col-md-4">
-                <label class="form-label" style="color: #374151; font-weight: 500;">Número Documento</label>
-                <input type="text" class="form-control" [(ngModel)]="boleta.numDocumento"
-                       placeholder="Ingrese número"
-                       style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; color: #374151;">
-              </div>
-
-              <div class="col-md-4">
-                <label class="form-label" style="color: #374151; font-weight: 500;">Nombre/Razón Social</label>
-                <input type="text" class="form-control" [(ngModel)]="boleta.nombreCliente"
-                       placeholder="Nombre del cliente"
-                       style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; color: #374151;">
-              </div>
-            </div>
-          </div>
-
-          <!-- Productos -->
-          <div class="mb-5">
-            <h6 style="color: #111827; font-weight: 600; margin-bottom: 20px; padding-bottom: 10px;
-                       border-bottom: 2px solid #111827; display: inline-block;">
-              <i class="bi bi-box me-2"></i> Agregar Productos
-            </h6>
-
-            <div class="row g-3">
-              <div class="col-md-4">
-                <label class="form-label" style="color: #374151; font-weight: 500;">Código / Nombre</label>
-                <input class="form-control" [(ngModel)]="producto.codigo" placeholder="Código o nombre"
-                       style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; color: #374151;">
-              </div>
-
-              <div class="col-md-3">
-                <label class="form-label" style="color: #374151; font-weight: 500;">Cantidad</label>
-                <input type="number" class="form-control" [(ngModel)]="producto.cantidad" min="1"
-                       style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; color: #374151;">
-              </div>
-
-              <div class="col-md-3">
-                <label class="form-label" style="color: #374151; font-weight: 500;">Precio Unit.</label>
-                <input type="number" class="form-control" [(ngModel)]="producto.precio" step="0.01"
-                       style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; color: #374151;">
-              </div>
-
-              <div class="col-md-2 d-flex align-items-end">
-                <button class="btn w-100 d-flex align-items-center justify-content-center" (click)="agregarProducto()"
-                        style="background: #111827; color: white; border: none; padding: 10px;
-                               border-radius: 8px; font-weight: 500; height: 42px;">
-                  <i class="bi bi-plus-lg me-2"></i>Agregar
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Lista de productos -->
-          <div class="table-responsive" style="border-radius: 8px; overflow: hidden; border: 1px solid #e5e7eb;">
-            <table class="table mb-0">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table mb-0 align-middle">
               <thead style="background: #f9fafb;">
                 <tr>
-                  <th style="padding: 16px 20px; color: #374151; font-weight: 600; border: none; border-bottom: 1px solid #e5e7eb;">Código</th>
-                  <th style="padding: 16px 20px; color: #374151; font-weight: 600; border: none; border-bottom: 1px solid #e5e7eb;">Producto</th>
-                  <th style="padding: 16px 20px; color: #374151; font-weight: 600; border: none; border-bottom: 1px solid #e5e7eb;">Cantidad</th>
-                  <th style="padding: 16px 20px; color: #374151; font-weight: 600; border: none; border-bottom: 1px solid #e5e7eb;">Precio Unit.</th>
-                  <th style="padding: 16px 20px; color: #374151; font-weight: 600; border: none; border-bottom: 1px solid #e5e7eb;">Subtotal</th>
-                  <th style="padding: 16px 20px; color: #374151; font-weight: 600; border: none; border-bottom: 1px solid #e5e7eb;">Acción</th>
+                  <th class="ps-4">Producto</th>
+                  <th class="text-center">Precio</th>
+                  <th class="text-center">Cantidad</th>
+                  <th class="text-end">Subtotal</th>
+                  <th class="text-center pe-4">Acción</th>
                 </tr>
               </thead>
-
               <tbody>
-                <tr *ngFor="let item of productos; let i = index" style="border-bottom: 1px solid #f3f4f6;">
-                  <td style="padding: 16px 20px; color: #111827; font-weight: 500;">{{ item.codigo }}</td>
-                  <td style="padding: 16px 20px; color: #111827; font-weight: 500;">{{ item.nombre }}</td>
-                  <td style="padding: 16px 20px; color: #111827; font-weight: 500;">{{ item.cantidad }}</td>
-                  <td style="padding: 16px 20px; color: #111827; font-weight: 500;">S/ {{ item.precio | number:'1.2-2' }}</td>
-                  <td style="padding: 16px 20px; color: #111827; font-weight: 500;">S/ {{ (item.cantidad * item.precio) | number:'1.2-2' }}</td>
-                  <td style="padding: 16px 20px;">
-                    <button class="btn btn-sm d-flex align-items-center justify-content-center"
-                            (click)="eliminarProducto(i)"
-                            style="width: 32px; height: 32px; background: #fee2e2; color: #dc2626;
-                                   border: none; border-radius: 6px;">
+                <tr *ngFor="let item of productos; let i = index">
+                  <td class="ps-4">
+                    <div class="fw-bold text-dark">{{ item.nombre }}</div>
+                    <small class="text-muted">{{ item.codigo }}</small>
+                  </td>
+                  <td class="text-center">S/ {{ item.precio | number:'1.2-2' }}</td>
+
+                  <td class="text-center">
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                      <button class="btn btn-sm btn-outline-secondary" (click)="disminuirCantidad(i)" [disabled]="item.cantidad <= 1">
+                        <i class="bi bi-dash"></i>
+                      </button>
+                      <span class="fw-bold" style="width: 30px;">{{ item.cantidad }}</span>
+                      <button class="btn btn-sm btn-outline-dark" (click)="incrementarCantidad(i)" [disabled]="item.cantidad >= item.stockMaximo">
+                        <i class="bi bi-plus"></i>
+                      </button>
+                    </div>
+                  </td>
+
+                  <td class="text-end fw-bold text-dark">S/ {{ (item.cantidad * item.precio) | number:'1.2-2' }}</td>
+
+                  <td class="text-center pe-4">
+                    <button class="btn btn-sm text-danger" (click)="eliminarProducto(i)">
                       <i class="bi bi-trash"></i>
                     </button>
                   </td>
                 </tr>
 
                 <tr *ngIf="productos.length === 0">
-                  <td colspan="6" style="padding: 40px 20px; text-align: center;">
-                    <div class="text-center py-3">
-                      <i class="bi bi-cart" style="font-size: 2.5rem; color: #d1d5db;"></i>
-                      <p style="color: #6b7280; margin-top: 10px;">No hay productos agregados</p>
-                    </div>
+                  <td colspan="5" class="text-center py-5 text-muted">
+                    <i class="bi bi-cart x2 mb-2" style="font-size: 2rem;"></i>
+                    <p>El carrito está vacío. Agregue productos.</p>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-
-          <!-- Botones -->
-          <div class="mt-5 d-flex gap-3">
-            <button class="btn d-flex align-items-center" (click)="generarBoleta()"
-                    style="background: #111827; color: white; border: none; padding: 12px 24px;
-                           border-radius: 8px; font-weight: 500;">
-              <i class="bi bi-receipt me-2"></i>Generar Boleta
-            </button>
-
-            <button class="btn d-flex align-items-center" (click)="verPreview()"
-                    style="background: white; color: #111827; border: 1px solid #e5e7eb;
-                           padding: 12px 24px; border-radius: 8px; font-weight: 500;">
-              <i class="bi bi-eye me-2"></i>Vista Previa
-            </button>
-
-            <button class="btn d-flex align-items-center" (click)="guardarBorrador()"
-                    style="background: white; color: #10b981; border: 1px solid #10b981;
-                           padding: 12px 24px; border-radius: 8px; font-weight: 500;">
-              <i class="bi bi-save me-2"></i>Guardar Borrador
-            </button>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- Resumen -->
     <div class="col-lg-4">
-      <!-- Resumen de Venta -->
-      <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
-        <div class="card-header border-0" style="background: white; padding: 20px 25px;">
-          <h5 class="mb-0" style="color: #111827; font-weight: 600;">
-            <i class="bi bi-calculator me-2" style="color: #111827;"></i>Resumen de Venta
-          </h5>
-        </div>
-
+      <div class="card border-0 shadow-sm" style="border-radius: 12px;">
         <div class="card-body p-4">
-          <div class="d-flex justify-content-between mb-3">
-            <span style="color: #374151;">Subtotal:</span>
-            <span style="color: #111827; font-weight: 500;">S/ {{ subtotal | number:'1.2-2' }}</span>
-          </div>
-
-          <div class="d-flex justify-content-between mb-3">
-            <span style="color: #374151;">IGV (18%):</span>
-            <span style="color: #111827; font-weight: 500;">S/ {{ igv | number:'1.2-2' }}</span>
-          </div>
-
-          <hr style="border-color: #e5e7eb; margin: 20px 0;">
-
-          <div class="d-flex justify-content-between mb-4">
-            <strong style="color: #111827;">Total:</strong>
-            <strong style="color: #111827; font-size: 1.3rem;">S/ {{ total | number:'1.2-2' }}</strong>
-          </div>
-
-          <div class="mb-4">
-            <label class="form-label" style="color: #374151; font-weight: 500;">Método de Pago</label>
-            <select class="form-select" [(ngModel)]="boleta.metodoPago"
-                    style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; color: #374151;">
-              <option value="efectivo">Efectivo</option>
-              <option value="tarjeta">Tarjeta</option>
-              <option value="transferencia">Transferencia</option>
-              <option value="mixto">Mixto</option>
-            </select>
-          </div>
-
-          <div class="mb-4" *ngIf="boleta.metodoPago === 'efectivo'">
-            <label class="form-label" style="color: #374151; font-weight: 500;">Monto Recibido</label>
-            <input type="number" class="form-control" [(ngModel)]="boleta.montoRecibido" step="0.01"
-                   style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; color: #374151;">
-          </div>
-
-          <div class="mb-4" *ngIf="vuelto > 0">
-            <label class="form-label" style="color: #374151; font-weight: 500;">Vuelto</label>
-            <div class="form-control" style="background: #d1fae5; color: #065f46; font-weight: 600;
-                    border: 1px solid #a7f3d0; border-radius: 8px; padding: 10px;">
-              S/ {{ vuelto | number:'1.2-2' }}
+            <h5 class="mb-3 fw-bold">Datos del Cliente</h5>
+            <div class="mb-3">
+              <input class="form-control" [(ngModel)]="boleta.nombreCliente" placeholder="Nombre Cliente">
+              <input type="text" class="form-control"
+           [(ngModel)]="boleta.numDocumento"
+           placeholder="Nro Documento">
+                <input type="email" class="form-control" [(ngModel)]="boleta.email" placeholder="ejemplo@correo.com">
+                <input type="text" class="form-control"
+           [(ngModel)]="boleta.metodoPago"
+           placeholder="Escribe: EFECTIVO, TARJETA o YAPE">
+    <small class="text-muted" style="font-size: 0.8rem;">
+       Opciones válidas: Efectivo, Tarjeta, Yape
+    </small>
             </div>
-          </div>
 
-          <div class="mb-4">
-            <label class="form-label" style="color: #374151; font-weight: 500;">Observaciones</label>
-            <textarea class="form-control" [(ngModel)]="boleta.observaciones" rows="3"
-                      style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; color: #374151;
-                             resize: none;"></textarea>
-          </div>
+            <hr>
+
+            <div class="d-flex justify-content-between mb-2">
+                <span>Subtotal</span>
+                <span>S/ {{ subtotal | number:'1.2-2' }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+                <span>IGV (18%)</span>
+                <span>S/ {{ igv | number:'1.2-2' }}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded mb-3">
+                <span class="fw-bold fs-5">TOTAL</span>
+                <span class="fw-bold fs-4 text-primary">S/ {{ total | number:'1.2-2' }}</span>
+            </div>
+
+            <button class="btn btn-success w-100 py-2 fw-bold" (click)="generarBoleta()">
+                <i class="bi bi-check-circle me-2"></i> CONFIRMAR VENTA
+            </button>
         </div>
       </div>
-
     </div>
   </div>
 </div>
+
+<div class="modal-backdrop" *ngIf="modalAbierto"></div>
+<div class="custom-modal" *ngIf="modalAbierto">
+  <div class="modal-content-wrapper">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold m-0">Seleccionar Producto</h5>
+        <button class="btn-close" (click)="cerrarModal()"></button>
+    </div>
+
+    <div class="mb-3">
+        <div class="input-group">
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control border-start-0 ps-0"
+                   [(ngModel)]="buscarRapido"
+                   placeholder="Buscar por nombre o código..." autofocus>
+        </div>
+    </div>
+
+    <div class="product-list-container">
+        <table class="table table-hover">
+            <thead class="table-light sticky-top">
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of disponibles | filterProducto:buscarRapido"
+                    (click)="seleccionarProducto(p)"
+                    style="cursor: pointer;">
+                    <td><small>{{ p.codigo }}</small></td>
+                    <td>{{ p.nombre }}</td>
+                    <td class="fw-bold">S/ {{ p.precio }}</td>
+                    <td>
+                        <span class="badge"
+                              [ngClass]="{'bg-success': p.stock > 5, 'bg-warning': p.stock <= 5, 'bg-danger': p.stock === 0}">
+                            {{ p.stock }}
+                        </span>
+                    </td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-primary rounded-circle" [disabled]="p.stock === 0">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="(disponibles | filterProducto:buscarRapido).length === 0" class="text-center p-4">
+            <p class="text-muted">No se encontraron productos.</p>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+/* Fondo oscuro */
+.modal-backdrop {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 1040;
+}
+
+/* Contenedor del Modal Centrado */
+.custom-modal {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; max-width: 700px;
+    background: white;
+    z-index: 1050;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: slideDown 0.3s ease;
+}
+
+.modal-content-wrapper {
+    padding: 20px;
+}
+
+/* Área scrollable para la lista */
+.product-list-container {
+    max-height: 400px; /* Altura máxima de la lista */
+    overflow-y: auto;
+    border: 1px solid #f1f5f9;
+    border-radius: 8px;
+}
+
+/* Sticky Header para la tabla del modal */
+.sticky-top { position: sticky; top: 0; z-index: 2; }
+
+@keyframes slideDown {
+    from { transform: translate(-50%, -60%); opacity: 0; }
+    to { transform: translate(-50%, -50%); opacity: 1; }
+}
+</style>
 
 <!-- Estilos CSS -->
 <style>

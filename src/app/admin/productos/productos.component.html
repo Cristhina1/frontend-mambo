@@ -66,7 +66,7 @@
                   <i class="bi bi-search" style="color: #6b7280;"></i>
                 </span>
                 <input type="text" class="form-control" placeholder="Nombre, SKU..."
-                       formControlName="buscador" 
+                       formControlName="buscador"
                        style="border: 1px solid #e5e7eb;">
               </div>
             </div>
@@ -114,19 +114,29 @@
           </div>
 
           <div class="d-flex justify-content-between align-items-center mt-3">
-            <div>
-              <div style="color: #111827; font-weight: 700; font-size: 1.2rem;">
-                S/ {{ p.precio | number:'1.2-2' }}
-              </div>
-              <small style="color: #6b7280; font-size: 0.8rem;">Precio unitario</small>
-            </div>
+ <div>
+  <div style="color: #111827; font-weight: 700; font-size: 1.2rem;">
+   S/ {{ p.precio | number:'1.2-2' }}
+  </div>
+  <small style="color: #6b7280; font-size: 0.8rem;">Precio unitario</small>
+ </div>
 
-            <button class="btn btn-sm d-flex align-items-center justify-content-center"
-                    (click)="eliminarProducto(p.id)"
-                    style="width: 36px; height: 36px; background: #111827; color: white;
-                           border: none; border-radius: 8px;">
-              <i class="bi bi-trash"></i>
-            </button>
+ <div class="d-flex gap-2">     <button class="btn btn-sm d-flex align-items-center justify-content-center"
+   data-bs-toggle="modal"
+   data-bs-target="#modalNuevoProducto"
+   (click)="abrirModalEditar(p)"
+   style="width: 36px; height: 36px; background: #374151; color: white;
+ border: none; border-radius: 8px;">
+   <i class="bi bi-pencil"></i>
+  </button>
+
+ <button class="btn btn-sm d-flex align-items-center justify-content-center"
+  (click)="eliminarProducto(p.id)"
+  style="width: 36px; height: 36px; background: #dc3545; color: white;
+  border: none; border-radius: 8px;">
+  <i class="bi bi-trash"></i>
+  </button>
+ </div>
           </div>
         </div>
       </div>
@@ -151,12 +161,11 @@
 
       <div class="modal-header" style="background: #111827; color: white; border: none; padding: 20px;">
         <h5 class="modal-title mb-0" style="font-weight: 600;">
-          <i class="bi bi-plus-lg me-2"></i>Nuevo Producto
-        </h5>
+     <i class="bi bi-plus-lg me-2"></i>{{ modalTitulo }}     </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
 
-      <form [formGroup]="productoForm" (ngSubmit)="agregarProducto()">
+      <form [formGroup]="productoForm" (ngSubmit)="guardarProducto()">
         <div class="modal-body p-4">
           <div class="row g-3">
             <div class="col-12">

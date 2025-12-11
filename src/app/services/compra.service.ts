@@ -10,6 +10,10 @@ import { Compra } from '../models/carrito.model';
 export class CompraService {
   private apiUrl = 'http://localhost:8080/api/compras';
   constructor(private http: HttpClient) {}
+
+  lista(): Observable<Compra[]>{
+    return this.http.get<Compra[]>(`${this.apiUrl}`);
+  }
   guardarCompra(compra:any): Observable<any>{
     return this.http.post(`${this.apiUrl}/carrito`, compra)
   }
@@ -21,4 +25,8 @@ export class CompraService {
   obtenerDetalleCompra(id:number): Observable<Compra>{
     return this.http.get<Compra>(`${this.apiUrl}/${id}`)
   }
+
+  confirmarEntrega(idCompra: number, password: string) {
+  return this.http.put(`${this.apiUrl}/${idCompra}/entregar`, { password });
+}
 }
