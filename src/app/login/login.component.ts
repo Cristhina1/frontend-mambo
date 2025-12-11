@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
             // 1. CASO ADMINISTRADOR O VENDEDOR -> Dashboard
             if (role === 'ROLE_ADMIN' || role === 'ROLE_VENDEDOR') {
               console.log('Redirigiendo al Dashboard...');
-              this.router.navigate(['/admin/home']);
+              this.router.navigate(['/admin/productos']);
             }
             // 2. CUALQUIER OTRO CASO (Cliente) -> Catálogo
             else {

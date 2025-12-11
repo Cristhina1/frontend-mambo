@@ -11,7 +11,6 @@ import { MetodoPagoComponent } from './checkout/metodo-pago/metodo-pago.componen
 
 
 import { HomeComponent } from './admin/home/home.component';
-import { BoletaComponent } from './admin/boleta/boleta.component';
 import { ClientesComponent } from './admin/clientes/clientes.component';
 import { ListUsuariosComponent } from './admin/list-usuarios/list-usuarios.component';
 import { ProductosComponent } from './admin/productos/productos.component';
@@ -21,6 +20,7 @@ import { ClienteLayout } from './layout/layout-cliente/layout-cliente.component'
 import { AdminLayoutComponent } from './admin/layout/layout-admin/layout-admin.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './login/register/register.component';
+import { roleGuard } from './auth/role.guard';
 
 export const routes: Routes = [
   // RUTAS DE ADMIN
@@ -28,13 +28,14 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: 'home', component: HomeComponent },
-      { path: 'boleta', component: BoletaComponent },
+      { path: 'home', component: HomeComponent, canActivate: [roleGuard],
+        data: { roles: ['ADMIN']} },
       { path: 'clientes', component: ClientesComponent },
       { path: 'list-usuarios', component: ListUsuariosComponent },
       { path: 'productos', component: ProductosComponent },
       { path: 'reporte', component: ReporteComponent },
-      { path: 'vendedores', component: VendedoresComponent },
+      { path: 'vendedores', component: VendedoresComponent, canActivate: [roleGuard],
+        data: { roles: ['ADMIN'] }},
     ]
   },
   {

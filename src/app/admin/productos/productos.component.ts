@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductoService } from './../../services/producto.service';
 import { Producto } from '../../models/producto.model';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-productos',
@@ -12,6 +13,7 @@ import { Producto } from '../../models/producto.model';
   styleUrls: ['./productos.scss'],
 })
 export class ProductosComponent implements OnInit {
+  role!: string | null;
   modalTitulo: string = 'Nuevo Producto';
   modalBotonTexto: string = 'Guardar';
   isEditMode: boolean = false;
@@ -23,12 +25,13 @@ export class ProductosComponent implements OnInit {
   archivoSeleccionado: File | null = null;
   imagenUrlActual: string | null = null;
 
-  constructor(private fb: FormBuilder, private productoService: ProductoService) {}
+  constructor(private fb: FormBuilder, private productoService: ProductoService, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.crearFormularioProducto();
     this.crearFormularioFiltros();
     this.cargarProductos();
+    this.role = this.auth.getRole();
   }
 
   // Captura el archivo del input HTML

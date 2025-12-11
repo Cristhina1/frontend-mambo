@@ -22,7 +22,7 @@
         <p>S/ {{ item.precio }}</p>
 
         <div class="qty-control">
-          
+
           <button (click)="carritoService.disminuirCantidad(item.id)">-</button>
           <span>{{ item.cantidad }}</span>
           <button (click)="carritoService.aumentarCantidad(item.id)">+</button>
@@ -41,8 +41,12 @@
         S/ {{ getTotal() }}
       </div>
 
-      <button type="button" class="add-btn w-100 mt-3" (click)="onFinalizePurchase()">
+      <button *ngIf="isLoggedIn" type="button" class="add-btn w-100 mt-3" (click)="onFinalizePurchase()">
         Realizar pedido
+      </button>
+
+      <button *ngIf="!isLoggedIn" type="button" class="add-btn w-100 mt-3" routerLink="/login">
+        Inicia Sesion
       </button>
     </div>
   </div>

@@ -49,6 +49,7 @@ export class ClienteNavbarComponent {
 
   logout() {
     this.isLoggedIn = false;
+    localStorage.clear();
     this.userName = null;
   }
 

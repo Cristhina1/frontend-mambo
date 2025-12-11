@@ -8,7 +8,7 @@ import { Cliente } from '../models/cliente.model';
 })
 export class ClienteService {
 
-  private apiUrl = 'http://localhost:3000/clientes'; // <-- Ajusta aquí
+  private apiUrl = 'http://localhost:8080/api/clientes'; // <-- Ajusta aquí
 
   constructor(private http: HttpClient) {}
 
@@ -16,15 +16,15 @@ export class ClienteService {
     return this.http.get<Cliente[]>(this.apiUrl);
   }
 
-  addCliente(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(this.apiUrl, cliente);
+  createCliente(data: FormData): Observable<Cliente> {
+    return this.http.post<Cliente>(this.apiUrl, data);
   }
 
-  updateCliente(id: number, cliente: Cliente): Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.apiUrl}/${id}`, cliente);
+  updateCliente(id: number, data: FormData): Observable<Cliente> {
+    return this.http.put<Cliente>(`${this.apiUrl}/actualizar/${id}`, data);
   }
 
   deleteCliente(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/eliminar/${id}`);
   }
 }

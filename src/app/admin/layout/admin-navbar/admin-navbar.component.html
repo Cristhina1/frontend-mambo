@@ -19,7 +19,7 @@
     <nav class="sidebar-menu py-6">
       <ul style="list-style: none; padding: 0; margin: 0;">
 
-        <li class="menu-item">
+        <li *ngIf="role === 'ADMIN'" class="menu-item">
           <a class="menu-link" routerLink="/admin/home" routerLinkActive="active"
              style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
                     padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
@@ -37,7 +37,7 @@
           </a>
         </li>
 
-        <li class="menu-item">
+        <li *ngIf="role === 'ADMIN'" class="menu-item">
           <a class="menu-link" routerLink="/admin/list-usuarios" routerLinkActive="active"
              style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
                     padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">
@@ -64,7 +64,7 @@
           </a>
         </li>
 
-        <li class="menu-item">
+        <li *ngIf="role === 'ADMIN'" class="menu-item">
           <a class="menu-link" routerLink="/admin/list-usuarios" routerLinkActive="active"
              style="display: flex; align-items: center; color: #d1d5db; text-decoration: none;
                     padding: 14px 25px; font-weight: 500; transition: all 0.2s ease;">

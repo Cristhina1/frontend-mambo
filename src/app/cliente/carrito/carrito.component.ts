@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CarritoService } from '../../services/carrito.service';
 import { ItemCarrito } from '../../models/carrito.model';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 
 @Component({
@@ -15,13 +16,14 @@ import { Router } from '@angular/router';
 })
 
 export class CarritoComponent {
-
+  isLoggedIn = false;
   carrito: ItemCarrito[] = [];
   carritoAbierto: boolean = false;
 
   constructor(public carritoService: CarritoService, private router: Router) {}
 
   ngOnInit() {
+    this.checkLoginStatus();
     this.carritoService.carrito$.subscribe(items => {
       this.carrito = items;
     });
@@ -34,6 +36,29 @@ export class CarritoComponent {
   eliminar(index: number) {
     const id = this.carrito[index].id;
     this.carritoService.eliminarProducto(id);
+  }
+  checkLoginStatus() {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        try {
+          const decodedToken: any = jwtDecode(token);
+          const isExpired = decodedToken.exp < (Date.now() / 1000);
+          if (isExpired) {
+            this.logout();
+          } else {
+            this.isLoggedIn = true;
+          }
+
+        } catch (error) {
+          console.error("Token inválido", error);
+          this.logout();
+        }
+      }
+    }
+      logout() {
+    this.isLoggedIn = false;
+    localStorage.clear();
   }
 
   getTotal() {

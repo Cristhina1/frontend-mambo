@@ -1,162 +1,120 @@
 <div class="container mt-4">
-  <div class="d-flex justify-content-between align-items-start mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h1 class="mb-1"><i class="bi bi-people text-primary"></i> Gestión de Clientes</h1>
-      <p class="text-muted mb-0">Administra y gestiona la información de tus clientes</p>
+      <h1 class="h3"><i class="bi bi-people text-primary"></i> Gestión de Clientes</h1>
+      <p class="text-muted m-0">Administración de clientes</p>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-secondary" (click)="resetForm()" aria-label="Limpiar formulario">
+      <button class="btn btn-outline-secondary" (click)="cargarClientes()">
         <i class="bi bi-arrow-clockwise"></i>
       </button>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCliente" (click)="resetForm()">
-        <i class="bi bi-plus-circle me-2"></i>Nuevo Cliente
+      <button class="btn btn-primary" (click)="nuevoCliente()">
+        <i class="bi bi-plus-circle me-2"></i>Nuevo
       </button>
     </div>
   </div>
 
-  <!-- filtros -->
-  <div class="row g-3 mb-3">
-    <div class="col-md-5">
-      <div class="input-group">
-        <span class="input-group-text"><i class="bi bi-search"></i></span>
-        <input type="text" class="form-control" placeholder="Buscar por nombre o documento" [formControl]="filtroForm.controls['buscar']"/>
-      </div>
-    </div>
-
-    <div class="col-md-4">
-      <label for="filtroTipo" class="visually-hidden">Tipo de Documento</label>
-      <select id="filtroTipo" class="form-select" [formControl]="filtroForm.controls.tipoDocumento">
-        <option value="">Todos los tipos de documento</option>
-        <option>DNI</option>
-        <option>RUC</option>
-        <option>Carnet Extranjería</option>
-      </select>
-    </div>
-
-    <div class="col-md-3">
-      <label for="filtroEstado" class="visually-hidden">Estado</label>
-      <select id="filtroEstado" class="form-select" [formControl]="filtroForm.controls.estado">
-        <option value="">Todos los estados</option>
-        <option>Activo</option>
-        <option>Inactivo</option>
-      </select>
+  <div class="card shadow-sm mb-3">
+    <div class="card-body p-3">
+        <div class="row g-2">
+            <div class="col-md-8">
+                <input type="text" class="form-control" placeholder="Buscar por nombre o DNI..."
+                       [formControl]="filtroForm.controls['buscar']">
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" [formControl]="filtroForm.controls['tipoDocumento']">
+                    <option value="">Todos los tipos</option>
+                    <option>DNI</option>
+                    <option>RUC</option>
+                    <option>Carnet Extranjería</option>
+                </select>
+            </div>
+        </div>
     </div>
   </div>
 
-  <!-- tabla -->
   <div class="card shadow-sm">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h5 class="mb-0"><i class="bi bi-table me-2"></i> Lista de Clientes</h5>
-      <small class="text-muted">Total: {{ clientesFiltrados.length }}</small>
-    </div>
-    <div class="card-body table-responsive">
-      <table class="table table-hover align-middle">
-        <thead class="table-dark">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
           <tr>
-            <th>ID</th>
-            <th>Nombre/Razón Social</th>
-            <th>Tipo Documento</th>
-            <th>Número Documento</th>
+            <th>Nombre / Razón Social</th>
+            <th>Tipo Doc.</th>
+            <th>N° Documento</th>
             <th>Email</th>
             <th>Teléfono</th>
-            <th>Estado</th>
-            <th>Acciones</th>
+            <th class="text-end">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="clientesFiltrados.length === 0">
-            <td colspan="8" class="table-empty"><i class="bi bi-emoji-frown me-2"></i>No hay clientes que coincidan.</td>
-          </tr>
           <tr *ngFor="let c of clientesFiltrados">
-            <td>{{ c.id }}</td>
-            <td><strong>{{ c.nombreCompleto }}</strong></td>
-            <td>{{ c.tipoDocumento }}</td>
+            <td class="fw-bold">{{ c.nombreCompleto }}</td>
+            <td><span class="badge bg-light text-dark border">{{ c.tipoDocumento }}</span></td>
             <td>{{ c.numeroDocumento }}</td>
-            <td>{{ c.email || '—' }}</td>
-            <td>{{ c.telefono || '—' }}</td>
-            <td>
-              <span class="badge" [class.bg-success]="c.estado === 'Activo'" [class.bg-secondary]="c.estado === 'Inactivo'">
-                {{ c.estado }}
-              </span>
-            </td>
-            <td>
-              <div class="btn-group btn-group-sm">
-                <button class="btn btn-outline-primary" (click)="editarCliente(c)" aria-label="Editar cliente">
+            <td>{{ c.email || '-' }}</td>
+            <td>{{ c.telefono || '-' }}</td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-link text-primary" (click)="editarCliente(c)">
                   <i class="bi bi-pencil"></i>
-                </button>
-                <button class="btn btn-outline-danger" (click)="eliminarCliente(c.id!)" aria-label="Eliminar cliente">
+              </button>
+              <button class="btn btn-sm btn-link text-danger" (click)="eliminarCliente(c.id!)">
                   <i class="bi bi-trash"></i>
-                </button>
-              </div>
+              </button>
             </td>
+          </tr>
+          <tr *ngIf="clientesFiltrados.length === 0">
+              <td colspan="6" class="text-center py-3 text-muted">No se encontraron registros.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+</div>
 
-  <!-- Modal Cliente -->
-  <div class="modal fade" id="modalCliente" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="bi bi-person-plus me-2"></i> {{ editando ? 'Editar Cliente' : 'Nuevo Cliente' }}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" id="cerrarModalBtn"></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="userForm" (ngSubmit)="guardarCliente()">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label for="tipoDoc" class="form-label">Tipo de Documento *</label>
-                <select id="tipoDoc" class="form-select" formControlName="tipoDocumento" name="tipoDoc" required>
-                  <option value="">Selecciona un tipo de documento</option>
-                  <option>DNI</option>
-                  <option>RUC</option>
-                  <option>Carnet Extranjería</option>
+<div class="modal fade" id="modalCliente" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ editando ? 'Editar' : 'Nuevo' }} Cliente</h5>
+        <button type="button" class="btn-close" (click)="cerrarModal()" id="cerrarModalBtn"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="userForm" (ngSubmit)="guardarCliente()">
+            <div class="mb-3">
+                <label class="form-label">Tipo Documento</label>
+                <select class="form-select" formControlName="tipoDocumento">
+                    <option>DNI</option>
+                    <option>RUC</option>
+                    <option>Carnet Extranjería</option>
                 </select>
-              </div>
-
-              <div class="col-md-6">
-                <label for="numeroDocumento" class="form-label">Número de Documento *</label>
-                <input id="numeroDocumento" type="text" class="form-control" formControlName="numeroDocumento" name="numeroDocumento" required />
-              </div>
-
-              <div class="col-md-12">
-                <label for="nombre" class="form-label">Nombre Completo/Razón Social *</label>
-                <input id="nombre" type="text" class="form-control" formControlName="nombreCompleto" name="nombre" required />
-              </div>
-
-              <div class="col-md-6">
-                <label for="email" class="form-label">Email</label>
-                <input id="email" type="email" class="form-control" formControlName="email" name="email" />
-              </div>
-
-              <div class="col-md-6">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input id="telefono" type="text" class="form-control" formControlName="telefono"  name="telefono" />
-              </div>
-
-              <div class="col-md-6">
-                <label for="password" class="form-label">password</label>
-                <input id="password" type="password" class="form-control" formControlName="contra"  name="password" />
-              </div>
-
-              <div class="col-md-6">
-                <label for="estado" class="form-label">Estado</label>
-                <select id="estado" class="form-select" formControlName="estado" name="estado">
-                  <option>Activo</option>
-                  <option>Inactivo</option>
-                </select>
-              </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Número Documento</label>
+                <input type="text" class="form-control" formControlName="numeroDocumento">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Nombre Completo</label>
+                <input type="text" class="form-control" formControlName="nombreCompleto">
+            </div>
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" formControlName="email">
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" formControlName="telefono">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input type="password" class="form-control" formControlName="contra" placeholder="*****">
             </div>
 
-            <div class="modal-footer mt-3">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary">{{ editando ? 'Actualizar' : 'Guardar' }}</button>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Guardar Datos</button>
             </div>
-          </form>
-        </div>
+        </form>
       </div>
     </div>
   </div>

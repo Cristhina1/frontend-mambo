@@ -62,7 +62,7 @@
         </li>
 
         <!-- HISTORIAL -->
-        <li class="nav-item ms-2">
+        <li  *ngIf="isLoggedIn" class="nav-item ms-2">
           <a routerLink="/historial" class="btn btn-dark">
             <i class="bi bi-clock-history fs-5"></i>
           </a>
