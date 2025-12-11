@@ -9,6 +9,7 @@ import { Compra } from '../models/carrito.model';
 
 export class CompraService {
   private apiUrl = 'http://localhost:8080/api/compras';
+  private api = 'http://localhost:8080/api';
   constructor(private http: HttpClient) {}
 
   lista(): Observable<Compra[]>{
@@ -28,5 +29,9 @@ export class CompraService {
 
   confirmarEntrega(idCompra: number, password: string) {
   return this.http.put(`${this.apiUrl}/${idCompra}/entregar`, { password });
+}
+obtenerDataDashboard() {
+  // Asegúrate de que la URL coincida con tu DashboardController en Java
+  return this.http.get<any>(`${this.api}/dashboard/resumen`);
 }
 }
